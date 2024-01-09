@@ -1,0 +1,793 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/.transforms/aeba3442da48720e7f66548a95b64d47/results.bin",
+      "sha1": "12d521b6290f161ced08bd889933378db1f1ca87"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/.transforms/aeba3442da48720e7f66548a95b64d47/transformed/classes/classes.dex",
+      "sha1": "8f808bcbf3c62dc539a39b163148bba6e7aa5411"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/generated/source/buildConfig/debug/com/oblador/vectoricons/BuildConfig.java",
+      "sha1": "ccd1ed4c99be6251b8a0738e539831a1d705341c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/AndroidManifest.xml",
+      "sha1": "be64a9940114512c3a9443d56d828e286077859e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/aapt_friendly_merged_manifests/debug/aapt/output-metadata.json",
+      "sha1": "0510346bb4e765f117981c66f45f3a8936f7ca46"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/aar_metadata/debug/aar-metadata.properties",
+      "sha1": "1fa537f6777e6ff12dd923d5b03ac159731ffbb5"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/annotation_processor_list/debug/annotationProcessors.json",
+      "sha1": "bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/compile_library_classes_jar/debug/classes.jar",
+      "sha1": "f1538c723b3de673e877c2eee6bce57856e1ef74"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/compile_r_class_jar/debug/R.jar",
+      "sha1": "2bed42eff703ae0b397832a061d9f38824d96706"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/compile_symbol_list/debug/R.txt",
+      "sha1": "c4dbe4e3a474479f0c6b6f99a21acc597ed0a91c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties",
+      "sha1": "b5ec8cd61d2c5b1c80ebe20dc117f93ff2688b18"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/incremental/debug/packageDebugResources/merger.xml",
+      "sha1": "0606cd05376b376525f947ac73461efe36858d7c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/javac/debug/classes/com/oblador/vectoricons/BuildConfig.class",
+      "sha1": "a66842d4409ff8e7f9ac60e98f48f0450a127221"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/javac/debug/classes/com/oblador/vectoricons/VectorIconsModule$Errors.class",
+      "sha1": "b3ce96cf73cdf37d677746aeea05c03089658c55"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/javac/debug/classes/com/oblador/vectoricons/VectorIconsModule.class",
+      "sha1": "6bc91a5c40b8887a69a85c5cdd42094e92443d3e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/javac/debug/classes/com/oblador/vectoricons/VectorIconsModuleImpl.class",
+      "sha1": "f6106341f2fa63823aadf1f9440f9cbcd4ab0f60"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/javac/debug/classes/com/oblador/vectoricons/VectorIconsPackage.class",
+      "sha1": "3f53d8d708c8f5899513d040fed0d0160e4df39d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/local_only_symbol_list/debug/R-def.txt",
+      "sha1": "e438412ee208897b3333b596dda11b200ac03ed6"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/manifest_merge_blame_file/debug/manifest-merger-blame-debug-report.txt",
+      "sha1": "52f8dba8c98647587514342160e4ed1a1fc72bd5"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/navigation_json/debug/navigation.json",
+      "sha1": "97d170e1550eee4afc0af065b78cda302a97674c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/intermediates/symbol_list_with_package_name/debug/package-aware-r.txt",
+      "sha1": "acb3f05b5b6bd19b7e69f99a497829cd4f15ef5c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/outputs/logs/manifest-merger-debug-report.txt",
+      "sha1": "1bc9901fcf055d456f2d097b7f3a61444eb0b335"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build/tmp/compileDebugJavaWithJavac/previous-compilation-data.bin",
+      "sha1": "4f4c06ea525a4f2e4c66d556a31487ef224fdd02"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/build.gradle",
+      "sha1": "fd80c8962509ae67b99703cd0b7073bbdf70043f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/src/main/java/com/oblador/vectoricons/VectorIconsModuleImpl.java",
+      "sha1": "95094201dad6fd608472ead6cf1c2d3001bd19d7"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/src/main/java/com/oblador/vectoricons/VectorIconsPackage.java",
+      "sha1": "18f92919f67231dbe62f4a04b121a6a9a1c7298f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/android/src/newarch/java/com/oblador/vectoricons/VectorIconsModule.java",
+      "sha1": "b3ebb605fa7e942c36df82951bed7c43e4545e3a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/AntDesign.js",
+      "sha1": "ef650cd824c9975463b9e86a884a8ba66ecdfdec"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/AntDesign.js.flow",
+      "sha1": "5127e93da19c1d318dc8906790c11e4e379a9164"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/add-font-assets.js",
+      "sha1": "9d29a9d0beabd2adf2b6039566057ff4ea386674"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/fa-upgrade.sh",
+      "sha1": "37c590629cc21b61659f849fe0d49144dc3dcd54"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/fa5-upgrade.sh",
+      "sha1": "6af7151d599c7543cbbe24ea76997913215a4dae"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/fa6-upgrade.sh",
+      "sha1": "e285f621692c4548b13109d6cdccb0214e01037c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/generate-flow.js",
+      "sha1": "f7a315e712b2e44d2cd0606ded08262e27a7a1f3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/generate-fontawesome5-metadata.js",
+      "sha1": "7b820a12172c66f677a0432e6638177b262f20dd"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/generate-fontawesome6-metadata.js",
+      "sha1": "7b820a12172c66f677a0432e6638177b262f20dd"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/generate-icon.js",
+      "sha1": "1786ff0e7da3c6849de9e3f2baaa238d516d468f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/generate-ionicons.js",
+      "sha1": "50daf5556fb2eec196b18bbfc649043cb94b40bb"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/bin/generate-material-icons.js",
+      "sha1": "e42c5823f2153167124258a0d2e0eac79d747c5b"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/CONTRIBUTING.md",
+      "sha1": "e78ef3cf55b75f8d43a9a932ae822c6e3ec77cf6"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Entypo.js",
+      "sha1": "aaf703a86a48f24c143e699ec6bc9bd0b34fe4f6"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Entypo.js.flow",
+      "sha1": "460bad554ad7a7521f2a2e083b186d0fc4f9e643"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/EvilIcons.js",
+      "sha1": "3b69c4aa6077093da2296b962d2c5817f9400d47"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/EvilIcons.js.flow",
+      "sha1": "9f42bc482a13368ef15f12fac490c5c4784abb91"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Feather.js",
+      "sha1": "d60c88d2b3dff2a65a6bdf6e46063935bd5afb06"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Feather.js.flow",
+      "sha1": "a035e37ff2d1afa5808c72e242dfb5aa5155f032"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome.js",
+      "sha1": "1e5ca24d493fa195a11196465ed64adaa9a55d4f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome.js.flow",
+      "sha1": "d3d61707bb3f7c72f4f3b2e3d6c82320977398b2"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome5.js",
+      "sha1": "a15c6d6c9a5c7e2fa465ad5ade78f2028b30da5e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome5.js.flow",
+      "sha1": "ce728916179ea5965fb8926a35522deb821a67d1"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome5Pro.js",
+      "sha1": "d16556ee247c3c58ade2f37b3204afaeb69036dc"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome5Pro.js.flow",
+      "sha1": "23036894362cde890ee61a3342381bd304c49049"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome6.js",
+      "sha1": "c570aafe9e85f781596934fb69ad181a2d6d8fe4"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/FontAwesome6Pro.js",
+      "sha1": "40e918deb8e6ae15d846de83425d1eb0ce0b9a96"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Fontisto.js",
+      "sha1": "d4decd092b99ce4d1c3402d32ce84b17162cb3b4"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Fontisto.js.flow",
+      "sha1": "b5f0b52d56d17976d911dbf1d67d2bb28e1a1b17"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Foundation.js",
+      "sha1": "3809560e458012698c34e51229ad2d192e782395"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Foundation.js.flow",
+      "sha1": "0efad767d09c2d8c1758b2097b848eb6016c2e23"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/AntDesign.json",
+      "sha1": "3e826f79c8bdeb34d2a6d2be5600897592444790"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/Entypo.json",
+      "sha1": "13bfefc1e0008763e5783fac9fa5e7a7429d30da"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/EvilIcons.json",
+      "sha1": "963b16dd0643f25ce38a003afe8e337c565a82a3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/Feather.json",
+      "sha1": "275ed857fa8e2141e73222f997f10e6e5d8d11ed"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome.json",
+      "sha1": "65c34e3f33cb539a501615b68f1f306588e63692"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome5Free.json",
+      "sha1": "01cf0975c9b30b2684105dba5916469fed35620c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome5Free_meta.json",
+      "sha1": "f86c7a74f96a6caeac827f7b80e149d5c6e9657e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome5Pro.json",
+      "sha1": "941d96344da6bc1934a8804ad175b7a5bf0eccfa"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome5Pro_meta.json",
+      "sha1": "c7333b607a063ae1ac90e4a9263a4f6b62a95ae9"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome6Free.json",
+      "sha1": "83be0ef40486a3cadd2d5d5dd6bc93ae0f88403c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome6Free_meta.json",
+      "sha1": "665ec67875e0603756da7b025e0b559a2b78e2a5"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome6Pro.json",
+      "sha1": "69141306e9f12ebb505806e9d52f96243abc4c92"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/FontAwesome6Pro_meta.json",
+      "sha1": "1edee6ebba00eb9b6b2d8a78647ead271d556501"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/Fontisto.json",
+      "sha1": "1a57146bc253d3d46e3c478c2f9fa19de59687bc"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/Foundation.json",
+      "sha1": "022e368002efd5d9d16f4eb7d2316efde8bd93b6"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/Ionicons.json",
+      "sha1": "4466584907f00411209bb50434b7b7514014b29d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/MaterialCommunityIcons.json",
+      "sha1": "2c40aba5f56f34e575d38c426b659ba4e9214f63"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/MaterialIcons.json",
+      "sha1": "5256b9c82faf405ae13293e2a8f8d67d012540c5"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/Octicons.json",
+      "sha1": "2eb20b638a5021bbfe165bf37f0e3c798676327e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/SimpleLineIcons.json",
+      "sha1": "227e780d4649bb3326f410faadb3f68985f245c7"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/glyphmaps/Zocial.json",
+      "sha1": "0b99c253744b9b00414dea8a47b4a7811d7aae8d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/index.js",
+      "sha1": "a4c8b6fbe23a47cc052c99492204521b64c556e9"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/index.js.flow",
+      "sha1": "7e6e6dd10e934896068813b7befe2eb180196cd2"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Ionicons.js",
+      "sha1": "ec1eda72c55de2f1d9ba2fadf5083447f6836e1e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Ionicons.js.flow",
+      "sha1": "e44b26beb491d57c9cb5083f81bddc6156bf021d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/create-icon-set-from-fontawesome5.js",
+      "sha1": "0f73e2cff2f18565c53f01d088e41b98d7e6646c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/create-icon-set-from-fontawesome6.js",
+      "sha1": "926434c7596226e43998434ba4bc070bf1427591"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/create-icon-set-from-fontello.js",
+      "sha1": "707b38f55315fee7a6fdd65ef79a239e9c4a3ace"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/create-icon-set-from-icomoon.js",
+      "sha1": "96209580938ffd5cd6d88a0ae55fc3e4b91f7d9b"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/create-icon-set.js",
+      "sha1": "df99bce7a9dd53871d36710ef11cca75dbe8603d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/create-icon-source-cache.js",
+      "sha1": "0b7c44bff440c620bdac4b3e79c68e7c41e5a04c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/create-multi-style-icon-set.js",
+      "sha1": "91d0d38cf95ddd233566c8f0f4fcf91f1a684f16"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/ensure-native-module-available.js",
+      "sha1": "54eb11177e9fa92baa9d0c08dd86830e7f20a08a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/generate-icon-set-from-css.js",
+      "sha1": "4e77a2d36295ccdd476c09bc686e0335ca250cc5"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/icon-button.js",
+      "sha1": "aab7d6ac23a445ba577d7718b9034f7fbf1c6a5b"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/NativeRNVectorIcons.js",
+      "sha1": "85d98830a59ed056735d862fa319f1aa0595b0d8"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/NativeRNVectorIcons.web.js",
+      "sha1": "32bcba22df22867fb3a2467039e12de515dbeec0"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/lib/object-utils.js",
+      "sha1": "ddc2fb0ccb64244d3bc0ff1e001a58814ebd4cef"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/MaterialCommunityIcons.js",
+      "sha1": "ab93becb00d87dd04578e5396d4fcd209a8da94c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/MaterialCommunityIcons.js.flow",
+      "sha1": "80abb487bf95d04a738d6efbf7658b6b6b1b576a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/MaterialIcons.js",
+      "sha1": "33b9252c310dfc7bfa3915d6a50d44b301e46111"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/MaterialIcons.js.flow",
+      "sha1": "b8e9c8d09a7510795fcceeb56f23131895019528"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Octicons.js",
+      "sha1": "e58dc260f02c20e2f8e82849dc806b0dd8f9b0e2"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Octicons.js.flow",
+      "sha1": "09353bce767566b55aa5c6e6d220197da8c08090"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/RNIMigration.js",
+      "sha1": "ee78ec430f63b5677170c0daffaaa3c3d22da8f1"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/SimpleLineIcons.js",
+      "sha1": "c963f936cfc2035bcb8cbbb21d563bda7ffe0d0f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/SimpleLineIcons.js.flow",
+      "sha1": "ae20d19ecb650b9361311a9fa1545b2a3fa9905a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Zocial.js",
+      "sha1": "7a1667b6ec3d0a68cb3bec51c1dc1210880ec9e2"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/dist/Zocial.js.flow",
+      "sha1": "111fc51c60c8961dd9ebd712083628062141da35"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/FONTAWESOME5.md",
+      "sha1": "fa7541e2dac11bf12fa09791ed7a4a91647d5371"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/FONTAWESOME6.md",
+      "sha1": "2e9234b34d93e4467d0a4920fab6a1033dcd70ef"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+      "sha1": "4e77868439280fb434d4697c7b911271406c81f3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+      "sha1": "12b5670eb178138f77285d5f2c246d3cc5fa67d6"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+      "sha1": "91d377ea3cf47490b256c2ed081704a7dabdae0c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+      "sha1": "e6604258b1ced5efd51360875d782fca65381d47"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+      "sha1": "13b1eab65a983c7a73bc7997c479d66943f7c6cb"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+      "sha1": "3fa2d67cef22da5c3f3eb5730c6afbd6fecf0372"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+      "sha1": "7d849a3981a716e2ba4a84634bc57d0b8054a6a3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+      "sha1": "c1b9fae262f42868c075ac865a8ab34920e20a2c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome6_Brands.ttf",
+      "sha1": "d8b3568e9d8a1d3c01c85520eb9ca0b49b72815d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome6_Regular.ttf",
+      "sha1": "2d7890e12afb77490112ec57fe47ca0688aebda2"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome6_Solid.ttf",
+      "sha1": "e9ace557c3aa403307f1e7a2cef1c035d522b94b"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+      "sha1": "c090a3ec96a3f1bb9b615c2f3f204ce0dcdcdbc3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+      "sha1": "4b2bce6c792493a4a5716b6fec2dbefe89492c3f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+      "sha1": "86e07c3d974eb09099e6e5a9b3b8310303cf0feb"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+      "sha1": "4c2a838b00dbb5e8bb1b368fce0de534e8eb241c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+      "sha1": "7e02c3f005532ff4d24148567c84089756a7848a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+      "sha1": "56acefc0731f35ee23b195b1c8cb5fa94a0db97b"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+      "sha1": "9ffb81a5a11112e292f2cc323e98486bad597599"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+      "sha1": "6a48a962b06cc3acbdfd61df0d9a34744eea5e8d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/fonts.gradle",
+      "sha1": "5e78dbff09844a1982b065543505f67b7143a69d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/LICENSE",
+      "sha1": "9d32a1a5d565cb2ae618e31c8e33b8aa17a58cf8"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/cliui/build/index.cjs",
+      "sha1": "8f52ed219646e2bd8b1fee513a0c042a20cb1cba"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/cliui/build/lib/string-utils.js",
+      "sha1": "ecf75ce99a17ad20a0736d34633b83d55d5adb2c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/cliui/CHANGELOG.md",
+      "sha1": "bb24c9fbcf5d7a6519f015feb57b1f86210acee8"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/cliui/index.mjs",
+      "sha1": "640fb2cf5c5d7a6c8ea55e02c51214818d794a20"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/cliui/LICENSE.txt",
+      "sha1": "039fa81eb89fc5c892f5ce2d22ee6ac0a8503880"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/cliui/package.json",
+      "sha1": "7746d2c945196aa7c6f100c57bd8f9a43b9c384a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/cliui/README.md",
+      "sha1": "5cdb601d6cd0d5709cec0259893c251a734af808"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/browser.mjs",
+      "sha1": "4990a183c2e8382ffcbb95030a7d04e13a8ed948"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/argsert.js",
+      "sha1": "a8f410a12057efaeca187c23e81366c932453cc2"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/command.js",
+      "sha1": "96bb4148b3ef88caa3ae82c778368ed37a1769c0"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/completion-templates.js",
+      "sha1": "6c06e159947b755c4a1395235edee09b52119ed9"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/completion.js",
+      "sha1": "fde742a46d6df711354cc7a56e213d56938a9ccc"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/middleware.js",
+      "sha1": "ba46096702fc86275a8758334e0231a9c63f6637"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/parse-command.js",
+      "sha1": "1f4aabd34de5a0445a7dfe0281ccc57b43f639fb"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/typings/common-types.js",
+      "sha1": "8692de840154ca896d02e1431e4b60fcefd9f846"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/typings/yargs-parser-types.js",
+      "sha1": "b878c11a77128e74c3cf15c93ef2ceddf2aa0b38"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/usage.js",
+      "sha1": "2b764e11d41d668708617185d9519fe57013be8e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/utils/apply-extends.js",
+      "sha1": "dead545a7b5d6e475f0fac8bf745b0392f756f6e"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/utils/is-promise.js",
+      "sha1": "5d45765a8f1f8ddac91cf031d45592fe65647974"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/utils/levenshtein.js",
+      "sha1": "fcdd6865dbcdba5bdebe8a0ee1226675a49738d7"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/utils/obj-filter.js",
+      "sha1": "da48c434329af3aaa7a4b1f9f42208f273035087"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/utils/process-argv.js",
+      "sha1": "da57da40291e286dc9a8102bb0c11e5643781ee0"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/utils/set-blocking.js",
+      "sha1": "04be93690082684d5858d97dedd18054b1bb868b"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/utils/which-module.js",
+      "sha1": "494116ef7e3ec38557e8b9a11af323d212c87049"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/validation.js",
+      "sha1": "67a0534343af6294e00e8695897de6a3fc975654"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/yargs-factory.js",
+      "sha1": "3bf562566f08b7c734a2b31c2e469ffb56b42575"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/build/lib/yerror.js",
+      "sha1": "12210edfce3a538fd2ab07cceb4cfe7b80f3bf25"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/helpers/helpers.mjs",
+      "sha1": "9ba5508228cba5c6b7dc00c73f069c53c284d22f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/lib/platform-shims/esm.mjs",
+      "sha1": "0c66b6b56a85ff62db204858342203f01659c043"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/be.json",
+      "sha1": "e48784d94d6d44144bc18c6445e97bffd4163cb9"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/de.json",
+      "sha1": "f770e889679c6db93a21308253f08587ce7caa89"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/en.json",
+      "sha1": "d80beed1ce345b3afc34b459cf6c5f5291949bc4"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/es.json",
+      "sha1": "e9b3d6078b0074a53e6443fa851b833c5c68df0a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/fi.json",
+      "sha1": "94a1dcd46647ede2543ff73dd7c1e9f5598a5ce4"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/fr.json",
+      "sha1": "89313eac204d03cac37cc45eeaf32e8653e0067c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/hi.json",
+      "sha1": "5c5071a216a5ccbc40d17781ab18d82bd74fbf1a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/hu.json",
+      "sha1": "5a7523af0f21df6f5d8ff0322d6ce4a7653b9a61"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/id.json",
+      "sha1": "058303c68221381841f8ba6fb8d24ceb1656efe5"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/it.json",
+      "sha1": "a4a8e069828a8bbfe138c13ca22e6a47c3689717"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/ja.json",
+      "sha1": "d14fa58647864634327029b088fe22f6c7884d00"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/ko.json",
+      "sha1": "7a2a1a51c80799e934c0af28f3a4d2e5d7fb0769"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/nb.json",
+      "sha1": "fa8459b3c72ab14cdb08edaa7c2c635089c6fb0f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/nl.json",
+      "sha1": "49fbf0cf1f6064c93a18d95c5e8f234df39c6799"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/nn.json",
+      "sha1": "f36bc0b6d796c507050a297d25990505323e1829"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/pirate.json",
+      "sha1": "ca57798f46937b7cc73ad379de34bb79a8b1ff7a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/pl.json",
+      "sha1": "bad6a784ba1213f70c5564ccf790f9032c63706c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/pt.json",
+      "sha1": "92e3c81a88ceb9bc92244c9e304300b572f12934"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/pt_BR.json",
+      "sha1": "3ac22aa329cee2c410cf4e4b6a2ff5129f456297"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/ru.json",
+      "sha1": "e97f5a877d059d77bc75220e3ab318d77cca27aa"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/th.json",
+      "sha1": "5c683c4eed6fe9356ab2cfdf1d058f68da659eb2"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/tr.json",
+      "sha1": "d702368ea6336f21953b8177667efc82fed0d29a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/zh_CN.json",
+      "sha1": "ba242b44ff531d34605cf6ea0879d2f969369c42"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/locales/zh_TW.json",
+      "sha1": "5d075163602864d5d500a3921fcd477de0a0805d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs/yargs",
+      "sha1": "c031f8785a6bff4f3cd79b6719c0f45efc0e8af8"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs-parser/browser.js",
+      "sha1": "7276fbe700100793b2dad60437535a6ce9ae86ba"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs-parser/build/lib/tokenize-arg-string.js",
+      "sha1": "2bdd6040b37651d0e57bf009a08e719dc975b936"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/node_modules/yargs-parser/build/lib/yargs-parser.js",
+      "sha1": "ede83c3a50fe3650814b83e9180712790db46af6"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIcons.podspec",
+      "sha1": "e3a2b63bd13ab51a8346f5276996ee261a625c2d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj/project.pbxproj",
+      "sha1": "72c4de6656046c2dbd960992f3884fc3d537a7cc"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj/project.xcworkspace/contents.xcworkspacedata",
+      "sha1": "4ce90fbc44e113d41667eb98b13dfe0b4a14810d"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist",
+      "sha1": "df5fe739b8b3ab69cf1a32a8881c48a1662e0340"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj/project.xcworkspace/xcshareddata/RNVectorIcons.xccheckout",
+      "sha1": "e28b119014a31d4b4503b54d9ac3e99b9abc7738"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj/project.xcworkspace/xcuserdata/joel.xcuserdatad/UserInterfaceState.xcuserstate",
+      "sha1": "57ff577ebe037a6021e43397d2d3e83628a37580"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIconsManager/RNVectorIconsManager.h",
+      "sha1": "b3450c4ea89e9b9ad5206d0a0dd7f16364565e78"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/RNVectorIconsManager/RNVectorIconsManager.mm",
+      "sha1": "f2994d937646b4c6cc22431c609834adc510d14c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/templates/bundled-icon-set.tpl",
+      "sha1": "8267b9676eb7b9f8bc1b3170433f82cd84ddc875"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/templates/separated-icon-set.tpl",
+      "sha1": "99de670dfbe283d1ec6ee879d9877685abe7e1be"
+    }
+  ]
+}
