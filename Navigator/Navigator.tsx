@@ -8,6 +8,7 @@ import  Entypo  from 'react-native-vector-icons/Entypo';
 import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import HomeScreen from '../Screens/HomeScreen';
 import Drawer from '../components/drawer/Drawer';
+import { useAuth } from '../components/authContext/AuthContext';
 
 
 
@@ -17,7 +18,13 @@ const Tab = createMaterialBottomTabNavigator();
 
 
 
-function MyTabs() {
+function MyTabs( { route } ) {
+
+  
+  const { user } = route.params
+  
+  
+  console.log("My Tabs" , user);
 
   return (
 
@@ -42,7 +49,7 @@ function MyTabs() {
         component={ElevatedCards} 
         />
 
-
+{/* 
       <Tab.Screen options={{
         
         tabBarIcon : () => (
@@ -50,7 +57,7 @@ function MyTabs() {
         )}} 
         name="Drawer" 
         component={Drawer} 
-        />
+        /> */}
 
       <Tab.Screen options={{
         
@@ -59,7 +66,8 @@ function MyTabs() {
         )
       }} 
       name="Home" 
-      component={HomeScreen} 
+      component={HomeScreen}
+      initialParams={{ user : user }} 
       />
 
       <Tab.Screen options={{
@@ -72,13 +80,13 @@ function MyTabs() {
       component={ActionCard} 
       />
 
-      <Tab.Screen options={{
+      {/* <Tab.Screen options={{
         tabBarIcon : () => (
           <AntDesign name='contacts' color={'black'} size={25}/>
         )}}
        name="Contact List" 
        component={ContactList} 
-       />
+       /> */}
 
     </Tab.Navigator>
   );

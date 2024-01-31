@@ -107,8 +107,16 @@ export const Labtests = [
 
 
   export const timeSlotData = [
-    {label: '09 - 10 AM', value: '1'},
-    {label: '12 - 02 PM', value: '2'},
-    {label: '03 - 05 PM', value: '3'},
-    {label: '05 - 07 PM', value: '4'}
+    {label: '09 - 10 AM', value: '09 - 10 AM'},
+    {label: '12 - 02 PM', value: '12 - 02 PM'},
+    {label: '03 - 05 PM', value: '03 - 05 PM'},
+    {label: '05 - 07 PM', value: '05 - 07 PM'}
+  ]
+
+  export const titleMrMsData = [
+    {value:'Mr.', label:'Mr.'},
+    {value:'Miss', label:'Miss'},
+    {value:'Mrs.', label:'Mrs.'},
+    {value:'Ms.', label:'Ms.'},
+
   ]

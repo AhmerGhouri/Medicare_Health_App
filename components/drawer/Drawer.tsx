@@ -4,9 +4,14 @@ import { Drawer } from 'react-native-drawer-layout';
 import { s } from 'react-native-wind'
 import Avatar from '../Avatar/Avatar';
 import Man from '../../src/assets/man.png'
+import Woman from '../../src/assets/woman.png'
 
-export default function UserDrawer() {
+export default function UserDrawer({user}) {
   const [open, setOpen] = React.useState(false);
+
+  console.log("user " , user);
+  
+
 
   return (
 
@@ -16,12 +21,17 @@ export default function UserDrawer() {
 
       <View style={s``}>
 
-      <Avatar ImageUrl={Man} width={50} height={50}/>
+        <Avatar ImageUrl={user.gender === 'M' ? Man : Woman} width={50} height={50}/>
 
       </View>
 
-        <Text style={s`text-black`}>Juma Bai</Text>
+      <View style={s`justify-center items-center `}>
 
+        <Text style={s`text-black p-2`}>{user.pname}</Text>
+        <Text style={s`text-black p-2`}>{user.fname}</Text>
+        <Text style={s`text-black p-2`}>{user.mob}</Text>
+
+      </View>
       </View>
     </>
 

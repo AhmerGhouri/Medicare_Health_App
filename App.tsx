@@ -13,6 +13,11 @@ import { useBottomSheetModal } from '@gorhom/bottom-sheet';
 import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet';
 import ElevatedCards from './components/elevatedCards/ElevatedCards';
 import HeaderBtn from './components/HeaderBtn/HeaderBtn';
+import Registration from './Screens/Registration';
+import PasswordGenerator from './Screens/PasswordGenerator';
+import { userData } from './constants';
+import HomeScreen from './Screens/HomeScreen';
+import MRCreateScreen from './Screens/MRCreateScreen';
 
 
 
@@ -37,7 +42,10 @@ export type RootStackParamList = {
   Login: any,
   HomeScreen : { 
     opaT_PNAME: string,
+    user : userData
     };
+  Registration:any;
+  PasswordGenerator: any;
 };
 
 
@@ -93,7 +101,8 @@ export const Layout = () => {
             // options={{
             //   headerRight: ()=><Button title='SignOut' onPress={onLogout} color='red'/>
             // }}
-            name="MyTabs" component={MyTabs} 
+            name="HomeScreen" component={HomeScreen} 
+            initialParams={{ user : authState.user }}
           /> 
           
           :
@@ -109,6 +118,7 @@ export const Layout = () => {
           options={({ navigation, route }) => ({
             headerTitle: "Request Lab Test",
             headerShown: true,
+            // headerStyle : {backgroundColor : '#b4bcff'},
           // headerTitle: (props) => <LogoTitle {...props} />,
              // Add a placeholder button without the `onPress` to avoid flicker
           headerLeft: () => (
@@ -118,6 +128,22 @@ export const Layout = () => {
         />
 
         <Stack.Screen name='HeaderBtn' component={HeaderBtn} />
+
+        <Stack.Screen options={{
+          headerShown : true,
+          title : '',
+          headerTransparent : true,
+          headerTintColor : 'white'
+        }} name='Registration' component={Registration} />
+        
+        <Stack.Screen options={{
+          headerShown : true,
+          title : '',
+          headerTransparent : true,
+          headerTintColor : 'white'
+        }} name='MR Screen' component={MRCreateScreen} />
+
+        
 
           
         {/* <Stack.Screen name='Lab Test Request' component={LabScreen} /> */}

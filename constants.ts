@@ -29,15 +29,19 @@ export interface AuthProps {
     opaT_PNAME? : string | null , 
     weB_PASSWORD? : string | null ,
     authenticate? : string | null ,
+    user? : userData
 
 }
 
 
 export interface AuthProps {
-
-  authState? : { token :  string | null , authenticated : boolean | null};
+  
+  authState? : {
+    user: any; token :  string | null , authenticated : boolean | null
+};
   onLogin? : (opaT_PNAME : string , weB_PASSWORD : string) => Promise<any> ;
-  onRegister? : (mobileNo : string ,  password : string, emailId? : string ) => Promise<any>,
+  onRegister? : (mobileNo : string ,  password : string, title? : string , emailId? : string , fullName? : string , fatherName? : string  , gender? : string , dateofbirth? : string) => Promise<any>,
+  onMrCreation? : (opaT_ID : number, opaT_PNAME: string, opaT_PHONE : string , email? : string | null, weB_PASSWORD? : string | null , rolE_ID? : string, opaT_STATUS? : string, opaT_CITY_ID?: string, opaT_RDATE? : string, opaT_RENT_EMP_ID? : string | null, opaT_SEX? : string, opaT_TITLE_ID? : string, opaT_VISIT_NO? : null) => Promise<any>,
   onLogout?: ()=> Promise<any>;
 
 
@@ -53,21 +57,105 @@ export interface timeSlots {
 
 export interface selectedTest {
 
-  unique_id? : string,
-  test_short_name?: string,
-  isChecked ?: boolean,
-  test_amount? : number
-  test_name? : string
+  ltesT_ID :	string,
+  ltesT_DESC :	string,
+  tesT_DESCRIPTION	:	string,
+  amt	:	string,
+  opaT_ID	:	string | null,
+  tranS_ID:	string | null,
+  currentaddress	:	string | null,
+  samplE_COL_DATE	:	string | null,
+  samplE_COL_TIME	:	string | null,
 
 }
 
 export type testData = {
 
-  unique_id?: string;
-  test_code? : string,
-  test_name?: string;
-  test_short_name?: string;
-  test_description? : string
+  ltesT_ID? :	string,
+  ltesT_DESC? :	string,
+  tesT_DESCRIPTION?	:	string,
+  amt?	:	string,
+  opaT_ID?	:	string | null,
+  tranS_ID? :	string | null,
+  currentaddress?	:	string | null,
+  samplE_COL_DATE?	:	string | null,
+  samplE_COL_TIME?	:	string | null
 
 
 }
+
+export interface titleMrMs {
+
+  label? : string,
+  value? : string
+
+
+}
+
+
+export interface regForm {
+
+  mobileno : string,
+  fullname : string,
+  fathername : string,
+  pswd : string,
+  gender : string,
+  dob : string
+
+
+
+}
+
+export interface error {
+
+  mobileno? : string,
+    password? : string,
+    name? : string,
+    father_name? : string,
+    gender? : string,
+    dateOfBirth? : string
+
+
+}
+
+export interface errors {
+
+  mobiletype? : boolean,
+  passwordtype? : boolean,
+  nametype? : boolean,
+  father_nametype? : boolean,
+  dateOfBirthtype? : boolean,
+  gendertype? :  boolean
+
+}
+
+export interface userData {
+
+  titlE_ID? : string | null,
+  address? : string | null,
+  autoid? : number | null,
+  datafrom? : string | null,
+  dob? : string | null,
+  email? : string | null,
+  fname? : string | null,
+  gender? : string | null,
+  isactive? : string | null,
+  mob? : string | null,
+  password? : string | null,
+  pname? : string | null
+
+}
+
+export interface bottomSheetDataType { 
+  email? : string | null ,
+  opaT_CITY_ID? : string | null ,
+  opaT_ID? : number,
+  opaT_PNAME? : string,
+  opaT_RDATE? : string ,
+  opaT_RENT_EMP_ID? : string | null,
+  opaT_SEX? : string,
+  opaT_STATUS? : string,
+  opaT_TITLE_ID? : string,
+  opaT_VISIT_NO? : string | null,
+  rolE_ID: string | null,
+  weB_PASSWORD? : string | null}
