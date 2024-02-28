@@ -1,5 +1,4 @@
 import {
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -12,7 +11,6 @@ import {
   Pressable,
   Dimensions,
   LogBox,
-  ActivityIndicator
 } from 'react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { s } from 'react-native-wind';
@@ -20,11 +18,12 @@ import LottieView from 'lottie-react-native';
 import HeaderImg from '../src/assets/Ellipse.png'
 import FooterImg from '../src/assets/Footer.png'
 import Logo from '../src/assets/MEDICARE.png'
+import Woman from '../src/assets/woman.png'
+import Man from '../src/assets/man.png'
 import Services from '../components/services/Services';
 import Avatar from '../components/Avatar/Avatar';
 import { Drawer } from 'react-native-drawer-layout';
 import axios from 'axios';
-import Man from '../src/assets/man.png'
 import GetLocation from 'react-native-get-location';
 import { useAuth } from '../components/authContext/AuthContext';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -35,39 +34,35 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList, BottomSheetScrol
 import { Button, IconButton, MD3Colors, RadioButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { bottomSheetDataType } from '../constants';
-import Woman from '../src/assets/woman.png'
-
-
-
-type HomeProps = NativeStackScreenProps<RootStackParamList, 'HomeScreen'>
+import { checkedData } from '../constants';
+import { useAppSelector, useAppDispatch } from '../app/hooks/hooks';
+import { addPatientToStore } from '../app/slices/patientSlice';
 
 
 
 
-export default function HomeScreen({ navigation, route }: any) {
+type HomeProps = NativeStackScreenProps<RootStackParamList, "HomeScreen">
 
+
+
+
+export default function HomeScreen({ route, navigation }: HomeProps): JSX.Element {
 
   // const { user } = useAuth();
-
+  // const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const { user } = route.params
   const [checked, setChecked] = useState('')
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const dispatch = useAppDispatch()
   const [bottomSheetData, setBottomSheetData] = useState<any>()
-  const [checkedData, setCheckedData] = useState(null)
+  const [checkedData, setCheckedData] = useState<checkedData>()
 
-
-  console.log("Data from auth", user);
 
   useEffect(() => {
+    requestCameraPermission()
+    bottomSheetRef.current?.close()
     LogBox.ignoreLogs(["VirtualizedLists should never be nested"])
   }, [])
-
-
-  // useNavigation<NativeStackNavigationProp<RootStackParamList>>
-
-  // console.log('name' , opaT_PNAME);
-  // console.log('password' , weB_PASSWORD);
-
 
   const requestCameraPermission = async () => {
     try {
@@ -93,8 +88,6 @@ export default function HomeScreen({ navigation, route }: any) {
     }
   };
 
-  requestCameraPermission()
-
   // GetLocation.getCurrentPosition({
 
   //   enableHighAccuracy: true,
@@ -114,30 +107,8 @@ export default function HomeScreen({ navigation, route }: any) {
 
 
   // For Drawer Opening and closing
-
   const [open, setOpen] = React.useState(false);
-  const { authState, onLogout } = useAuth()
-  const dimension = Dimensions.get('window').height
-
-  console.log("Dimension Height" , dimension);
-  
-
-  //   const baseUrl : string = 'https://local.medicarehospital.pk:98/Handlers/MCGHWebHandler.ashx'
-
-
-  // // Invoking get method to perform a GET request
-  //   const fetchUser = async () => {
-
-  //     const url = `${baseUrl}/api/users/1`;
-  //     const response = await axios.get(url);
-  //     console.log(response.data);
-
-  //     return response
-
-  //   };
-
   const snapPoints = useMemo(() => ['1%', '25%', '50%'], []);
-
 
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
@@ -145,7 +116,6 @@ export default function HomeScreen({ navigation, route }: any) {
     console.log('handleSheetChanges', index);
 
   }, []);
-
 
   // BackDrop
   const renderBackdrop = useCallback(
@@ -160,19 +130,24 @@ export default function HomeScreen({ navigation, route }: any) {
 
   }, [])
 
-  console.log("Bottom Sheet Data", bottomSheetData);
-  console.log("Checked", checked);
-  console.log("Checked Data", checkedData);
-  console.log("Type Checked Data", typeof checkedData);
-  console.log("Bottom Sheet", bottomSheetData);
-  console.log("Type Bottom Sheet", typeof checkedData);
+  const handleCheckedData = (item) => {
+
+    setChecked(item.opaT_ID)
+    setCheckedData(item)
+
+  }
 
 
+  const handleNavigateToLabScreen = (checkedData) => {
 
+    dispatch(addPatientToStore(checkedData));
+    navigation.navigate('Loading')
+    setTimeout(() => navigation.replace('LabTestRequest', checkedData), 5000)
+    bottomSheetRef.current?.close()
 
+  }
 
   return (
-
 
     // For whole screen drawer
     <Drawer
@@ -184,13 +159,11 @@ export default function HomeScreen({ navigation, route }: any) {
       }}
     >
 
-      <SafeAreaView style={s`flex-1`} >
+      <SafeAreaView style={s`flex-1 `} >
 
         <View style={s`flex-1 bg-red-50 rounded-xl`}>
 
-
           <StatusBar barStyle={'dark-content'} />
-
 
           {/* <ScrollView
             showsVerticalScrollIndicator={false}
@@ -199,10 +172,7 @@ export default function HomeScreen({ navigation, route }: any) {
             style={s` z-30`}
             > */}
 
-
-
-          <View style={s`shrink-0 z-30`}>
-
+          <View style={s`flex shrink-0 z-30`}>
 
             <View style={s`absolute top-0 left-0`}>
 
@@ -210,20 +180,16 @@ export default function HomeScreen({ navigation, route }: any) {
 
             </View>
 
-            <View
-              style={s`flex-row mb-2 pt-4 px-4 justify-between items-center`}>
-
+            <View style={s`flex-row mb-2 pt-8 px-6 justify-between items-center`}>
 
               <Image
                 source={Logo}
-                style={s`w-24 h-12`}
+                style={[s`w-24 h-12`]}
               />
 
               <View>
 
-
                 {/* For Opening and Closing */}
-
                 <TouchableOpacity
                   style={s`items-center align-center`}
                   onPress={() => {
@@ -232,17 +198,16 @@ export default function HomeScreen({ navigation, route }: any) {
 
                   <Avatar ImageUrl={user.gender === 'M' ? Man : Woman} width={20} height={20} />
 
-                  <Text style={s`text-black text-sm`}>{user.pname}</Text>
+                  {/* <Text style={s`text-black text-sm`}>{user.pname}</Text> */}
+                  <Text style={s`text-black pt-2 text-sm`}>{user.pname?.slice(0, 7)}</Text>
 
-                  <TouchableOpacity onPress={onLogout}>
+                  {/* <TouchableOpacity onPress={onLogout}>
 
                     <Text style={s`text-green-500 pt-1`}>Sign Out</Text>
 
-                  </TouchableOpacity>
-
+                  </TouchableOpacity> */}
 
                 </TouchableOpacity>
-
 
               </View>
 
@@ -250,7 +215,7 @@ export default function HomeScreen({ navigation, route }: any) {
 
           </View>
 
-          <View style={s`z-0 grow justify-top z-30`}>
+          <View style={s`flex-1 z-0 grow justify-top z-30`}>
 
             <View style={[s`flex shrink-0 w-full items-center`, styles.lottieContainer]}>
 
@@ -264,76 +229,46 @@ export default function HomeScreen({ navigation, route }: any) {
             </View>
 
             {/* <View style={[s``, {height : Dimensions.get('window').height <= 592 ? 200 : 'auto' } ,styles.servicesSection]}> */}
-            <View style={[s``,  ,styles.servicesSection]}>
-
-              {/* <ScrollView 
-                    scrollEnabled={true}
-                    contentContainerStyle={{ flexGrow: 1}}
-                    // showsVerticalScrollIndicator={false}
-                  > */}
+            <View style={[s``, , styles.servicesSection]}>
 
               <Services navigation={navigation} mob={user.mob} bottomSheetRef={bottomSheetRef} handleSetBottomSheetData={handleSetBottomSheetData} />
 
-              {/* </ScrollView> */}
-
             </View>
-
-            {/* </ScrollView> */}
-
 
           </View>
 
-
-          <View style={s`flex  absolute bottom-0 right-0 z-1`}>
+          <View style={s`flex-1  absolute bottom-0 right-0 z-1`}>
 
             <Image style={s`z-1`} source={FooterImg} />
 
           </View>
 
-
-
         </View>
-
 
         <BottomSheet
           ref={bottomSheetRef}
-          // topInset={50}
-          // detached={true}
-          // enableContentPanningGesture
-          // enableHandlePanningGesture
-          // enableDynamicSizing={true}
-          // animateOnMount={true}
-          // bottomInset={10}
-          // handleStyle={{margin : 25}}
-          // index={0}
           style={s`z-999`}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose={true}
           backdropComponent={renderBackdrop}
-
-
         >
 
           <View style={s`mb-4`}>
-
-            {bottomSheetData == 0 ? (
-
-              <Text style={[s`text-sm font-medium m-12 items-center justify-center italic text-center text-black`]}>
-                No MR Number is Registered with this Mobile Number! Please Click below button to create MR #.
-              </Text>
-            )
-              :
-
-              (
-
-
-                <Text style={[s`text-sm font-medium mx-4 italic text-center text-black`]}>
-                  Following MR # are registered on your mobile number kindly select one for service.
-                </Text>
-              )
+            {
+              bottomSheetData == 0 ?
+                (
+                  <Text style={[s`text-sm font-medium m-12 items-center justify-center italic text-center text-black`]}>
+                    No MR Number is Registered with this Mobile Number! Please Click below button to create MR #.
+                  </Text>
+                )
+                :
+                (
+                  <Text style={[s`text-sm font-medium mx-4 italic text-center text-black`]}>
+                    Following MR # are registered on your mobile number kindly select one for service.
+                  </Text>
+                )
             }
-
           </View>
 
           {/* <View style={styles.contentContainer}> */}
@@ -355,38 +290,28 @@ export default function HomeScreen({ navigation, route }: any) {
               keyExtractor={item => item.opaT_ID}
               renderItem={({ item }) => (
 
-
-
                 <Pressable style={[s`flex-row z-1  justify-between items-center my-4 mx-2`, styles.List]}>
 
                   <View style={[s`flex-row justify-between`, {}]}>
 
                     <Text style={s`text-blue-900 font-medium`}>{item.opaT_ID}</Text>
 
-
                   </View>
                   <View style={[s`flex-row justify-between`, {}]}>
 
-
                     <Text style={s`text-blue-900 font-medium`}>{item.opaT_PNAME}</Text>
 
-
                   </View>
+
                   <View style={s`flex-row`}>
 
                     <RadioButton
                       value={item.opaT_ID}
                       status={checked === item.opaT_ID ? 'checked' : 'unchecked'}
-                      onPress={() => {
-                        setChecked(item.opaT_ID)
-                        setCheckedData(item)
-
-                      }}
+                      onPress={() => handleCheckedData(item)}
                     />
 
-
                   </View>
-
 
                 </Pressable>
 
@@ -396,25 +321,13 @@ export default function HomeScreen({ navigation, route }: any) {
 
           </BottomSheetScrollView>
           {/* </ScrollView> */}
-
-
-
-
-
           {/* </View> */}
 
-
-
-
-
-
           <View>
-
 
             {checkedData && (
 
               <View style={s`absolute bottom-0 right-0 p-4`}>
-
 
                 <IconButton
                   icon="send"
@@ -422,14 +335,7 @@ export default function HomeScreen({ navigation, route }: any) {
                   mode={'contained'}
                   iconColor={MD3Colors.error50}
                   size={20}
-                  onPress={() => {
-
-                    navigation.navigate('Loading')
-                    setTimeout(() => navigation.replace('Lab Test Request', { checkedData }), 5000)
-                    bottomSheetRef.current?.close()
-
-
-                  }}
+                  onPress={() => handleNavigateToLabScreen(checkedData)}
                 />
               </View>
 
@@ -441,14 +347,14 @@ export default function HomeScreen({ navigation, route }: any) {
           <View style={s`flex-column w-full border-t-2 border-gray-300 `}>
 
             <TouchableOpacity
-              onPress={() => navigation.push('MR Screen', { user })}
-              style={s`flex-row p-4 items-center bg-blue-600 justify-center w-full `}>
+              onPress={() => navigation.push('MRScreen', { user })}
+              style={s`flex-row p-4 items-center bg-blue-600 justify-around w-full `}>
 
               <View style={[s` items-center`, { width: '30%' }]}>
                 <Icon name='plus' color={'white'} size={20} />
 
               </View>
-              <View style={[s`pl-8`, { width: '70%' }]}>
+              <View style={[s`pl-8`, { width: Dimensions.get('window').width <= 600 ? '70%' : '60%' }]}>
 
                 <Text style={s`text-white text-medium italic font-semibold`}>
 
@@ -528,8 +434,8 @@ const styles = StyleSheet.create({
 
     // width: 400,
     // height: 400,
-    width : Dimensions.get('window').height <= 592 ? 300 : 400,
-    height: Dimensions.get('window').height <= 592 ? 300 : 400,
+    width: Dimensions.get('window').height <= 592 ? 300 : 400 && Dimensions.get('screen').width >= 800 && Dimensions.get('screen').width <= 1080 ? 700 : 400 && Dimensions.get('screen').width >= 1080 ? 400 : 400,
+    height: Dimensions.get('window').height <= 592 ? 300 : 400 && Dimensions.get('screen').width >= 800 && Dimensions.get('screen').width <= 1080 ? 700 : 400 && Dimensions.get('screen').width >= 1080 ? 400 : 400,
     zIndex: 0,
 
   },
@@ -539,3 +445,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+

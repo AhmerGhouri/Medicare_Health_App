@@ -33,21 +33,23 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
 import { borderStyles } from 'react-native-wind/dist/styles/view/border-style';
 import Foundation from 'react-native-vector-icons/Foundation'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
 
 
 
+type MRProps = NativeStackScreenProps<RootStackParamList , "MRScreen">
 
 
-export default function MRCreateScreen({ navigation, route }) {
+
+
+export default function MRCreateScreen({ navigation , route } : MRProps) {
 
 
   const { user } = route.params
 
   console.log("MR user", user);
-
-
-
 
   const [mobileNo, setMobileNo] = useState<string>()
   const [weB_PASSWORD, setPassword] = useState<string>()
@@ -77,7 +79,6 @@ export default function MRCreateScreen({ navigation, route }) {
     dateOfBirth: "Date Of Birth is Required"
 
   });
-
   const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
   const [numError, setNumError] = useState<string>()
   const [disableFields, setDisableFields] = useState(true)
@@ -104,7 +105,6 @@ export default function MRCreateScreen({ navigation, route }) {
 
 
 
-
   const OnMrNumber = async () => {
 
 
@@ -125,10 +125,6 @@ export default function MRCreateScreen({ navigation, route }) {
       console.log("Mr Error", err)
 
     }
-
-
-
-
 
 
   }
@@ -174,9 +170,6 @@ export default function MRCreateScreen({ navigation, route }) {
       setError(false)
     }
   }
-
-
-
 
 
   const MrCreation = async () => {
@@ -339,13 +332,7 @@ export default function MRCreateScreen({ navigation, route }) {
   };
 
 
-
-
-
-
   const handleMrCreation = () => {
-
-
 
     MrCreation()
     try {
@@ -389,8 +376,6 @@ export default function MRCreateScreen({ navigation, route }) {
     }
 
 
-
-
   }
 
   console.log("MR mobile", mobileNo);
@@ -400,11 +385,6 @@ export default function MRCreateScreen({ navigation, route }) {
   console.log("MR email", email);
   console.log("MR selectedId", selectedId);
   console.log("MR date_string", date_string);
-
-
-
-
-
 
 
   return (
@@ -437,6 +417,7 @@ export default function MRCreateScreen({ navigation, route }) {
 
         <View style={styles.Registration as StyleProp<ViewStyle>}>
 
+            {/* MR Heading */}
           <View style={s`my-6 w-full items-center`}>
 
             <Text style={s`font-bold text-2xl tracking-wider text-blue-800 italic`}>MR Number</Text>
@@ -444,179 +425,234 @@ export default function MRCreateScreen({ navigation, route }) {
           </View>
 
 
-
           <View style={styles.InputBox}>
 
+            {/* MR Number & Mobile Number Input Fields */}
             <View style={s`flex-row w-full justify-center`}>
 
               <View style={[s`flex z-30 flex-row rounded-md mr-2 border-2 p-1 border-blue-300 justify-around items-center`, styles.InputViewMr]}>
 
-                <Foundation style={s``} name='torsos-male-female' color={'grey'} />
-                <TextInput
-                  placeholder='Mr #'
-                  keyboardType='default'
-                  editable={false}
-                  value={mrNumber?.toString()}
-                />
+                <View style={[s`items-center`, { width: '30%' }]}>
+                  <Foundation style={s``} name='torsos-male-female' color={'grey'} />
+                </View>
+
+                <View style={[s`items-left`, { width: '60%' }]}>
+                  <TextInput
+                    placeholder='Mr #'
+                    placeholderTextColor={'gray'}
+                    style={s`text-gray-400`}
+                    keyboardType='default'
+                    editable={false}
+                    value={mrNumber?.toString()}
+                  />
+                </View>
 
               </View>
+
               <View style={[s`flex z-0 flex-row rounded-md border-2 p-1 border-blue-300 justify-around items-center`, styles.InputViewNum]}>
 
-                <Icon name='phone' color={'grey'} />
-                <TextInput
-                  placeholder='Your Mobile No'
-                  keyboardType='numeric'
-                  editable={false}
-                  style={s`text-left`}
-                  testID="MobileNo"
-                  maxLength={11}
-                  value={user.mob}
-                  returnKeyType='done'
-                />
+
+                <View style={[s`items-center`, { width: '30%' }]}>
+                  <Icon name='phone' color={'grey'} />
+                </View>
+
+                <View style={[s`items-left`, { width: '60%' }]}>
+                  <TextInput
+                    placeholder='Your Mobile No'
+                    keyboardType='numeric'
+                    editable={false}
+                    placeholderTextColor={'gray'}
+                    style={s`text-gray-400`}
+                    testID="MobileNo"
+                    maxLength={11}
+                    value={user.mob}
+                    returnKeyType='done'
+                  />
+                </View>
 
               </View>
 
 
             </View>
 
+            {/* Email Input Field */}
             <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <Entypo name='email' color={'grey'} />
-              <TextInput
-                placeholder='Enter Your email address'
-                keyboardType='default'
-                testID='email'
-                secureTextEntry={false}
-                editable={disableFields}
-                onBlur={validateEmail}
-                onChangeText={(text: string) => setEmail(text)}
-                value={weB_PASSWORD}
-              />
+
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Entypo name='email' color={'grey'} />
+              </View>
+
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TextInput
+                  placeholder='Enter Your email address'
+                  keyboardType='default'
+                  testID='email'
+                  placeholderTextColor={'gray'}
+                  style={s`text-black`}
+                  secureTextEntry={false}
+                  editable={disableFields}
+                  onBlur={validateEmail}
+                  onChangeText={(text: string) => setEmail(text)}
+                  value={weB_PASSWORD}
+                />
+              </View>
 
             </View>
             {error ? <Text style={s`text-red-600 text-sm`}>{emailErr}</Text> : null}
 
+            {/* Full Name Input Field */}
             <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <Icon name='address-card' color={'grey'} />
-              <TextInput
-                placeholder='Enter Your Full Name'
-                testID="FullName"
-                onBlur={() => fullName === '' ? setErrors({ ...errors, nametype: true }) : setErrors({ nametype: false })}
-                keyboardType='name-phone-pad'
-                onChangeText={(text: string) => setFullName(text)}
-                editable={disableFields}
-                value={fullName}
-              />
+
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Icon name='address-card' color={'grey'} />
+              </View>
+
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TextInput
+                  placeholder='Enter Your Full Name'
+                  testID="FullName"
+                  placeholderTextColor={'gray'}
+                  style={s`text-black`}
+                  onBlur={() => fullName === '' ? setErrors({ ...errors, nametype: true }) : setErrors({ nametype: false })}
+                  keyboardType='name-phone-pad'
+                  onChangeText={(text: string) => setFullName(text)}
+                  editable={disableFields}
+                  value={fullName}
+                />
+              </View>
 
             </View>
             {errors?.nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.name}</Text> : null}
 
-
+            {/* Father Name Input Field */}
             <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <Material name='human-male-child' color={'grey'} />
-              <TextInput
-                placeholder='Enter Your Father Name'
-                keyboardType='default'
-                testID="FatherName"
-                onBlur={() => fatherName !== '' ? setErrors({ ...errors, father_nametype: false }) : setErrors({ father_nametype: true })}
-                onChangeText={(text: string) => setFatherName(text)}
-                editable={disableFields}
-                value={fatherName}
-              />
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Material name='human-male-child' color={'grey'} />
+              </View>
+
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TextInput
+                  placeholder='Enter Your Father Name'
+                  keyboardType='default'
+                  placeholderTextColor={'gray'}
+                  style={s`text-black`}
+                  testID="FatherName"
+                  onBlur={() => fatherName !== '' ? setErrors({ ...errors, father_nametype: false }) : setErrors({ father_nametype: true })}
+                  onChangeText={(text: string) => setFatherName(text)}
+                  editable={disableFields}
+                  value={fatherName}
+                />
+              </View>
 
             </View>
             {errors?.father_nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.father_name}</Text> : null}
 
-
+            {/* Gender Radio Button */}
             <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <Icon name='restroom' color={'grey'} />
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Icon name='restroom' color={'grey'} />
+              </View>
 
-              <TouchableOpacity
-                style={s`flex-column`}
-                disabled={disableFields ? false : true}
-                onBlur={() => selectedId !== '' ? setErrors({ ...errors, gendertype: false }) : setErrors({ gendertype: true })}
-              >
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TouchableOpacity
+                  style={s`flex-column`}
+                  disabled={disableFields ? false : true}
+                  onBlur={() => selectedId !== '' ? setErrors({ ...errors, gendertype: false }) : setErrors({ gendertype: true })}
+                >
 
-                <RadioGroup
-                  containerStyle={{
-                    flexDirection: 'row',
-                    borderColor: 'lightblue'
-                  }}
-                  accessibilityLabel='blue'
-                  radioButtons={radioButtons}
-                  onPress={setSelectedId}
-                  testID='Radio'
-                  selectedId={selectedId}
+                  <RadioGroup
+                    containerStyle={{
+                      flexDirection: 'row',
+                      borderColor: 'lightblue'
+                    }}
+                    accessibilityLabel='blue'
+                    radioButtons={radioButtons}
+                    onPress={setSelectedId}
+                    testID='Radio'
+                    selectedId={selectedId}
 
-                />
+                  />
 
-              </TouchableOpacity>
+                </TouchableOpacity>
+
+              </View>
 
             </View>
-
             {errors?.gendertype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.gender}</Text> : null}
 
+            {/* Date Of Birth Input Field */}
+            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-between items-center`, styles.InputView]}>
 
+              <View style={[s`flex-row justify-around items-center `, { width: '25%' }]}>
+                <Icon name='calendar-day' color={'grey'} />
+                <Text>D.O.B</Text>
+              </View>
 
-
-            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
-
-
-              <Icon name='calendar-day' color={'grey'} />
-              <Text>D.O.B</Text>
-              <TouchableOpacity style={s`flex-row items-center justify-around w-48`} onPress={() => setOpen(true)}>
-                <TextInput value={dateOfBirth || date_to_string} />
-                <Icon name='calendar' color={'grey'} />
+              <TouchableOpacity style={[s`flex-row`, { width: '85%' }]} onPress={() => setOpen(true)}>
+                <View style={[s`justify-right items-center pl-10`, { width: '80%' }]}>
+                  <TextInput
+                    placeholderTextColor={'gray'}
+                    style={s`text-black`}
+                    value={dateOfBirth || date_to_string} />
+                </View>
               </TouchableOpacity>
-              <DatePicker
-                open={open}
-                modal
-                textColor='red'
-                date={date} mode='date'
-                testID='dob'
-                onDateChange={setDate}
-                maximumDate={new Date()}
-                // editable={disableFields}
-                onConfirm={(date) => {
-                  setOpen(false)
-                  setDate(date)
-                  // setErrors({ ...errors, dateOfBirthtype: false })
-                  date_to_string === currentDate ? setErrors({ ...errors, dateOfBirthtype: true }) : setErrors({ ...errors, dateOfBirthtype: false })
-                }}
-                onCancel={() => setOpen(false)}
-              />
 
-              
+              <View style={[s` justify-center items-left`, { width: '30%' }]}>
+                <Icon name='calendar' color={'grey'} />
+                <DatePicker
+                  open={open}
+                  modal
+                  textColor='red'
+                  date={date} mode='date'
+                  testID='dob'
+                  onDateChange={setDate}
+                  maximumDate={new Date()}
+                  // editable={disableFields}
+                  onConfirm={(date) => {
+                    setOpen(false)
+                    setDate(date)
+                    // setErrors({ ...errors, dateOfBirthtype: false })
+                    date_to_string === currentDate ? setErrors({ ...errors, dateOfBirthtype: true }) : setErrors({ ...errors, dateOfBirthtype: false })
+                  }}
+                  onCancel={() => setOpen(false)}
+                />
+
+              </View>
+
 
             </View>
-
             {errors?.dateOfBirthtype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.dateOfBirth}</Text> : null}
 
           </View>
 
-
+          {/* MR Create Button */}
           <View style={s`w-full justify-center items-center`}>
 
-            {loading ? (
-              <View style={s`bg-red-600 px-4 mt-8 w-36`}>
-                <ActivityIndicator size="large" color="#00ff00" />
-              </View>
-            ) : (
+            {loading ?
+              (
+                <View style={s`bg-red-600 px-4 mt-8 w-36`}>
+                  <ActivityIndicator size="large" color="#00ff00" />
+                </View>
+              )
+              :
+              (
 
-              <View style={s`w-36 mt-8`}>
-                <Button
-                  title="Create"
-                  color="skyblue"
-                  accessibilityLabel="Learn more about this purple button"
-                  onPress={handleMrCreation}
-                  disabled={isButtonDisable() || disableForEmpty()}
-                />
-              </View>
+                <View style={s`w-36 mt-8`}>
+                  <Button
+                    title="Create"
+                    color="skyblue"
+                    accessibilityLabel="Learn more about this purple button"
+                    onPress={handleMrCreation}
+                    disabled={isButtonDisable() || disableForEmpty()}
+                  />
+                </View>
 
-            )}
+              )
+            }
 
           </View>
 
@@ -642,11 +678,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
 
   },
-
   Header: {
     //   flex: 1,
   },
-
   Registration: {
 
     color: 'black',
@@ -656,7 +690,6 @@ const styles = StyleSheet.create({
     gap: 28,
 
   },
-
   InputView: {
 
     shadowColor: 'black',
@@ -699,7 +732,6 @@ const styles = StyleSheet.create({
     elevation: 15
 
   },
-
   InputBox: {
 
     gap: 14,
@@ -708,12 +740,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
 
   },
-
   input: {
     borderWidth: 1,
     width: 250,
   },
-
   Footer: {
 
     alignItems: 'flex-end',

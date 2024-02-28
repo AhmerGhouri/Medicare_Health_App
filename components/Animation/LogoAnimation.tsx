@@ -8,7 +8,7 @@ import Animated , { useSharedValue, withRepeat, withSpring, withTiming } from 'r
 
 
 
-export default function ElevatedCards() {
+export default function LogoAnimation() {
 
   const ring1padding = useSharedValue(0)
   const ring2padding = useSharedValue(0)

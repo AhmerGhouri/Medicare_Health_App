@@ -10,18 +10,16 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { BlurView } from '@react-native-community/blur';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { s } from 'react-native-wind';
-import EntyPo from 'react-native-vector-icons/FontAwesome';
-import { ChildProps } from 'postcss';
 import { modalService, servicesData } from '../../constants'
 import axios from 'axios';
 import { ActivityIndicator } from 'react-native';
-import ElevatedCards from '../elevatedCards/ElevatedCards';
 import { useNavigation } from '@react-navigation/native';
-import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import { useAppDispatch } from '../../app/hooks/hooks';
+import { addSerShortCodeToStore } from '../../app/slices/serviceSlice';
 
 
 
@@ -29,40 +27,24 @@ import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 
 
 
-export default function Services({ navigation, mob, bottomSheetRef, handleSetBottomSheetData }: any) {
+export default function Services({ screenName , mob, bottomSheetRef, handleSetBottomSheetData }: any) {
 
 
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const navigations = useNavigation()
+  const dispatch = useAppDispatch()
   const [services, setServices] = useState<servicesData[]>()
-  const [modalContent, setModalContent] = useState<modalService>();
-  console.log("Service user", mob);
-
 
   // API
   const baseURL = 'https://local.jmc.edu.pk:82/api/OnlineServices'
   const OPAT_API_URL = `https://local.jmc.edu.pk:82/api/Patients/GetPatientDataFromMob?mob=${mob}`
 
-
-
-
-
-  // Fetching Data From API
-
-  useEffect(() => {
-
-    setLoading(true)
-    fetchUser(baseURL)
-
-  }, [])
-
-  const fetchUser = async (baseURL1) => {
+  const fetchServices = useCallback(async (serviceBaseURL) => {
 
     axios({
       method: 'GET',
-      baseURL: `${baseURL1}`
+      baseURL: `${serviceBaseURL}`
     })
       .then((response) => {
 
@@ -80,30 +62,24 @@ export default function Services({ navigation, mob, bottomSheetRef, handleSetBot
 
       })
 
-  };
+  }, [])
 
-  console.log("abc", services);
-
-
-  const opat_data = async () => {
+  const opat_data = useCallback(async () => {
 
     try {
 
       const response = await axios.get(OPAT_API_URL)
       const result = response.data
-      console.log("Service Opat Result", result);
       handleSetBottomSheetData(result)
       return result;
 
-
-
     } catch (err) {
 
-      console.error('Something went wrong!', err)
+      Alert.alert('Something went wrong!', err)
 
     }
 
-  }
+  }, [])
 
   useEffect(() => {
 
@@ -112,120 +88,62 @@ export default function Services({ navigation, mob, bottomSheetRef, handleSetBot
 
   }, [])
 
-
   const handleServicePress = async (service) => {
 
+    console.log("service" , service);
+  
+    switch (service.servicE_DESC) {
+      case 'Nursing Services':
+        dispatch(addSerShortCodeToStore('ER'))      
+        break;
+      case 'Lab Test Request':
+        dispatch(addSerShortCodeToStore('LB'))
+        break;
+      case 'Radiology Request':
+        dispatch(addSerShortCodeToStore('XR'))
+        break;
+      case 'Physiotherapy':
+        dispatch(addSerShortCodeToStore('PO'))
+        break;
+    
+      default:
+        break;
+    }
+
     const userOpatData = await opat_data()
-    console.log("Before user Opat Data", userOpatData);
-
-    if (userOpatData && service.servicE_DESC === 'Lab Test Request') {
-
-      console.log("user Opat Data", userOpatData);
+    if (userOpatData && service.avaiL_MOBILEAPP === 'YES') {
       bottomSheetRef.current?.snapToIndex(2)
-
-      // Alert.alert("Select Your Mr #" , )
-
-
-    } else if (!userOpatData && service.servicE_DESC === 'Lab Test Request') {
-
-      console.log("user Opat Data", userOpatData);
+    } else if (!userOpatData && service.servicE_DESC === 'YES') {
       bottomSheetRef.current?.snapToIndex(2)
-
-
-
     }
     else {
-
       Alert.alert('Service', `Coming Soon: ${service.servicE_DESC}`)
-
     }
-
-
   }
 
+  // Fetching Data From API
+  useEffect(() => {
 
-  // // Define a function to handle the navigation
-  // const handleLabTestRequest = () => {
+    setLoading(true)
+    fetchServices(baseURL)
 
-  //   // Close the modal first
-  //   setShowModal(false);
-  //   console.log("Modal" , showModal);
-
-  //   navigation.navigate('Loading')
-
-  //   // Navigate to the lab screen after a delay
-  //   setTimeout(() => {
-
-  //     navigation.replace('Lab Test Request');
-
-  //   }, 5000);
-
-  // };
-
-
-
-  // Use a useEffect hook to check the modal content and call the handler
-  // useEffect(() => {
-
-  //   if (showModal && modalContent && modalContent.servicE_DESC === 'Lab Test Request' ) {
-
-  //     handleLabTestRequest();
-  //     console.log("AHMER" , showModal);
-
-  //     }else{
-  //       return setShowModal(true)
-  //     }
-
-  //   }, [showModal, modalContent]); // Add the dependencies  
-
-
-
-  // // --------------------------------------------------------------------------------------
-
-
-  // // Remove the navigation logic from the render method
-  // {(
-  //   <BlurView
-  //     style={styles.blurView}
-  //     blurType="light"
-  //     blurRadius={25}
-  //     blurAmount={10}
-  //     reducedTransparencyFallbackColor="white">
-  //     <Modal visible={showModal} animationType="slide" transparent={false}>
-  //       <View style={styles.centeredView}>
-  //         <View style={styles.modalView}>
-  //           <Text style={styles.modalText}>{modalContent!.servicE_DESC} Not Available</Text>
-  //         </View>
-  //       </View>
-  //     </Modal>
-  //   </BlurView>
-  // )}
-
+  }, [])
 
   if (isLoading) {
-
     return (
-
       <ActivityIndicator size={50} color={'red'} />
     )
-
   }
-
-
 
   return (
 
-              <ScrollView scrollEnabled={true}
-              showsVerticalScrollIndicator={false} 
-              contentContainerStyle={{ flexGrow : 0 , flexShrink : 1}}>
-    <SafeAreaView>
+    <ScrollView scrollEnabled={true}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ flexGrow: 0, flexShrink: 1 }}>
 
-
-
+      <SafeAreaView>
         <View>
-
           <View>
-
             <View style={s`flex-row z-1 w-full flex-wrap py-2 pb-20 justify-center items-center `}>
 
               <FlatList
@@ -235,9 +153,6 @@ export default function Services({ navigation, mob, bottomSheetRef, handleSetBot
                 contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}
                 keyExtractor={item => item.servicE_ID.toString()}
                 renderItem={({ item }) => (
-                // <ScrollView scrollEnabled={true} 
-                // showsVerticalScrollIndicator={true}
-                // contentContainerStyle={{}}>
 
                   <TouchableOpacity
 
@@ -245,77 +160,44 @@ export default function Services({ navigation, mob, bottomSheetRef, handleSetBot
                     activeOpacity={0.8}
                     key={item.servicE_ID}
                     onPress={() => {
-
                       handleServicePress(item)
                       setShowModal(true);
-
-
                     }}>
 
-                    {/* <View
-                    style={[
-                      s`shadow-2xl py-6 px-2 flex-column w-28 h-28 bg-white justify-center items-center rounded-3xl m-2`,
-                      styles.box,
-                    ]}> */}
                     <View
                       style={[
                         s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
                         styles.box,
                       ]}>
                       <Icon name={item.icon} size={Dimensions.get('window').height <= 592 ? 25 : 30} color={'red'} />
-                      <Text style={s`pt-2 text-blue-800 font-bold`}>
+                      <Text style={[s`pt-2 text-blue-800 text-center font-bold`, { fontSize: Dimensions.get('window').height <= 592 ? 10 : 14 }]}>
                         {item.servicE_DESC}
                       </Text>
                     </View>
 
                   </TouchableOpacity>
-                  //  </ScrollView>
 
                 )}
-
-
               />
 
               {error ? <Text style={styles.errorMsg}>{error}</Text> : null}
 
-
-
-
-
             </View>
           </View>
-
         </View>
-
-
-    </SafeAreaView>
-      </ScrollView>
+      </SafeAreaView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  blurView: {
 
-    // flex : 1,
-    // justifyContent : 'center',
-    // alignItems : 'center',
-
-
-  },
   contentContainer: {
 
     padding: 10,
     alignItems: 'center',
     justifyContent: 'center'
   },
-
-
-  modalContainer: {
-
-    // flex : 1,
-
-  },
-
   box: {
     elevation: 5,
     borderWidth: 1,
@@ -329,6 +211,8 @@ const styles = StyleSheet.create({
     shadowRadius: 0,
     width: Dimensions.get('window').height <= 592 ? 90 : 110,
     height: Dimensions.get('window').height <= 592 ? 90 : 110
+    // width: Dimensions.get('window').height <= 592 ? '60%' : '70%',
+    // height: Dimensions.get('window').height <= 592 ? '40%' : '60%'
   },
   // box: {
   //   elevation: 5,

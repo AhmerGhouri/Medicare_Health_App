@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { AuthProps , userData} from '../../constants'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { data } from 'autoprefixer'
+
 
 
 
@@ -14,8 +14,6 @@ export const api = 'https://local.jmc.edu.pk:82/api/Patients/GetPatientDataFromM
 export const regAPI = 'https://local.jmc.edu.pk:82/api/UserRegData/PostUserRegData' 
 export const userRegAPI = 'https://local.jmc.edu.pk:82/api/UserRegData/GetUserRegData?mob=' 
 const AuthContext = createContext<AuthProps>({})
-
-
 
 
 export const useAuth = () => {
@@ -53,30 +51,30 @@ export const AuthProvider = ({children} : any) => {
   })
 
   // Using useEffect for only load token when apps open
-  useEffect(() => {
+  // useEffect(() => {
 
-    const loadToken = async () => {
+  //   const loadToken = async () => {
 
 
-      // Checking the login token is present or not
-      const token = await AsyncStorage.getItem(KEY)
+  //     // Checking the login token is present or not
+  //     const token = await AsyncStorage.getItem(KEY)
 
-      // If token is not null it assign last generate token and session starts where left
-      if(token){
+  //     // If token is not null it assign last generate token and session starts where left
+  //     if(token){
 
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+  //       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         
-        setAuth({
+  //       setAuth({
   
-          token : token,
-          authenticated : true,
-          user : authState.user
+  //         token : token,
+  //         authenticated : true,
+  //         user : authState.user
   
   
-        })
+  //       })
          
         
-      }
+  //     }
       // else{
         
       //   // If not present navigate to login screen
@@ -90,11 +88,11 @@ export const AuthProvider = ({children} : any) => {
         
       // }
 
-      return token
+  //     return token
             
-    }
-    loadToken()
-  } , []) 
+  //   }
+  //   loadToken()
+  // } , []) 
 
 
   // Method for registering Users
@@ -375,7 +373,7 @@ switch (error.response.status) {
       
         // Checking is Credentials
         if (res) {
-        
+
           // Set authentication 
           setAuth({
 

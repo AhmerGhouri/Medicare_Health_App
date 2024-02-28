@@ -1,6 +1,6 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import React from 'react';
-import ElevatedCards from '../components/elevatedCards/ElevatedCards';
+import ElevatedCards from '../components/Animation/LogoAnimation';
 import ActionCard from '../components/actionCard/ActionCard';
 import ContactList from '../components/contactList/ContactList';
 import  AntDesign  from 'react-native-vector-icons/AntDesign';
@@ -38,7 +38,7 @@ function MyTabs( { route } ) {
       >
       
       
-      <Tab.Screen options={{
+      {/* <Tab.Screen options={{
         
         
         tabBarIcon : () => (
@@ -47,7 +47,7 @@ function MyTabs( { route } ) {
         
         name="Lab" 
         component={ElevatedCards} 
-        />
+        /> */}
 
 {/* 
       <Tab.Screen options={{
@@ -65,12 +65,12 @@ function MyTabs( { route } ) {
           <AntDesign name='home' color={'black'} size={25}/>
         )
       }} 
-      name="Home" 
+      name="HomeScreen" 
       component={HomeScreen}
       initialParams={{ user : user }} 
       />
 
-      <Tab.Screen options={{
+      {/* <Tab.Screen options={{
         
         tabBarIcon : () => (
           <AntDesign name='hearto' color={'black'} size={25}/>
@@ -78,7 +78,7 @@ function MyTabs( { route } ) {
       }} 
       name="Detail" 
       component={ActionCard} 
-      />
+      /> */}
 
       {/* <Tab.Screen options={{
         tabBarIcon : () => (

@@ -10,6 +10,23 @@ export interface modalService {
 
   }
 
+export interface appUser {
+
+  titlE_ID? : string | null,
+  address? : string | null,
+  autoid? : number | null,
+  datafrom? : string | null,
+  dob? : string | null,
+  email? : string | null,
+  fname? : string | null,
+  gender? : string | null,
+  isactive? : string | null,
+  mob? : string | null | any,
+  password? : string | null,
+  pname? : string | null
+
+}
+
 
 export interface servicesData {
     servicE_ID: number;
@@ -58,14 +75,14 @@ export interface timeSlots {
 export interface selectedTest {
 
   ltesT_ID :	string,
-  ltesT_DESC :	string,
-  tesT_DESCRIPTION	:	string,
-  amt	:	string,
-  opaT_ID	:	string | null,
-  tranS_ID:	string | null,
-  currentaddress	:	string | null,
-  samplE_COL_DATE	:	string | null,
-  samplE_COL_TIME	:	string | null,
+  ltesT_DESC? :	string,
+  tesT_DESCRIPTION?	:	string,
+  amt?	:	string,
+  opaT_ID?	:	string | null,
+  tranS_ID?:	string | null,
+  currentaddress?	:	string | null,
+  samplE_COL_DATE?	:	string | null,
+  samplE_COL_TIME?	:	string | null,
 
 }
 
@@ -140,7 +157,7 @@ export interface userData {
   fname? : string | null,
   gender? : string | null,
   isactive? : string | null,
-  mob? : string | null,
+  mob? : string | null | any,
   password? : string | null,
   pname? : string | null
 
@@ -159,3 +176,78 @@ export interface bottomSheetDataType {
   opaT_VISIT_NO? : string | null,
   rolE_ID: string | null,
   weB_PASSWORD? : string | null}
+
+
+  export interface searchProps {
+    onChange : (text : string) =>  void;
+  }
+
+  export interface LabTestData {
+    amt?: string,
+    currentaddress?: null | string ,
+    isChecked?: boolean, 
+    ltesT_DESC?: string, 
+    ltesT_ID?: any , 
+    opaT_ID: string | null, 
+    samplE_COL_DATE?: string | null, 
+    samplE_COL_TIME?: string | null, 
+    tesT_DESCRIPTION?: string,
+    tranS_ID?: string | null
+    // Add other properties as needed
+  }
+
+  export interface checkedData {
+
+    email?: null, 
+    opaT_CITY_ID?: string, 
+    opaT_ID?: number, 
+    opaT_PHONE?: string, 
+    opaT_PNAME?: string, 
+    opaT_RDATE?: string, 
+    opaT_RENT_EMP_ID?: string, 
+    opaT_SEX? : string, 
+    opaT_STATUS?: string, 
+    opaT_TITLE_ID? : string, 
+    opaT_VISIT_NO?: string, 
+    rolE_ID?: string, 
+    weB_PASSWORD?: string
+
+  }
+
+
+  export interface postDatatype {
+
+
+    amt?: string;
+    currentaddress?: string;
+    ltesT_DESC?: string;
+    ltesT_ID?: string;
+    opaT_ID?: string;
+    samplE_COL_DATE?: string;
+    samplE_COL_TIME?: string | null;
+    tesT_DESCRIPTION?: string;
+    // tranS_ID?: string;
+
+    // amt?: string | undefined,
+    // ltesT_DESC?: string | undefined,
+    // ltesT_ID?: string,
+    // tesT_DESCRIPTION?: string | undefined,
+    // opaT_ID?: string,
+    // currentaddress?: string,
+    // samplE_COL_DATE?: string,
+    // samplE_COL_TIME?: string |null
+
+
+
+  }
+
+
+  export interface opatValuesType {
+
+    opaT_ID?: string,
+    currentaddress?: string,
+    samplE_COL_DATE?: string,
+    samplE_COL_TIME?: string | null,
+    
+
+  }

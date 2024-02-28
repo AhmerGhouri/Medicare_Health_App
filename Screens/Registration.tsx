@@ -10,6 +10,8 @@ import {
   Keyboard,
   TextInput,
   Alert,
+  Dimensions,
+  KeyboardAvoidingView,
 } from 'react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6'
@@ -30,20 +32,20 @@ import { titleMrMsData } from '../DummyData/LabTests';
 import RadioGroup, { RadioButton, RadioButtonProps } from 'react-native-radio-buttons-group';
 import DatePicker from 'react-native-date-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { tokens } from 'react-native-paper/lib/typescript/styles/themes/v3/tokens';
-import { borderStyles } from 'react-native-wind/dist/styles/view/border-style';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
+
+
+
+type RegistrationProps = NativeStackScreenProps<RootStackParamList , "Registration">
 
 
 
 
+export default function Registraion({ navigation } : RegistrationProps ) {
 
-
-export default function Registraion({ navigation }) {
-
-
-
-
-
+  // const navi = useNavigation<NativeStackScreenProps<RootStackParamList>>
 
   const [mobileNo, setMobileNo] = useState<string>()
   const [weB_PASSWORD, setPassword] = useState<string>()
@@ -57,9 +59,6 @@ export default function Registraion({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [selectedId, setSelectedId] = useState<string | undefined>();
   let formattedDate = date.getDate() + '-' + date.toLocaleString("en-US", { month: 'short' }) + '-' + date.getFullYear();
-  // const date_to_string = date.toLocaleDateString('en-UK', { day: '2-digit', month: 'short', year: 'numeric' })
-  // const date_string = date_to_string.toString()
-  // const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
   const [titleMrMs, setTitleMrMs] = useState<titleMrMs[]>(titleMrMsData);
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -67,11 +66,11 @@ export default function Registraion({ navigation }) {
   const [errors, setErrors] = useState<errors>()
   const [errorMsg, setErrorMsg] = useState<error>({
     mobileno: 'Mobile Number is Required',
-          password: "Password is Required",
-          name: "Name is Required",
-          father_name: "Father Name is Required",
-          gender: "Gender is Required",
-          dateOfBirth: "Date Of Birth is Required"
+    password: "Password is Required",
+    name: "Name is Required",
+    father_name: "Father Name is Required",
+    gender: "Gender is Required",
+    dateOfBirth: "Date Of Birth is Required"
 
   });
   const [numError, setNumError] = useState<string>()
@@ -91,25 +90,6 @@ export default function Registraion({ navigation }) {
       value: 'female'
     }
   ]), []);
-
-
-
-  // const validateEmail = () => {
-
-  //   if(reg.test(email!) === false){
-
-
-  //     setErrorMsg('Please Enter a valid email')
-  //     setError(true)
-
-
-  //   }
-  //   else{
-  //     setEmail(email)
-  //     setErrorMsg('')
-  //     setError(false)
-  //   }
-  // }
 
 
   const OPAT_API: string = `https://local.jmc.edu.pk:82/api/Patients/GetPatientDataFromMob?mob=${mobileNo}`
@@ -164,15 +144,10 @@ export default function Registraion({ navigation }) {
           const opat_data = opat.data
           const reg_data = reg.data
 
-
-
-
-
           console.log("acct", opat_data);
           console.log("perm", reg_data);
+
           if (reg_data !== null) {
-
-
 
             // if (reg_data.length > 1) {
 
@@ -220,7 +195,7 @@ export default function Registraion({ navigation }) {
             console.log("Full Nam", fullName);
 
 
-          }if (opat_data !== null) {
+          } if (opat_data !== null) {
 
 
 
@@ -284,11 +259,6 @@ export default function Registraion({ navigation }) {
           err => { console.log("Error", err) }
         )
 
-
-
-
-
-
     } catch (error) {
 
       console.log(error.response.data);
@@ -296,42 +266,30 @@ export default function Registraion({ navigation }) {
 
     }
 
-
-
-
-
-
   }
 
-  
+
 
   const disableForEmpty = () => {
 
-    return mobileNo ===  '' || fullName ===  '' || fatherName ===  '' || weB_PASSWORD === '' || selectedId === '' || formattedDate === currentDateformat || error 
+    return mobileNo === '' || fullName === '' || fatherName === '' || weB_PASSWORD === '' || selectedId === '' || formattedDate === currentDateformat || error
 
   }
 
 
   const isButtonDisable = () => {
 
-    return mobileNo ===  undefined || fullName ===  undefined || fatherName ===  undefined || weB_PASSWORD === undefined || selectedId === undefined || formattedDate === currentDateformat || error 
+    return mobileNo === undefined || fullName === undefined || fatherName === undefined || weB_PASSWORD === undefined || selectedId === undefined || formattedDate === currentDateformat || error
 
   }
 
-  console.log("mobile" , mobileNo);
-  console.log("fullName" , fullName);
-  console.log("fatherName" , fatherName);
-  console.log("weB_PASSWORD" , weB_PASSWORD);
-  console.log("selectedId" , selectedId);
-  // console.log("date_string" , date_string);
-  // console.log("date_to_string" , date_to_string);
-  // console.log("Type date_to_string" ,typeof date_to_string);
-  // console.log("Type date_string" , typeof date_string);
-  console.log(" date_format" , formattedDate);
-  console.log("Type date_format" , typeof formattedDate);
-  
-
-
+  console.log("mobile", mobileNo);
+  console.log("fullName", fullName);
+  console.log("fatherName", fatherName);
+  console.log("weB_PASSWORD", weB_PASSWORD);
+  console.log("selectedId", selectedId);
+  console.log(" date_format", formattedDate);
+  console.log("Type date_format", typeof formattedDate);
 
 
   const Register = async () => {
@@ -586,10 +544,6 @@ export default function Registraion({ navigation }) {
   };
 
 
-
-
-
-
   const handleRegister = () => {
 
 
@@ -605,10 +559,10 @@ export default function Registraion({ navigation }) {
 
   return (
 
-    // <KeyboardAwareScrollView>
+    // <KeyboardAwareScrollView >
+
 
     <View
-
       style={[
 
         styles.ScreenContainer,
@@ -619,7 +573,8 @@ export default function Registraion({ navigation }) {
 
         },
 
-      ]}>
+      ]}
+    >
 
       <GestureHandlerRootView style={s`flex-1`}>
 
@@ -630,9 +585,11 @@ export default function Registraion({ navigation }) {
         </View>
 
 
+        {/* <ScrollView scrollEnabled={false} style={s`flex-1 h-full`}> */}
 
         <View style={styles.Registration as StyleProp<ViewStyle>}>
 
+          {/* Registration Heading */}
           <View style={s`my-6 w-full items-center`}>
 
             <Text style={s`font-bold text-2xl tracking-wider text-blue-800 italic`}>Registration</Text>
@@ -641,229 +598,201 @@ export default function Registraion({ navigation }) {
 
           </View>
 
-
-
           <View style={styles.InputBox}>
 
+            {/* Mobile No Input Field */}
             <View style={s`flex-row w-full justify-center`}>
 
               <View style={[s`flex z-0 flex-row rounded-md border-2 p-1 border-blue-300 justify-around items-center`, styles.InputViewNum, error ? { borderColor: 'red' } : { borderColor: 'skyblue' }]}>
 
-                <Icon name='phone' color={'grey'} />
-                <TextInput
-                  placeholder='Enter Your Mobile No'
-                  keyboardType='numeric'
-                  style={s`text-left`}
-                  testID="MobileNo"
-                  maxLength={11}
-                  onBlur={() => {
-                    userRegData()
-                    // mobileNo !== '' ? setErrors({ ...errors, mobiletype: false }) : setErrors({ ...errors, mobiletype: true })
-                  }}
-                  onChangeText={(text: string) => setMobileNo(text)}
-                  value={mobileNo!}
-                  returnKeyType='done'
-                />
+                <View style={[s`items-center`, { width: '30%' }]}>
+                  <Icon name='phone' color={'grey'} />
+                </View>
+                <View style={[s`items-left`, { width: '60%' }]}>
+                  <TextInput
+                    placeholder='Enter Your Mobile No'
+                    keyboardType='numeric'
+                    // style={s`text-left`}
+                    placeholderTextColor={'gray'}
+                    style={s`text-black`}
+                    testID="MobileNo"
+                    maxLength={11}
+                    onBlur={() => {
+                      userRegData()
+                      // mobileNo !== '' ? setErrors({ ...errors, mobiletype: false }) : setErrors({ ...errors, mobiletype: true })
+                    }}
+                    onChangeText={(text: string) => setMobileNo(text)}
+                    value={mobileNo!}
+                    returnKeyType='done'
+                  />
+                </View>
 
               </View>
 
-              {/* <View style={[s`flex z-30 flex-row rounded-md border-2 p-1 border-blue-300 justify-around items-center` , styles.InputViewMr ]}>
-
-                                 <Foundation style={s``} name='torsos-male-female' color={'grey'}/>
-                                <TextInput 
-                                placeholder='Title' 
-                                keyboardType='default'
-                                secureTextEntry={true}
-                                onChangeText={(text : string) => setPassword(text)}
-                                value={weB_PASSWORD}
-                                />
-                                <DropDownPicker
-                                style={s`border-0`}
-                                open={openPicker}
-                                placeholder='Title'
-                                value={title!}
-                                items={titleMrMs}
-                                showArrowIcon={false}
-                                closeOnBackPressed={true}
-                                showTickIcon={false}
-                                bottomOffset={200}
-                                placeholderStyle={{
-                                    color : 'grey',
-                                    width : '100%'
-                                }}
-                                dropDownContainerStyle={{
-                                // backgroundColor: "#dfdfdf",
-                                    maxWidth : '100%',
-                                    borderColor : 'black',
-                                    borderRadius : 4,
-                                    borderWidth : 0,
-                                    elevation : 5,
-                                    marginTop : 6
-                                  }}
-                                  ActivityIndicatorComponent={() => {
-                                    return(       
-                                      <ActivityIndicator color="#999" animating={true}/>
-                                      )
-                                    }}
-                                setOpen={setOpenPicker}
-                                setValue={setTitle}
-                                setItems={setTitleMrMs}
-                                />
-                                
-                              </View> */}
-
             </View>
             {error ? <Text style={s`text-red-600 text-sm`}>{numError}</Text> : ''}
-            {/* {errors?.mobiletype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.mobileno}</Text> : ''} */}
-
+ 
+            {/*  Full Name Input Field */}
             <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <Icon name='address-card' color={'grey'} />
-              <TextInput
-                placeholder='Enter Your Full Name'
-                testID="FullName"
-                onBlur={() => fullName === '' ? setErrors({ ...errors, nametype: true }) : setErrors({ nametype: false })}
-                keyboardType='name-phone-pad'
-                onChangeText={(text: string) => setFullName(text)}
-                editable={disableFields}
-                value={fullName}
-              />
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Icon name='address-card' color={'grey'} />
+              </View>
+
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TextInput
+                  placeholder='Enter Your Full Name'
+                  testID="FullName"
+                  placeholderTextColor={'gray'}
+                  style={s`text-black`}
+                  onBlur={() => fullName === '' ? setErrors({ ...errors, nametype: true }) : setErrors({ nametype: false })}
+                  keyboardType='name-phone-pad'
+                  onChangeText={(text: string) => setFullName(text)}
+                  editable={disableFields}
+                  value={fullName}
+                />
+              </View>
 
             </View>
             {errors?.nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.name}</Text> : null}
 
-
+            {/* Father Name Input Field */}
             <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <Material name='human-male-child' color={'grey'} />
-              <TextInput
-                placeholder='Enter Your Father Name'
-                keyboardType='default'
-                testID="FatherName"
-                onBlur={() => fatherName !== '' ? setErrors({ ...errors, father_nametype: false }) : setErrors({ father_nametype: true })}
-                onChangeText={(text: string) => setFatherName(text)}
-                editable={disableFields}
-                value={fatherName}
-              />
-
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Material name='human-male-child' color={'grey'} />
+              </View>
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TextInput
+                  placeholder='Enter Your Father Name'
+                  keyboardType='default'
+                  testID="FatherName"
+                  placeholderTextColor={'gray'}
+                  style={s`text-black`}
+                  onBlur={() => fatherName !== '' ? setErrors({ ...errors, father_nametype: false }) : setErrors({ father_nametype: true })}
+                  onChangeText={(text: string) => setFatherName(text)}
+                  editable={disableFields}
+                  value={fatherName}
+                />
+              </View>
             </View>
             {errors?.father_nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.father_name}</Text> : null}
 
-
-            {/* <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center` , styles.InputView ]}>
-
-                            <Entypo name='email' color={'grey'}/>
-                            <TextInput 
-                            placeholder='Enter Your Email address' 
-                            keyboardType='default'
-                            onBlur={validateEmail}
-                            onChangeText={(text : string) => setEmail(text)}
-                            value={email}
-                            />
-
-                        </View>
-
-                        {error ? <Text style={s`text-red-600`}>{errorMsg}</Text> : null} */}
-
+            {/* Password Input Field */}
             <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <Entypo name='lock' color={'grey'} />
-              <TextInput
-                placeholder='Enter Your Password'
-                keyboardType='default'
-                testID='Password'
-                secureTextEntry={true}
-                // onBlur={() => weB_PASSWORD !== '' ? setErrors({ ...errors, passwordtype: false }) : setErrors({ passwordtype: true })}
-                editable={disableFields}
-                onChangeText={(text: string) => setPassword(text)}
-                value={weB_PASSWORD}
-              />
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Entypo name='lock' color={'grey'} />
+              </View>
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TextInput
+                  placeholder='Enter Your Password'
+                  keyboardType='default'
+                  testID='Password'
+                  placeholderTextColor={'gray'}
+                  style={s`text-black`}
+                  secureTextEntry={true}
+                  // onBlur={() => weB_PASSWORD !== '' ? setErrors({ ...errors, passwordtype: false }) : setErrors({ passwordtype: true })}
+                  editable={disableFields}
+                  onChangeText={(text: string) => setPassword(text)}
+                  value={weB_PASSWORD}
+                />
+              </View>
 
             </View>
             {errors?.passwordtype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.password}</Text> : null}
 
+            {/* Gender Radio Buttons*/}
+            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-2 justify-around items-center`, styles.InputView]}>
 
-            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
+              <View style={[s`items-center`, { width: '30%' }]}>
+                <Icon name='restroom' color={'grey'} />
+              </View>
 
-              <Icon name='restroom' color={'grey'} />
-              {/* <TextInput 
-                            placeholder='Enter Your Father Name' 
-                            keyboardType='default'
-                            // maxLength={11}
-                            secureTextEntry={true}
-                            onChangeText={(text : string) => setPassword(text)}
-                            value={weB_PASSWORD}
-                            /> */}
+              <View style={[s`items-left`, { width: '60%' }]}>
+                <TouchableOpacity
+                  style={s`flex-column`}
+                  disabled={disableFields ? false : true}
+                  onBlur={() => selectedId !== '' ? setErrors({ ...errors, gendertype: false }) : setErrors({ gendertype: true })}
+                >
 
-              <TouchableOpacity
-                style={s`flex-column`}
-                disabled={disableFields ? false : true}
-                onBlur={() => selectedId !== '' ? setErrors({ ...errors, gendertype: false }) : setErrors({ gendertype: true })}
-              >
+                  <RadioGroup
+                    containerStyle={{
+                      flexDirection: 'row',
+                      borderColor: 'lightblue',
+                      
+                    }}
+                    accessibilityLabel='blue'
+                    radioButtons={radioButtons}
+                    // editable={disableFields}
+                    onPress={setSelectedId}
+                    testID='Radio'
+                    selectedId={selectedId}
 
-                <RadioGroup
-                  containerStyle={{
-                    flexDirection: 'row',
-                    borderColor: 'lightblue'
-                  }}
-                  accessibilityLabel='blue'
-                  radioButtons={radioButtons}
-                  // editable={disableFields}
-                  onPress={setSelectedId}
-                  testID='Radio'
-                  selectedId={selectedId}
+                  />
 
-                />
-
-              </TouchableOpacity>
+                </TouchableOpacity>
+              </View>
 
             </View>
-
             {errors?.gendertype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.gender}</Text> : null}
 
+            {/* Date Of Birth Date Picker */}
+            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-between items-center`, styles.InputView]}>
 
 
-
-            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
-
-
-              <Icon name='calendar-day' color={'grey'} />
-              <Text>D.O.B</Text>
-              <TouchableOpacity style={s`flex-row items-center justify-around w-48`} onPress={() => setOpen(true)}>
-                <TextInput value={dateOfBirth || formattedDate} />
-                <Icon name='calendar' color={'grey'} />
+              <View style={[s`flex-row justify-around items-center `, { width: '25%' }]}>
+                <Icon name='calendar-day' color={'grey'} />
+                <Text style={s`text-grey-100`}>D.O.B</Text>
+              </View>
+  
+              <TouchableOpacity style={[s`flex-row`, { width: '85%' }]} onPress={() => setOpen(true)}>
+                <View style={[s`justify-right items-center pl-10`, { width: '80%' }]}>
+                  <TextInput 
+                    placeholderTextColor={'gray'}
+                    style={s`text-black`}
+                    value={dateOfBirth || formattedDate} />
+                </View>
               </TouchableOpacity>
-              <DatePicker
-                open={open}
-                modal
-                textColor='red'
-                date={date} mode='date'
-                testID='dob'
-                onDateChange={setDate}
-                // editable={disableFields}
-                onConfirm={(date) => {
-                  setOpen(false)
-                  setDate(date)
-                  // setErrors({ ...errors, dateOfBirthtype: false })
-                  formattedDate === currentDateformat ? setErrors({...errors , dateOfBirthtype : true}) : setErrors({...errors , dateOfBirthtype : false})
-                }}
-                onCancel={() => setOpen(false)}
-              />
+
+              <View style={[s` justify-center items-left`, { width: '30%' }]}>
+                <Icon name='calendar' color={'grey'} />
+                <DatePicker
+                  open={open}
+                  modal
+                  textColor='red'
+                  date={date} mode='date'
+                  testID='dob'
+                  onDateChange={setDate}
+                  // editable={disableFields}
+                  onConfirm={(date) => {
+                    setOpen(false)
+                    setDate(date)
+                    // setErrors({ ...errors, dateOfBirthtype: false })
+                    formattedDate === currentDateformat ? setErrors({ ...errors, dateOfBirthtype: true }) : setErrors({ ...errors, dateOfBirthtype: false })
+                  }}
+                  onCancel={() => setOpen(false)}
+                />
+
+              </View>
 
             </View>
-
             {errors?.dateOfBirthtype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.dateOfBirth}</Text> : null}
 
           </View>
 
-
+          {/* Registration Button */}
           <View style={s`w-full justify-center items-center`}>
-
-            {loading ? (
+            
+            {/* If loading is true  show a spinner instead of the button */}
+            {loading ? 
+              (
               <View style={s`bg-red-600 px-4 mt-8 w-36`}>
                 <ActivityIndicator size="large" color="#00ff00" />
               </View>
-            ) : (
+              ) 
+              : 
+              (
 
               <View style={s`w-36 mt-8`}>
                 <Button
@@ -875,35 +804,24 @@ export default function Registraion({ navigation }) {
                 />
               </View>
 
-            )}
+              )
+            }
 
           </View>
 
         </View>
 
+
+        {/* </ScrollView> */}
         <View style={styles.Footer}>
 
           <Image source={FooterImg} />
 
         </View>
 
-        {/* <Snackbar
-                visible={visible}
-                onDismiss={onDismissSnackBar}
-                action={{
-                    label: errorMsg === 'Number' ? 'Register' : 'Set Password',
-                    onPress: () => {
-                    // Do something
-                    },
-                }}>
-                
-                {numError}
-            
-            </Snackbar> */}
-
       </GestureHandlerRootView>
     </View>
-    //  </KeyboardAwareScrollView>
+    //  </KeyboardAwareScrollView> 
 
   );
 }
@@ -941,7 +859,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     elevation: 15,
-    width: "75%"
+    width: Dimensions.get('screen').width <= 600 ? "80%" : "50%",
 
   },
   InputViewNum: {
@@ -955,7 +873,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     elevation: 15,
-    width: '75%'
+    width: Dimensions.get('screen').width <= 600 ? "80%" : "50%",
 
   },
   // InputViewMr : {
