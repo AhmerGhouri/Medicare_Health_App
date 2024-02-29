@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
+import { Alert } from "react-native";
 import { act } from "react-test-renderer";
 
 
@@ -11,6 +12,7 @@ export interface CartItem {
     ltesT_DESC?: string | undefined;
     ltesT_ID?: string | undefined;
     opaT_ID?: string | undefined;
+    isChecked? : boolean,
     samplE_COL_DATE?: string | undefined;
     samplE_COL_TIME?: string | undefined | null;
     tesT_DESCRIPTION?: string | undefined;
@@ -43,21 +45,43 @@ export const Cart = createSlice({
             // state.cartItem = action.payload
             console.log("statecart ", statecart)
 
-            const cartvalues = {
+            const checked = statecart.isChecked
+            const  findTests = state.cartItem.findIndex(e => e.id === statecart.id);
+            
+            console.log("Same Tests" , findTests);
 
-                ...action.payload,
-                currentaddress : state.currentOpatId.currentaddress,
-                opaT_ID: state.currentOpatId.opaT_ID,
-                samplE_COL_DATE: state.currentOpatId.samplE_COL_DATE,
-                samplE_COL_TIME: state.currentOpatId.samplE_COL_TIME 
+            console.log("checked" , checked);
+
+
+             if(checked){
+
+                const cartvalues = {
+    
+                    ...action.payload,
+                    currentaddress : state.currentOpatId.currentaddress,
+                    opaT_ID: state.currentOpatId.opaT_ID,
+                    samplE_COL_DATE: state.currentOpatId.samplE_COL_DATE,
+                    samplE_COL_TIME: state.currentOpatId.samplE_COL_TIME 
+    
+                }
+    
+                console.log("opat Values from Slice", state.currentOpatId);
+                console.log("cart Values from Slice", cartvalues);
+    
+    
+                state.cartItem.push(cartvalues)
+
 
             }
+            else{
 
-            console.log("opat Values from Slice", state.currentOpatId);
-            console.log("cart Values from Slice", cartvalues);
+                state.cartItem = state.cartItem.filter((item) => item.ltesT_ID !== statecart.ltesT_ID);
 
 
-            state.cartItem.push(cartvalues)
+            }
+            
+
+
 
             console.log("cart Item from Slice", state.cartItem);
 

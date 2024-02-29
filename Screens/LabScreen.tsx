@@ -413,6 +413,7 @@ function LabScreen({ navigation, route }: LabScreenProps) {
             <DropDownPicker
               open={openPicker}
               value={value}
+              style={{width : '95%' , justifyContent : 'center', alignItems : 'center' , paddingHorizontal : 20 , marginHorizontal : 8,}}
               items={timeSlot}
               showArrowIcon={true}
               onChangeValue={() => setErrorMsg(false)}

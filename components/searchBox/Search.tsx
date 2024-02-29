@@ -15,7 +15,7 @@ const Search = ( { onChange } : searchProps) => {
         <View style={s`m-2`}>
 
 
-            <Text style={s`text-black font-bold pb-2 text-center text-md`}>Lab Tests</Text>
+            {/* <Text style={s`text-black font-bold pb-2 text-center text-md`}>Lab Tests</Text> */}
 
 
             <View style={[s`flex z-0 flex-row rounded-md border-2 w-full border-blue-300 p-1 items-center`, styles.InputView]}>
@@ -29,7 +29,7 @@ const Search = ( { onChange } : searchProps) => {
                 <TouchableOpacity style={[s`flex-row items-center`, { width: '80%' }]}>
                     <TextInput
                         style={[{ width: '100%', padding: 5, color: 'black' }]}
-                        placeholder='Search Lab Test'
+                        placeholder=''
                         placeholderTextColor={'black'}
                         onChangeText={(text) => onChange(text)}
                     />

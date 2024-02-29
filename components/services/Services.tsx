@@ -27,7 +27,7 @@ import { addSerShortCodeToStore } from '../../app/slices/serviceSlice';
 
 
 
-export default function Services({ screenName , mob, bottomSheetRef, handleSetBottomSheetData }: any) {
+export default function Services({ screenName, mob, bottomSheetRef, handleSetBottomSheetData }: any) {
 
 
   const [showModal, setShowModal] = useState(false);
@@ -83,18 +83,18 @@ export default function Services({ screenName , mob, bottomSheetRef, handleSetBo
 
   useEffect(() => {
 
-    bottomSheetRef.current?.close()
+    bottomSheetRef.current?.forceClose()
     LogBox.ignoreLogs(["`flexWrap: `wrap`` is not supported with the `VirtualizedList` components.Consider using `numColumns` with `FlatList` instead."])
 
   }, [])
 
   const handleServicePress = async (service) => {
 
-    console.log("service" , service);
-  
+    console.log("service", service);
+
     switch (service.servicE_DESC) {
       case 'Nursing Services':
-        dispatch(addSerShortCodeToStore('ER'))      
+        dispatch(addSerShortCodeToStore('ER'))
         break;
       case 'Lab Test Request':
         dispatch(addSerShortCodeToStore('LB'))
@@ -105,7 +105,7 @@ export default function Services({ screenName , mob, bottomSheetRef, handleSetBo
       case 'Physiotherapy':
         dispatch(addSerShortCodeToStore('PO'))
         break;
-    
+
       default:
         break;
     }
@@ -129,11 +129,37 @@ export default function Services({ screenName , mob, bottomSheetRef, handleSetBo
 
   }, [])
 
-  if (isLoading) {
-    return (
-      <ActivityIndicator size={50} color={'red'} />
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <ActivityIndicator size={50} color={'red'} />
+  //   )
+  // }
+
+  useEffect(() => {
+
+    if (isLoading) {
+      {
+        services!.map((item) => {
+
+          <View
+            style={[
+              s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+              styles.box,
+            ]}>
+            <SkeletonPlaceholder borderRadius={4}>
+              <SkeletonPlaceholder.Item flexDirection="column" justifyContent='space-around'
+                gap={20} alignItems="center">
+                <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder>
+          </View>
+
+        })
+
+      }
+    }
+  } , [])
 
   return (
 
@@ -164,6 +190,8 @@ export default function Services({ screenName , mob, bottomSheetRef, handleSetBo
                       setShowModal(true);
                     }}>
 
+
+
                     <View
                       style={[
                         s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
@@ -175,7 +203,9 @@ export default function Services({ screenName , mob, bottomSheetRef, handleSetBo
                       </Text>
                     </View>
 
+
                   </TouchableOpacity>
+
 
                 )}
               />

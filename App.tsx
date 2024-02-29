@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler'
 import { StatusBar, Button } from 'react-native';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MyTabs from './Navigator/Navigator';
@@ -21,6 +21,8 @@ import { Provider } from 'react-redux';
 import { store } from './app/Store/Store';
 import CartBtn from './components/CartBtn/CartBtn';
 import CartScreen from './Screens/CartScreen';
+import LogoTitle from './components/LogoTitle/LogoTitle';
+import { useAppSelector } from './app/hooks/hooks';
 
 
 
@@ -55,7 +57,7 @@ export type RootStackParamList = {
   // CartScreen : {
   //   opatValues : opatValuesType
   // }
-  CartScreen : any
+  CartScreen: any
 };
 
 
@@ -98,7 +100,32 @@ export const Layout = () => {
 
   const Stack = createNativeStackNavigator<RootStackParamList>();
 
-  const { authState, onLogout } = useAuth()
+  const { authState } = useAuth()
+  const [headerTitle, setHeaderTitle] = useState<string>('')
+
+  const code = useAppSelector(state => state.code)
+
+  useEffect(() => {
+
+    switch (code) {
+      case 'ER':
+        setHeaderTitle('Nursing Service')
+        break;
+      case 'LB':
+        setHeaderTitle('Lab Tests Requests')
+        break;
+      case 'XR':
+        setHeaderTitle('Radiology Services')
+        break;
+      case 'PO':
+        setHeaderTitle('Physiotherapy Service')
+        break;
+      default:
+        setHeaderTitle('')
+        break;
+    }
+
+  }, [code])
 
   return (
 
@@ -130,38 +157,39 @@ export const Layout = () => {
           name="LabTestRequest"
           component={LabScreen}
           options={({ navigation, route }) => ({
-            headerTitle: "Request Lab Test",
+            // headerTitle: "Request Lab Test",
             headerShown: true,
-            // headerStyle : {backgroundColor : '#b4bcff'},
-            // headerTitle: (props) => <LogoTitle {...props} />,
+            headerStyle : {backgroundColor : '#b4bcff'},
+            headerTitleAlign : 'center',
+            headerTitle: (props) => <LogoTitle {...props} tintColor={'red'} title={headerTitle} />,
             // Add a placeholder button without the `onPress` to avoid flicker
             headerRight: () => (
               <CartBtn />
             ),
-            headerLeft: () => (
-              <HeaderBtn navigation={navigation} />
-            ),
+            // headerLeft: () => (
+            //   <HeaderBtn navigation={navigation} />
+            // ),
           })}
         />
 
         <Stack.Screen options={{
           headerShown: true,
           title: 'My Cart',
-          headerShadowVisible : true,
-          headerBlurEffect : 'extraLight' ,
+          headerShadowVisible: true,
+          headerBlurEffect: 'extraLight',
           headerTransparent: true,
           headerTintColor: 'black',
-          headerTitleAlign : 'center',
-          statusBarAnimation : 'slide',
-          statusBarStyle : 'dark',
-          contentStyle : {
-            borderCurve : 'circular',
-            borderBottomEndRadius : 20,
-            borderBottomStartRadius : 20,
-            borderColor : 'red'
+          headerTitleAlign: 'center',
+          statusBarAnimation: 'slide',
+          statusBarStyle: 'dark',
+          contentStyle: {
+            borderCurve: 'circular',
+            borderBottomEndRadius: 20,
+            borderBottomStartRadius: 20,
+            borderColor: 'red'
           },
-          headerStyle : {
-            backgroundColor : 'rgba(255, 255, 255, 0.8)',                      
+          headerStyle: {
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
           }
         }} name='CartScreen' component={CartScreen} />
 
@@ -200,7 +228,7 @@ export const Layout = () => {
           headerTransparent: true,
           headerTintColor: 'white'
         }} name='MRScreen' component={MRCreateScreen} />
-   
+
         {/* <Stack.Screen name='Lab Test Request' component={LabScreen} /> */}
 
       </Stack.Navigator>
