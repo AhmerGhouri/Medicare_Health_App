@@ -13,23 +13,21 @@ import {
   Alert,
 } from 'react-native';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-// import {TextInput, Icon, RadioButton} from 'react-native-paper';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HeaderImg from '../src/assets/Ellipse.png'
-import FooterImg from '../src/assets/Footer.png'
 import Logo from '../src/assets/MEDICARE.png'
 import BottomSheet, { BottomSheetBackdrop, BottomSheetModal, BottomSheetModalProvider, TouchableOpacity } from '@gorhom/bottom-sheet';
 import axios from 'axios';
-import { api, useAuth } from '../components/authContext/AuthContext';
+import { useAuth } from '../components/authContext/AuthContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App';
 import Icon from 'react-native-vector-icons/FontAwesome6'
 import { s } from 'react-native-wind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-// import Snackbar from 'react-native-snackbar';
 import { Snackbar } from 'react-native-paper';
 import { useAppDispatch } from '../app/hooks/hooks';
 import { addUserToStore } from '../app/slices/userSlice';
+import Footer from '../components/Footer/Footer';
+import Header from '../components/Header/Header';
+import Animated, { BounceInDown, FadeOut } from 'react-native-reanimated';
 
 
 
@@ -58,8 +56,14 @@ export default function LoginScreen({ navigation }: LoginProps) {
   const [errorMsg, setErrorMsg] = useState('');
   const [numError, setNumError] = useState('')
   const [numMsg, setnumMsg] = useState(false)
+  const [showPassword, setShowPassword] = useState<boolean>(true)
 
 
+  const showhidePass = () => {
+
+    setShowPassword(!showPassword)
+
+  }
 
   // This Excutes when mobile Number entering
   // This Method fetch Data from User Registration Table
@@ -169,100 +173,129 @@ export default function LoginScreen({ navigation }: LoginProps) {
 
         <View>
 
-          <Image source={HeaderImg} width={Dimensions.get('window').height <= 592 ? 260 : 350} height={Dimensions.get('window').height <= 592 ? 100 : 130} />
-          {/* <Image source={HeaderImg} style={{width : Dimensions.get('window').height <= 592 ? '65%' : '50%' , height : Dimensions.get('window').height <= 592 ? "40%" : '55%' }}/> */}
+          <Header />
 
         </View>
 
         <View style={styles.Credentials as StyleProp<ViewStyle>}>
 
-          <View style={s`my-8`}>
+          <Animated.View style={s`flex`} entering={BounceInDown.duration(1000)} exiting={FadeOut} >
+            <View style={s`my-8`}>
 
-            <Image source={Logo}
-              width={10} height={10} />
+              {/* <Image source={Logo}
+              width={10} height={10} /> */}
+              <Image source={Logo} style={{ width: Dimensions.get('window').height < 804 ? 150 : 180, height: Dimensions.get('window').height <= 804 ? 70 : 70 }}
+              />
 
-          </View>
+            </View>
+          </Animated.View>
 
           <View style={styles.InputBox}>
 
-            <View style={[s`flex flex-row rounded-md border-2 border-red-300 p-1 justify-around items-center`, styles.InputView]}>
+            <Animated.View style={s`flex`} entering={BounceInDown.duration(1300)} exiting={FadeOut} >
+              <View style={[s`flex flex-row rounded-md border-red-300 p-1 justify-around items-center`, styles.InputView]}>
 
-              <View style={[s`items-center`, { width: '30%' }]}>
-                <Icon name='phone' color={'grey'} />
-              </View>
-
-              <View style={[{ width: '60%' }]}>
-
-                <TextInput
-                  onBlur={handleInput}
-                  placeholderTextColor={'black'}
-                  placeholder='Enter Your Mobile Number'
-                  keyboardType='numeric'
-                  style={s`text-black`}
-                  maxLength={11}
-                  onChangeText={(text: string) => setMobileNo(text)}
-                  value={mobileNo}
-                />
-
-              </View>
-            </View>
-
-            {numMsg ? <Text style={s`text-red-600`}>{numError}</Text> : ''}
-
-            <View style={[s`flex flex-row rounded-md border-2 justify-around border-red-300 p-1 items-center`, styles.InputView]}>
-
-              <View style={[s`items-center`, { width: '30%' }]}>
-                <Icon name='lock' color={'grey'} />
-              </View>
-              <View style={[{ width: '60%' }]}>
-                <TextInput
-                  placeholder='Enter Your Password'
-                  placeholderTextColor={'black'}
-                  style={s`text-black`}
-                  keyboardType='default'
-                  secureTextEntry={true}
-                  onChangeText={(text: string) => setPassword(text)}
-                  value={weB_PASSWORD}
-                />
-              </View>
-
-            </View>
-
-            {loading ?
-              (
-                <View style={s`bg-red-600 px-4`}>
-                  <ActivityIndicator size="large" color="#00ff00" />
+                <View style={[s`items-center`, { width: '15%' }]}>
+                  <Icon name='phone' color={'grey'} size={Dimensions.get('window').height < 804 ? 12 : 14} />
                 </View>
-              ) : (
-                <View style={s`w-36 mt-8`}>
-                  <Button
+
+                <View style={[{ width: '85%', alignItems: 'center' }]}>
+
+                  <TextInput
+                    onBlur={handleInput}
+                    placeholderTextColor={'black'}
+                    placeholder='Enter Your Mobile Number'
+                    keyboardType='numeric'
+                    style={[s`text-black`, { fontSize: Dimensions.get('window').height < 804 ? 12 : 14 }]}
+                    maxLength={11}
+                    onChangeText={(text: string) => setMobileNo(text)}
+                    value={mobileNo}
+                  />
+
+                </View>
+
+              </View>
+            </Animated.View>
+
+            {numMsg ? <Text style={[s`text-red-600`, { fontSize: Dimensions.get('window').height < 804 ? 10 : 14 }]}>{numError}</Text> : ''}
+            <Animated.View style={s`flex`} entering={BounceInDown.duration(1600)} exiting={FadeOut} >
+              <View style={[s`flex flex-row rounded-md  justify-around border-red-300 p-1 items-center`, styles.InputView]}>
+
+                <View style={[s`items-center`, { width: '15%' }]}>
+                  <Icon name='lock' color={'grey'} size={Dimensions.get('window').height < 804 ? 12 : 14} />
+                </View>
+                <View style={[{ width: '65%', alignItems: 'center', paddingLeft: '12%' }]}>
+                  <TextInput
+                    placeholder='Enter Your Password'
+                    placeholderTextColor={'black'}
+                    style={[s`text-black `, { fontSize: Dimensions.get('window').height < 804 ? 12 : 14 }]}
+                    keyboardType='default'
+                    secureTextEntry={showPassword}
+                    onChangeText={(text: string) => setPassword(text)}
+                    value={weB_PASSWORD}
+                  />
+                </View>
+                <View style={[{ width: '20%', alignItems: 'center' }]}>
+                  <Icon name={showPassword ? 'eye-slash' : 'eye'} color={'grey'} onPress={showhidePass} size={Dimensions.get('window').height < 804 ? 12 : 16} />
+                </View>
+
+              </View>
+            </Animated.View>
+            <Animated.View style={s`flex`} entering={BounceInDown.duration(1800)} exiting={FadeOut} >
+
+              {loading ?
+                (
+                    <View style={[s`mt-8 rounded px-6 py-0` , {elevation : 10 , backgroundColor : 'red'}]}>
+                      <ActivityIndicator size="large" color="white" />
+                    </View>
+                ) : (
+                  <View style={[s`mt-8`, { width: "100%" }]}>
+
+                    <TouchableOpacity disabled={isButtonDisable()} onPress={handleLogin} style={[s`rounded p-2  `, { paddingHorizontal: Dimensions.get('window').height < 804 ? 16 : 30, backgroundColor: isButtonDisable() ? 'lightgray' : 'red', elevation: 10, width: '100%' }]}>
+                      <Text style={[s`font-bold italic`, { color: 'white', fontSize: Dimensions.get('window').height < 804 ? 12 : 16 }]}>
+                        Login
+                      </Text>
+                    </TouchableOpacity>
+
+                    {/* <Button
                     title="Login"
                     color="red"
                     accessibilityLabel="Learn more about this purple button"
                     onPress={handleLogin}
                     disabled={isButtonDisable()}
-                  />
-                </View>
-              )
-            }
+                  /> */}
+                  </View>
+                )
+              }
+            </Animated.View>
 
-            <View style={s`w-36`}>
-              <Button
+            <Animated.View style={s`flex`} entering={BounceInDown.duration(2000)} exiting={FadeOut} >
+
+              <View style={s`w-36`}>
+                <TouchableOpacity onPress={() => navigation.push('Registration')} style={[s`rounded p-2  items-center`, { paddingHorizontal: Dimensions.get('window').height < 804 ? 16 : 20, backgroundColor: '#313594', elevation: 10, width: '100%' }]}>
+                  <Text style={[s`font-bold italic`, { color: 'white', fontSize: Dimensions.get('window').height < 804 ? 12 : 16 }]}>
+                    Registration
+                  </Text>
+                </TouchableOpacity>
+
+              </View>
+              </Animated.View>
+
+            {/* <Button
                 title="Registration"
                 color="skyblue"
                 accessibilityLabel="Learn more about this purple button"
                 onPress={() => navigation.push('Registration')}
-              />
-            </View>
+              /> */}
             {/* {errorMsg ? <Text style={styles.errorMsg}>{errorMsg}</Text> : null} */}
 
           </View>
 
         </View>
 
-        <View style={styles.Footer}>
+        <View>
 
-          <Image source={FooterImg} />
+          <Footer />
 
         </View>
 
@@ -308,10 +341,10 @@ const styles = StyleSheet.create({
       width: 10,
       height: 50,
     },
-    padding: Dimensions.get("window").height <= 592 ? 0 : 3,
+    padding: Dimensions.get("window").height <= 804 ? 0 : 6,
     shadowOpacity: 1,
     elevation: 15,
-    width: Dimensions.get("window").width <= 592 ? "80%" : "60%"
+    width: Dimensions.get("window").height <= 804 ? "80%" : "80%"
   },
   Credentials: {
     color: 'black',
@@ -372,4 +405,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
+
 });

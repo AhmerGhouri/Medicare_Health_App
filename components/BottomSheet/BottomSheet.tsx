@@ -1,47 +1,24 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import BottomSheet from '@gorhom/bottom-sheet';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { s } from 'react-native-wind';
 
-const BottomSheetComponent = () => {
-  // ref
-  const bottomSheetRef = useRef<BottomSheet>(null);
+const BottomSheetComponent = ({ testID }) => {
 
-  // variables
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
-
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
-
-  // renders
   return (
 
-    <View style={styles.container}>
-        <GestureHandlerRootView>
-
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={1}
-        snapPoints={snapPoints}
-        onChange={handleSheetChanges}
-        >
-        <View style={styles.contentContainer}>
-          <Text>Awesome 🎉</Text>
-        </View>
-      </BottomSheet>
-          </GestureHandlerRootView>
+    <View style={styles.contentContainer}>
+      <View style={s`flex-row justify-between w-full p-4`}>
+        <Text style={s`text-white italic`}>{testID?.ltesT_ID} </Text>
+        <Text style={s`text-white font-bold `}>Rs. {testID?.amt}</Text>
+      </View>
+      <Text style={s`text-black text-lg font-bold italic text-white`}>{testID?.ltesT_DESC}</Text>
+      <Text style={s`text-white`}>{testID?.tesT_DESCRIPTION} 🎉</Text>
     </View>
+
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: 'grey',
-  },
   contentContainer: {
     flex: 1,
     alignItems: 'center',

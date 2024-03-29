@@ -1,16 +1,15 @@
 import 'react-native-gesture-handler'
-import { StatusBar, Button } from 'react-native';
+import { StatusBar } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MyTabs from './Navigator/Navigator';
+// import MyTabs, { HistoryScreen } from './Navigator/Navigator';
+import StatusScreen from './Screens/StatusScreen';
 import SplashScreen from 'react-native-splash-screen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoginScreen from './Screens/LoginScreen';
 import { AuthProvider, useAuth } from './components/authContext/AuthContext';
 import LabScreen from './Screens/LabScreen';
-import { useBottomSheetModal } from '@gorhom/bottom-sheet';
-import BottomSheet from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet';
 import ElevatedCards from './components/Animation/LogoAnimation';
 import HeaderBtn from './components/HeaderBtn/HeaderBtn';
 import Registration from './Screens/Registration';
@@ -23,13 +22,15 @@ import CartBtn from './components/CartBtn/CartBtn';
 import CartScreen from './Screens/CartScreen';
 import LogoTitle from './components/LogoTitle/LogoTitle';
 import { useAppSelector } from './app/hooks/hooks';
+import ClearAllBtn from './components/ClearAllBtn/ClearAllBtn';
+import CurvedBottomTab from './Navigator/CurvedBottomTab';
 
 
 
 
 // function Home() {
 
-//   const Tab = createBottomTabNavigator()
+//   const Tab = createBottomTabNavigator<RootStackParamList>()
 
 //   return(
 
@@ -46,7 +47,13 @@ import { useAppSelector } from './app/hooks/hooks';
 export type RootStackParamList = {
   HomeScreen: {
     user: userData,
-  };
+  } ,
+  MyTabs :{
+    user : userData
+  },
+  CurvedBottomTab : {
+    user : userData
+  },
   Login: any,
   Registration: any;
   Loading: any;
@@ -57,7 +64,10 @@ export type RootStackParamList = {
   // CartScreen : {
   //   opatValues : opatValuesType
   // }
-  CartScreen: any
+  CartScreen: any,
+  StatusScreen : any,
+  TabCartScreen : any,
+  HistoryScreen : any,
 };
 
 
@@ -102,6 +112,7 @@ export const Layout = () => {
 
   const { authState } = useAuth()
   const [headerTitle, setHeaderTitle] = useState<string>('')
+  const { cartItem } = useAppSelector(state => state.cart);
 
   const code = useAppSelector(state => state.code)
 
@@ -141,8 +152,8 @@ export const Layout = () => {
             // options={{
             //   headerRight: ()=><Button title='SignOut' onPress={onLogout} color='red'/>
             // }}
-            name="HomeScreen"
-            component={HomeScreen}
+            name="CurvedBottomTab"
+            component={CurvedBottomTab}
             initialParams={{ user: authState.user }}
           />
 
@@ -159,9 +170,11 @@ export const Layout = () => {
           options={({ navigation, route }) => ({
             // headerTitle: "Request Lab Test",
             headerShown: true,
-            headerStyle : {backgroundColor : '#b4bcff'},
+            animation: 'slide_from_right',
+            headerTintColor :  'white',
+            headerStyle : {backgroundColor : '#fb4d4d'},
             headerTitleAlign : 'center',
-            headerTitle: (props) => <LogoTitle {...props} tintColor={'red'} title={headerTitle} />,
+            headerTitle: (props) => <LogoTitle {...props} tintColor={'white'} title={headerTitle} />,
             // Add a placeholder button without the `onPress` to avoid flicker
             headerRight: () => (
               <CartBtn />
@@ -178,18 +191,27 @@ export const Layout = () => {
           headerShadowVisible: true,
           headerBlurEffect: 'extraLight',
           headerTransparent: true,
-          headerTintColor: 'black',
+          headerTintColor: 'white',
           headerTitleAlign: 'center',
           statusBarAnimation: 'slide',
-          statusBarStyle: 'dark',
+          statusBarStyle: 'light',
           contentStyle: {
             borderCurve: 'circular',
             borderBottomEndRadius: 20,
             borderBottomStartRadius: 20,
-            borderColor: 'red'
+            borderColor: 'red',
+            
           },
+          headerRight: () => {
+            return(cartItem.length > 0 ? <ClearAllBtn />  : null)
+          },
+          headerTitleStyle : {
+            fontFamily:'Quicksand-Bold',
+            color : 'white'
+          } ,
           headerStyle: {
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
+            backgroundColor: '#fb4d4d',
+            
           }
         }} name='CartScreen' component={CartScreen} />
 
@@ -228,6 +250,14 @@ export const Layout = () => {
           headerTransparent: true,
           headerTintColor: 'white'
         }} name='MRScreen' component={MRCreateScreen} />
+        
+        
+        <Stack.Screen options={{
+          headerShown: true,
+          title: '',
+          headerTransparent: true,
+          headerTintColor: 'white'
+        }} name='StatusScreen' component={StatusScreen} />
 
         {/* <Stack.Screen name='Lab Test Request' component={LabScreen} /> */}
 

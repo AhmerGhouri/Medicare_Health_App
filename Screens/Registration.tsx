@@ -35,15 +35,18 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
+import Animated, { BounceInDown, FadeOut, ZoomIn } from 'react-native-reanimated';
 
 
 
-type RegistrationProps = NativeStackScreenProps<RootStackParamList , "Registration">
+type RegistrationProps = NativeStackScreenProps<RootStackParamList, "Registration">
 
 
 
 
-export default function Registraion({ navigation } : RegistrationProps ) {
+export default function Registraion({ navigation }: RegistrationProps) {
 
   // const navi = useNavigation<NativeStackScreenProps<RootStackParamList>>
 
@@ -52,13 +55,13 @@ export default function Registraion({ navigation } : RegistrationProps ) {
   const [fullName, setFullName] = useState<string>()
   const [fatherName, setFatherName] = useState<string>()
   const [email, setEmail] = useState<string>()
-  const { onLogin, onRegister } = useAuth();
-  const [openPicker, setOpenPicker] = useState<boolean>(false);
+  const { onRegister } = useAuth();
   const [title, setTitle] = useState<string>();
-  const [visible, setVisible] = useState<boolean>(false);
   const [date, setDate] = useState(new Date());
   const [selectedId, setSelectedId] = useState<string | undefined>();
   let formattedDate = date.getDate() + '-' + date.toLocaleString("en-US", { month: 'short' }) + '-' + date.getFullYear();
+  const currentDate = new Date()
+  let currentDateformat = currentDate.getDate() + '-' + currentDate.toLocaleString("en-US", { month: 'short' }) + '-' + currentDate.getFullYear();
   const [titleMrMs, setTitleMrMs] = useState<titleMrMs[]>(titleMrMsData);
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
@@ -71,13 +74,10 @@ export default function Registraion({ navigation } : RegistrationProps ) {
     father_name: "Father Name is Required",
     gender: "Gender is Required",
     dateOfBirth: "Date Of Birth is Required"
-
   });
   const [numError, setNumError] = useState<string>()
   const [disableFields, setDisableFields] = useState(true)
   const [dateOfBirth, setDateOfBirth] = useState()
-  const currentDate = new Date()
-  let currentDateformat = currentDate.getDate() + '-' + currentDate.toLocaleString("en-US", { month: 'short' }) + '-' + currentDate.getFullYear();
   const radioButtons: RadioButtonProps[] = useMemo(() => ([
     {
       id: 'M', // acts as primary key, should be unique and non-empty string
@@ -101,9 +101,6 @@ export default function Registraion({ navigation } : RegistrationProps ) {
     // let cancelToken;
     // cancelToken = axios.CancelToken.source()
 
-    console.log("User Reg Data Mobile", mobileNo);
-
-
     if (mobileNo?.trim() === '') {
       setError(true)
       setNumError("Mobile Number is Required")
@@ -120,39 +117,23 @@ export default function Registraion({ navigation } : RegistrationProps ) {
 
     }
 
-
     try {
 
       function getUserFromOPAT() {
         return axios.get(OPAT_API);
       }
-
       function getUserFromREG() {
         return axios.get(REG_API);
       }
-
-      // const [acct, perm] = await Promise.all([getUserFromOPAT(), getUserFromREG()]);
-
-      // OR
-      // console.log("OPAT", acct.data);
-      // console.log("REG", perm.data);
-
-
       return Promise.all([getUserFromOPAT(), getUserFromREG()])
         .then(function ([opat, reg]) {
           // ...
           const opat_data = opat.data
           const reg_data = reg.data
 
-          console.log("acct", opat_data);
-          console.log("perm", reg_data);
-
           if (reg_data !== null) {
 
             // if (reg_data.length > 1) {
-
-            console.log("chalana paradha ga", reg_data.length);
-
 
             reg_data.map((reg_user) => {
 
@@ -165,14 +146,12 @@ export default function Registraion({ navigation } : RegistrationProps ) {
                     style: 'cancel',
                   }]
                 )
-
                 setFullName(reg_user.pname)
                 setFatherName(reg_user.fname)
                 setPassword(reg_user.password)
                 setSelectedId(reg_user.gender)
                 setDateOfBirth(reg_user.dob)
                 setDisableFields(false)
-
 
               } else {
 
@@ -184,22 +163,9 @@ export default function Registraion({ navigation } : RegistrationProps ) {
                 setSelectedId(reg_user.gender)
 
               }
-
-
             })
 
-
-            // }
-            // setDate(reg_data[0].dob)
-            // setFullName(opat_data[0].opaT_PNAME)
-            console.log("Full Nam", fullName);
-
-
           } if (opat_data !== null) {
-
-
-
-
             if (opat_data.length > 1) {
 
               const getItem = () => {
@@ -210,11 +176,6 @@ export default function Registraion({ navigation } : RegistrationProps ) {
               };
 
               const res = getItem()
-
-              console.log("GET ITEM PASS", res);
-
-              console.log("chalana paradha ga", opat_data.length);
-              // opat_data.map((opat_user) => {
 
               if (res) {
 
@@ -229,7 +190,6 @@ export default function Registraion({ navigation } : RegistrationProps ) {
                 setFullName(opat_data[0].opaT_PNAME)
                 setPassword(opat_data[0].weB_PASSWORD)
                 setSelectedId(opat_data[0].opaT_SEX)
-                console.log("Full Nam", fullName);
 
 
               } else {
@@ -249,10 +209,7 @@ export default function Registraion({ navigation } : RegistrationProps ) {
 
 
             }
-
-
           }
-
 
         })
         .catch(
@@ -268,29 +225,17 @@ export default function Registraion({ navigation } : RegistrationProps ) {
 
   }
 
-
-
   const disableForEmpty = () => {
 
     return mobileNo === '' || fullName === '' || fatherName === '' || weB_PASSWORD === '' || selectedId === '' || formattedDate === currentDateformat || error
 
   }
 
-
   const isButtonDisable = () => {
 
     return mobileNo === undefined || fullName === undefined || fatherName === undefined || weB_PASSWORD === undefined || selectedId === undefined || formattedDate === currentDateformat || error
 
   }
-
-  console.log("mobile", mobileNo);
-  console.log("fullName", fullName);
-  console.log("fatherName", fatherName);
-  console.log("weB_PASSWORD", weB_PASSWORD);
-  console.log("selectedId", selectedId);
-  console.log(" date_format", formattedDate);
-  console.log("Type date_format", typeof formattedDate);
-
 
   const Register = async () => {
 
@@ -543,7 +488,6 @@ export default function Registraion({ navigation } : RegistrationProps ) {
 
   };
 
-
   const handleRegister = () => {
 
 
@@ -553,275 +497,270 @@ export default function Registraion({ navigation } : RegistrationProps ) {
 
   }
 
-  // const onDismissSnackBar = () => setVisible(false);
+  const setDateError = (date) => {
+
+    setDate(date)
+
+    formattedDate === currentDateformat ? setErrors({ ...errors, dateOfBirthtype: true })
+      :
+      setErrors({ ...errors, dateOfBirthtype: false })
+
+    setOpen(false)
+
+    console.log('confirm', errors?.dateOfBirthtype);
 
 
+  }
 
   return (
 
-    // <KeyboardAwareScrollView >
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+      scrollEnabled={Dimensions.get('window').height < 804 ? true : false}>
+      <View style={[styles.ScreenContainer, {flexDirection: 'column'}]}>
+        <GestureHandlerRootView style={s`flex-1`}>
 
+          <View>
+            <Header />
+          </View>
 
-    <View
-      style={[
+          <View style={styles.Registration as StyleProp<ViewStyle>}>
 
-        styles.ScreenContainer,
+            {/* Registration Heading */}
+            <View style={s`my-6 w-full items-center`}>
+              <Animated.View style={s`flex`} entering={ZoomIn.duration(1600)} exiting={FadeOut} >
+                <Text style={s`font-bold text-2xl tracking-wider text-blue-800 italic`}>Registration</Text>
+              </Animated.View>
+            </View>
 
-        {
+            <View style={styles.InputBox}>
 
-          flexDirection: 'column',
+              {/* Mobile No Input Field */}
+              <Animated.View style={s`flex`} entering={BounceInDown.duration(1000)} exiting={FadeOut} >
+                <View style={s`flex w-full justify-center`}>
 
-        },
+                  <View style={[s`flex z-0 flex-row rounded-md  p-0 border-blue-300 justify-around items-center`, styles.InputViewNum, error ? { borderColor: 'red' } : { borderColor: 'skyblue' }]}>
 
-      ]}
-    >
+                    <View style={[s`items-center`, { width: '30%' }]}>
+                      <Icon name='phone' color={'grey'} />
+                    </View>
+                    <View style={[s`items-left`, { width: '60%' }]}>
+                      <TextInput
+                        placeholder='Enter Your Mobile No'
+                        keyboardType='numeric'
+                        // style={s`text-left`}
+                        placeholderTextColor={'gray'}
+                        style={s`text-black`}
+                        testID="MobileNo"
+                        maxLength={11}
+                        onBlur={() => {
+                          userRegData()
+                          // mobileNo !== '' ? setErrors({ ...errors, mobiletype: false }) : setErrors({ ...errors, mobiletype: true })
+                        }}
+                        onChangeText={(text: string) => setMobileNo(text)}
+                        value={mobileNo!}
+                        returnKeyType='done'
+                      />
+                    </View>
 
-      <GestureHandlerRootView style={s`flex-1`}>
+                  </View>
 
-        <View style={styles.Header}>
+                </View>
+              </Animated.View>
+              {error ? <Text style={s`text-red-600 text-sm`}>{numError}</Text> : ''}
 
-          <Image source={HeaderImg} />
+              {/*  Full Name Input Field */}
+              <Animated.View style={s`flex`} entering={BounceInDown.duration(1200)} exiting={FadeOut} >
+                <View style={[s`flex z-0 flex-row rounded-md  border-blue-300 p-0 justify-around items-center`, styles.InputView]}>
 
-        </View>
+                  <View style={[s`items-center`, { width: '30%' }]}>
+                    <Icon name='address-card' color={'grey'} />
+                  </View>
 
+                  <View style={[s`items-left`, { width: '60%' }]}>
+                    <TextInput
+                      placeholder='Enter Your Full Name'
+                      testID="FullName"
+                      placeholderTextColor={'gray'}
+                      style={s`text-black`}
+                      onBlur={() => fullName === '' ? setErrors({ ...errors, nametype: true }) : setErrors({ nametype: false })}
+                      keyboardType='name-phone-pad'
+                      onChangeText={(text: string) => setFullName(text)}
+                      editable={disableFields}
+                      value={fullName}
+                    />
+                  </View>
 
-        {/* <ScrollView scrollEnabled={false} style={s`flex-1 h-full`}> */}
+                </View>
+              </Animated.View>
+              {errors?.nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.name}</Text> : null}
 
-        <View style={styles.Registration as StyleProp<ViewStyle>}>
+              {/* Father Name Input Field */}
+              <Animated.View style={s`flex`} entering={BounceInDown.duration(1400)} exiting={FadeOut} >
+                <View style={[s`flex z-0 flex-row rounded-md  border-blue-300 p-0 justify-around items-center`, styles.InputView]}>
 
-          {/* Registration Heading */}
-          <View style={s`my-6 w-full items-center`}>
+                  <View style={[s`items-center`, { width: '30%' }]}>
+                    <Material name='human-male-child' color={'grey'} />
+                  </View>
+                  <View style={[s`items-left`, { width: '60%' }]}>
+                    <TextInput
+                      placeholder='Enter Your Father Name'
+                      keyboardType='default'
+                      testID="FatherName"
+                      placeholderTextColor={'gray'}
+                      style={s`text-black`}
+                      onBlur={() => fatherName !== '' ? setErrors({ ...errors, father_nametype: false }) : setErrors({ father_nametype: true })}
+                      onChangeText={(text: string) => setFatherName(text)}
+                      editable={disableFields}
+                      value={fatherName}
+                    />
+                  </View>
+                </View>
+              </Animated.View>
+              {errors?.father_nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.father_name}</Text> : null}
 
-            <Text style={s`font-bold text-2xl tracking-wider text-blue-800 italic`}>Registration</Text>
-            {/* <Image source={Logo} 
-                            width={20} height={20} /> */}
+              {/* Password Input Field */}
+              <Animated.View style={s`flex`} entering={BounceInDown.duration(1600)} exiting={FadeOut} >
+                <View style={[s`flex z-0 flex-row rounded-md  border-blue-300 p-0 justify-around items-center`, styles.InputView]}>
+
+                  <View style={[s`items-center`, { width: '30%' }]}>
+                    <Entypo name='lock' color={'grey'} />
+                  </View>
+                  <View style={[s`items-left`, { width: '60%' }]}>
+                    <TextInput
+                      placeholder='Enter Your Password'
+                      keyboardType='default'
+                      testID='Password'
+                      placeholderTextColor={'gray'}
+                      style={s`text-black`}
+                      secureTextEntry={true}
+                      // onBlur={() => weB_PASSWORD !== '' ? setErrors({ ...errors, passwordtype: false }) : setErrors({ passwordtype: true })}
+                      editable={disableFields}
+                      onChangeText={(text: string) => setPassword(text)}
+                      value={weB_PASSWORD}
+                    />
+                  </View>
+
+                </View>
+              </Animated.View>
+              {errors?.passwordtype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.password}</Text> : null}
+
+              {/* Gender Radio Buttons*/}
+              <Animated.View style={s`flex`} entering={BounceInDown.duration(1800)} exiting={FadeOut} >
+                <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md  border-blue-300 p-0 justify-around items-center`, styles.InputView]}>
+
+                  <View style={[s`items-center`, { width: '30%' }]}>
+                    <Icon name='restroom' color={'grey'} />
+                  </View>
+
+                  <View style={[s`items-left`, { width: '60%' }]}>
+                    <TouchableOpacity
+                      style={s`flex-column text-black`}
+                      disabled={disableFields ? false : true}
+                      onBlur={() => selectedId !== '' ? setErrors({ ...errors, gendertype: false }) : setErrors({ gendertype: true })}
+                    >
+
+                      <RadioGroup
+                        containerStyle={{
+                          flexDirection: 'row',
+                          borderColor: 'lightblue',
+                          height: 40,
+                        }}
+                        accessibilityLabel='blue'
+                        radioButtons={radioButtons}
+                        // editable={disableFields}
+                        onPress={setSelectedId}
+                        testID='Radio'
+                        selectedId={selectedId}
+
+                      />
+
+                    </TouchableOpacity>
+                  </View>
+
+                </View>
+              </Animated.View>
+              {errors?.gendertype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.gender}</Text> : null}
+
+              {/* Date Of Birth Date Picker */}
+              <Animated.View style={s`flex`} entering={BounceInDown.duration(1000)} exiting={FadeOut} >
+                <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`z-0 flex-row rounded-md border-blue-300 p-0 justify-between items-center`, styles.InputViewDOB]}>
+
+                  <View style={[s`flex-row justify-around items-center`, { width: '30%' }]}>
+                    <Icon name='calendar-day' color={'grey'} />
+                    <Text style={s`text-grey-100`}>D.O.B</Text>
+                  </View>
+
+                  <TouchableOpacity style={[s`flex-row `, { width: '85%' }]} onPress={() => setOpen(true)}>
+                    <View style={[s`justify-right items-center `, { width: '75%' }]}>
+                      <TextInput
+                        placeholderTextColor={'gray'}
+                        style={s`text-black`}
+                        value={dateOfBirth || formattedDate} />
+                    </View>
+
+                    <View style={[s` justify-center items-center`, { width: '30%' }]}>
+                      <Icon name='calendar' color={'grey'} />
+                      <DatePicker
+                        open={open}
+                        modal
+                        textColor='red'
+                        date={date} mode='date'
+                        testID='dob'
+                        onDateChange={setDate}
+                        onConfirm={(date) => {
+                          setDateError(date)
+                        }}
+                        onCancel={() => setOpen(false)}
+                      />
+
+                    </View>
+                  </TouchableOpacity>
+
+                </View>
+                {/* {errors?.dateOfBirthtype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.dateOfBirth}</Text> : null} */}
+              </Animated.View>
+            </View>
+
+            {/* Registration Button */}
+            <View style={s`w-full justify-center items-center`}>
+
+              {/* If loading is true  show a spinner instead of the button */}
+              <Animated.View style={s`flex`} entering={BounceInDown.duration(1600)} exiting={FadeOut} >
+                {loading ?
+                  (
+                    <View style={s`bg-red-600 px-4 mt-8 w-36`}>
+                      <ActivityIndicator size="large" color="#00ff00" />
+                    </View>
+                  )
+                  :
+                  (
+                    <View style={s`w-36 mt-8`}>
+                      <TouchableOpacity
+                        disabled={isButtonDisable() || disableForEmpty()}
+                        onPress={handleRegister}
+                        style={[s`rounded p-2  items-center`,
+                        { paddingHorizontal: Dimensions.get('window').height < 804 ? 16 : 20, backgroundColor: isButtonDisable() || disableForEmpty() ? 'lightgray' : '#313594', elevation: 10, width: '100%' }]}>
+                        <Text style={[s`font-bold italic`, { color: 'white', fontSize: Dimensions.get('window').height < 804 ? 12 : 16 }]}>
+                          Register
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )
+                }
+              </Animated.View>
+
+            </View>
 
           </View>
 
-          <View style={styles.InputBox}>
-
-            {/* Mobile No Input Field */}
-            <View style={s`flex-row w-full justify-center`}>
-
-              <View style={[s`flex z-0 flex-row rounded-md border-2 p-1 border-blue-300 justify-around items-center`, styles.InputViewNum, error ? { borderColor: 'red' } : { borderColor: 'skyblue' }]}>
-
-                <View style={[s`items-center`, { width: '30%' }]}>
-                  <Icon name='phone' color={'grey'} />
-                </View>
-                <View style={[s`items-left`, { width: '60%' }]}>
-                  <TextInput
-                    placeholder='Enter Your Mobile No'
-                    keyboardType='numeric'
-                    // style={s`text-left`}
-                    placeholderTextColor={'gray'}
-                    style={s`text-black`}
-                    testID="MobileNo"
-                    maxLength={11}
-                    onBlur={() => {
-                      userRegData()
-                      // mobileNo !== '' ? setErrors({ ...errors, mobiletype: false }) : setErrors({ ...errors, mobiletype: true })
-                    }}
-                    onChangeText={(text: string) => setMobileNo(text)}
-                    value={mobileNo!}
-                    returnKeyType='done'
-                  />
-                </View>
-
-              </View>
-
-            </View>
-            {error ? <Text style={s`text-red-600 text-sm`}>{numError}</Text> : ''}
- 
-            {/*  Full Name Input Field */}
-            <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
-
-              <View style={[s`items-center`, { width: '30%' }]}>
-                <Icon name='address-card' color={'grey'} />
-              </View>
-
-              <View style={[s`items-left`, { width: '60%' }]}>
-                <TextInput
-                  placeholder='Enter Your Full Name'
-                  testID="FullName"
-                  placeholderTextColor={'gray'}
-                  style={s`text-black`}
-                  onBlur={() => fullName === '' ? setErrors({ ...errors, nametype: true }) : setErrors({ nametype: false })}
-                  keyboardType='name-phone-pad'
-                  onChangeText={(text: string) => setFullName(text)}
-                  editable={disableFields}
-                  value={fullName}
-                />
-              </View>
-
-            </View>
-            {errors?.nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.name}</Text> : null}
-
-            {/* Father Name Input Field */}
-            <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
-
-              <View style={[s`items-center`, { width: '30%' }]}>
-                <Material name='human-male-child' color={'grey'} />
-              </View>
-              <View style={[s`items-left`, { width: '60%' }]}>
-                <TextInput
-                  placeholder='Enter Your Father Name'
-                  keyboardType='default'
-                  testID="FatherName"
-                  placeholderTextColor={'gray'}
-                  style={s`text-black`}
-                  onBlur={() => fatherName !== '' ? setErrors({ ...errors, father_nametype: false }) : setErrors({ father_nametype: true })}
-                  onChangeText={(text: string) => setFatherName(text)}
-                  editable={disableFields}
-                  value={fatherName}
-                />
-              </View>
-            </View>
-            {errors?.father_nametype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.father_name}</Text> : null}
-
-            {/* Password Input Field */}
-            <View style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-around items-center`, styles.InputView]}>
-
-              <View style={[s`items-center`, { width: '30%' }]}>
-                <Entypo name='lock' color={'grey'} />
-              </View>
-              <View style={[s`items-left`, { width: '60%' }]}>
-                <TextInput
-                  placeholder='Enter Your Password'
-                  keyboardType='default'
-                  testID='Password'
-                  placeholderTextColor={'gray'}
-                  style={s`text-black`}
-                  secureTextEntry={true}
-                  // onBlur={() => weB_PASSWORD !== '' ? setErrors({ ...errors, passwordtype: false }) : setErrors({ passwordtype: true })}
-                  editable={disableFields}
-                  onChangeText={(text: string) => setPassword(text)}
-                  value={weB_PASSWORD}
-                />
-              </View>
-
-            </View>
-            {errors?.passwordtype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.password}</Text> : null}
-
-            {/* Gender Radio Buttons*/}
-            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-2 justify-around items-center`, styles.InputView]}>
-
-              <View style={[s`items-center`, { width: '30%' }]}>
-                <Icon name='restroom' color={'grey'} />
-              </View>
-
-              <View style={[s`items-left`, { width: '60%' }]}>
-                <TouchableOpacity
-                  style={s`flex-column`}
-                  disabled={disableFields ? false : true}
-                  onBlur={() => selectedId !== '' ? setErrors({ ...errors, gendertype: false }) : setErrors({ gendertype: true })}
-                >
-
-                  <RadioGroup
-                    containerStyle={{
-                      flexDirection: 'row',
-                      borderColor: 'lightblue',
-                      
-                    }}
-                    accessibilityLabel='blue'
-                    radioButtons={radioButtons}
-                    // editable={disableFields}
-                    onPress={setSelectedId}
-                    testID='Radio'
-                    selectedId={selectedId}
-
-                  />
-
-                </TouchableOpacity>
-              </View>
-
-            </View>
-            {errors?.gendertype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.gender}</Text> : null}
-
-            {/* Date Of Birth Date Picker */}
-            <View pointerEvents={disableFields ? 'auto' : 'none'} style={[s`flex z-0 flex-row rounded-md border-2 border-blue-300 p-1 justify-between items-center`, styles.InputView]}>
-
-
-              <View style={[s`flex-row justify-around items-center `, { width: '25%' }]}>
-                <Icon name='calendar-day' color={'grey'} />
-                <Text style={s`text-grey-100`}>D.O.B</Text>
-              </View>
-  
-              <TouchableOpacity style={[s`flex-row`, { width: '85%' }]} onPress={() => setOpen(true)}>
-                <View style={[s`justify-right items-center pl-10`, { width: '80%' }]}>
-                  <TextInput 
-                    placeholderTextColor={'gray'}
-                    style={s`text-black`}
-                    value={dateOfBirth || formattedDate} />
-                </View>
-              </TouchableOpacity>
-
-              <View style={[s` justify-center items-left`, { width: '30%' }]}>
-                <Icon name='calendar' color={'grey'} />
-                <DatePicker
-                  open={open}
-                  modal
-                  textColor='red'
-                  date={date} mode='date'
-                  testID='dob'
-                  onDateChange={setDate}
-                  // editable={disableFields}
-                  onConfirm={(date) => {
-                    setOpen(false)
-                    setDate(date)
-                    // setErrors({ ...errors, dateOfBirthtype: false })
-                    formattedDate === currentDateformat ? setErrors({ ...errors, dateOfBirthtype: true }) : setErrors({ ...errors, dateOfBirthtype: false })
-                  }}
-                  onCancel={() => setOpen(false)}
-                />
-
-              </View>
-
-            </View>
-            {errors?.dateOfBirthtype ? <Text style={s`text-red-600 text-sm`}>{errorMsg!.dateOfBirth}</Text> : null}
-
+          <View>
+            <Footer />
           </View>
 
-          {/* Registration Button */}
-          <View style={s`w-full justify-center items-center`}>
-            
-            {/* If loading is true  show a spinner instead of the button */}
-            {loading ? 
-              (
-              <View style={s`bg-red-600 px-4 mt-8 w-36`}>
-                <ActivityIndicator size="large" color="#00ff00" />
-              </View>
-              ) 
-              : 
-              (
-
-              <View style={s`w-36 mt-8`}>
-                <Button
-                  title="Register"
-                  color="skyblue"
-                  accessibilityLabel="Learn more about this purple button"
-                  onPress={handleRegister}
-                  disabled={isButtonDisable() || disableForEmpty()}
-                />
-              </View>
-
-              )
-            }
-
-          </View>
-
-        </View>
-
-
-        {/* </ScrollView> */}
-        <View style={styles.Footer}>
-
-          <Image source={FooterImg} />
-
-        </View>
-
-      </GestureHandlerRootView>
-    </View>
-    //  </KeyboardAwareScrollView> 
+        </GestureHandlerRootView>
+      </View>
+    </KeyboardAwareScrollView>
 
   );
 }
@@ -833,23 +772,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
 
   },
-
   Header: {
-    //   flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height / 8,
+    justifyContent: "flex-start"
   },
-
   Registration: {
-
     color: 'black',
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    gap: 28,
-
+    // gap: 28,
   },
-
   InputView: {
-
     shadowColor: 'black',
     backgroundColor: 'white',
     shadowRadius: 50,
@@ -859,11 +794,9 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     elevation: 15,
-    width: Dimensions.get('screen').width <= 600 ? "80%" : "50%",
-
+    width: Dimensions.get('screen').width <= 600 ? "85%" : "50%",
   },
   InputViewNum: {
-
     shadowColor: 'black',
     backgroundColor: 'white',
     shadowRadius: 50,
@@ -873,8 +806,19 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 1,
     elevation: 15,
-    width: Dimensions.get('screen').width <= 600 ? "80%" : "50%",
-
+    width: Dimensions.get('screen').width <= 600 ? "85%" : "50%",
+  },
+  InputViewDOB: {
+    shadowColor: 'black',
+    backgroundColor: 'white',
+    shadowRadius: 50,
+    shadowOffset: {
+      width: 10,
+      height: 50,
+    },
+    shadowOpacity: 1,
+    elevation: 15,
+    width: Dimensions.get('screen').width <= 600 ? "74%" : "50%",
   },
   // InputViewMr : {
 
@@ -890,21 +834,16 @@ const styles = StyleSheet.create({
   //     elevation : 15
 
   // },
-
   InputBox: {
-
     gap: 14,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     width: '100%',
     alignItems: 'center'
-
   },
-
   input: {
     borderWidth: 1,
     width: 250,
   },
-
   Footer: {
 
     alignItems: 'flex-end',

@@ -2,21 +2,19 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   SafeAreaView,
   FlatList,
   Alert,
   LogBox,
   ScrollView,
   Dimensions,
+  Pressable,
 } from 'react-native';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import { s } from 'react-native-wind';
-import { modalService, servicesData } from '../../constants'
+import { servicesData } from '../../constants'
 import axios from 'axios';
-import { ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import { useAppDispatch } from '../../app/hooks/hooks';
 import { addSerShortCodeToStore } from '../../app/slices/serviceSlice';
@@ -24,10 +22,7 @@ import { addSerShortCodeToStore } from '../../app/slices/serviceSlice';
 
 
 
-
-
-
-export default function Services({ screenName, mob, bottomSheetRef, handleSetBottomSheetData }: any) {
+export default function Services({ mob, bottomSheetRef, handleSetBottomSheetData }: any) {
 
 
   const [showModal, setShowModal] = useState(false);
@@ -82,16 +77,11 @@ export default function Services({ screenName, mob, bottomSheetRef, handleSetBot
   }, [])
 
   useEffect(() => {
-
     bottomSheetRef.current?.forceClose()
     LogBox.ignoreLogs(["`flexWrap: `wrap`` is not supported with the `VirtualizedList` components.Consider using `numColumns` with `FlatList` instead."])
-
   }, [])
 
   const handleServicePress = async (service) => {
-
-    console.log("service", service);
-
     switch (service.servicE_DESC) {
       case 'Nursing Services':
         dispatch(addSerShortCodeToStore('ER'))
@@ -105,11 +95,9 @@ export default function Services({ screenName, mob, bottomSheetRef, handleSetBot
       case 'Physiotherapy':
         dispatch(addSerShortCodeToStore('PO'))
         break;
-
       default:
         break;
     }
-
     const userOpatData = await opat_data()
     if (userOpatData && service.avaiL_MOBILEAPP === 'YES') {
       bottomSheetRef.current?.snapToIndex(2)
@@ -123,24 +111,15 @@ export default function Services({ screenName, mob, bottomSheetRef, handleSetBot
 
   // Fetching Data From API
   useEffect(() => {
-
     setLoading(true)
     fetchServices(baseURL)
-
   }, [])
 
-  // if (isLoading) {
-  //   return (
-  //     <ActivityIndicator size={50} color={'red'} />
-  //   )
-  // }
-
-  useEffect(() => {
-
-    if (isLoading) {
-      {
-        services!.map((item) => {
-
+  if (isLoading) {
+    // return <ActivityIndicator size={50} color={'red'} />
+    return (
+      <>
+        <View style={s`flex-row flex-wrap justify-center`}>
           <View
             style={[
               s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
@@ -154,24 +133,111 @@ export default function Services({ screenName, mob, bottomSheetRef, handleSetBot
               </SkeletonPlaceholder.Item>
             </SkeletonPlaceholder>
           </View>
+          <View
+            style={[
+              s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+              styles.box,
+            ]}>
+            <SkeletonPlaceholder borderRadius={4}>
+              <SkeletonPlaceholder.Item flexDirection="column" justifyContent='space-around'
+                gap={20} alignItems="center">
+                <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder>
+          </View>
+          <View
+            style={[
+              s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+              styles.box,
+            ]}>
+            <SkeletonPlaceholder borderRadius={4}>
+              <SkeletonPlaceholder.Item flexDirection="column" justifyContent='space-around'
+                gap={20} alignItems="center">
+                <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder>
+          </View>
+          <View
+            style={[
+              s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+              styles.box,
+            ]}>
+            <SkeletonPlaceholder borderRadius={4}>
+              <SkeletonPlaceholder.Item flexDirection="column" justifyContent='space-around'
+                gap={20} alignItems="center">
+                <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder>
+          </View>
+          <View
+            style={[
+              s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+              styles.box,
+            ]}>
+            <SkeletonPlaceholder borderRadius={4}>
+              <SkeletonPlaceholder.Item flexDirection="column" justifyContent='space-around'
+                gap={20} alignItems="center">
+                <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder>
+          </View>
+          <View
+            style={[
+              s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+              styles.box,
+            ]}>
+            <SkeletonPlaceholder borderRadius={4}>
+              <SkeletonPlaceholder.Item flexDirection="column" justifyContent='space-around'
+                gap={20} alignItems="center">
+                <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
+              </SkeletonPlaceholder.Item>
+            </SkeletonPlaceholder>
+          </View>
+        </View>
+      </>
+    )
+  }
 
-        })
+  // useEffect(() => {
 
-      }
-    }
-  } , [])
+  //   if (isLoading) {
+  //     {
+  //       services!.map((item) => {
+
+  //         <View
+  //           style={[
+  //             s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+  //             styles.box,
+  //           ]}>
+  //           <SkeletonPlaceholder borderRadius={4}>
+  //             <SkeletonPlaceholder.Item flexDirection="column" justifyContent='space-around'
+  //               gap={20} alignItems="center">
+  //               <SkeletonPlaceholder.Item width={'70%'} height={30} />
+  //               <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
+  //             </SkeletonPlaceholder.Item>
+  //           </SkeletonPlaceholder>
+  //         </View>
+
+  //       })
+
+  //     }
+  //   }
+  // } , [])
 
   return (
 
     <ScrollView scrollEnabled={true}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ flexGrow: 0, flexShrink: 1 }}>
-
       <SafeAreaView>
         <View>
           <View>
             <View style={s`flex-row z-1 w-full flex-wrap py-2 pb-20 justify-center items-center `}>
-
               <FlatList
                 // numColumns={3}
                 data={services}
@@ -179,39 +245,25 @@ export default function Services({ screenName, mob, bottomSheetRef, handleSetBot
                 contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}
                 keyExtractor={item => item.servicE_ID.toString()}
                 renderItem={({ item }) => (
-
-                  <TouchableOpacity
-
+                  <Pressable
                     style={s`justify-center items-center`}
-                    activeOpacity={0.8}
+                    // activeOpacity={0.8}
                     key={item.servicE_ID}
                     onPress={() => {
                       handleServicePress(item)
                       setShowModal(true);
                     }}>
-
-
-
-                    <View
-                      style={[
-                        s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
-                        styles.box,
-                      ]}>
-                      <Icon name={item.icon} size={Dimensions.get('window').height <= 592 ? 25 : 30} color={'red'} />
-                      <Text style={[s`pt-2 text-blue-800 text-center font-bold`, { fontSize: Dimensions.get('window').height <= 592 ? 10 : 14 }]}>
+                    <View style={[s`shadow-2xl py-6 px-2 flex-column bg-white justify-center items-center rounded-3xl m-2`,
+                      styles.box]}>
+                      <Icon name={item.icon} size={Dimensions.get('window').height <= 704 ? 22 : 30} color={'red'} />
+                      <Text style={[s`pt-2 text-blue-800 text-center `, {fontSize: Dimensions.get('window').height <= 704 ? 10 : 14, fontFamily: 'Quicksand-Bold' }]}>
                         {item.servicE_DESC}
                       </Text>
                     </View>
-
-
-                  </TouchableOpacity>
-
-
+                  </Pressable>
                 )}
               />
-
               {error ? <Text style={styles.errorMsg}>{error}</Text> : null}
-
             </View>
           </View>
         </View>
@@ -230,7 +282,7 @@ const styles = StyleSheet.create({
   },
   box: {
     elevation: 5,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: 'red',
     shadowColor: '#000000',
     shadowOffset: {
@@ -239,8 +291,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 0,
-    width: Dimensions.get('window').height <= 592 ? 90 : 110,
-    height: Dimensions.get('window').height <= 592 ? 90 : 110
+    width: Dimensions.get('window').height <= 804 ? 88 : 110,
+    height: Dimensions.get('window').height <= 804 ? 95 : 110
     // width: Dimensions.get('window').height <= 592 ? '60%' : '70%',
     // height: Dimensions.get('window').height <= 592 ? '40%' : '60%'
   },

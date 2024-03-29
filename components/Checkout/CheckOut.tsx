@@ -21,19 +21,21 @@ const CheckOut = ({ handleClick }) => {
     const BILL_POST_API = 'https://local.jmc.edu.pk:82/api/WebReqServices/PostSelectServiceDataInBill'
     const MAX_TRANS_API = ' https://local.jmc.edu.pk:82/api/LabTest/GetMaxTransId'
     const PAYMENT_POST_API = 'https://local.sohailuniversity.edu.pk:90/Handlers/PaymnetAPICall.ashx'
+    const VOUCHER_API = 'https://local.jmc.edu.pk:82/api/PostDataInVoucherMasterDetail'
     // variables
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['100%'], []);
     const [totalAmount, setTotalAmount] = useState<number>()
     const [isLoading, setIsLoading] = useState<boolean>()
-    const [isModalVisible, setModalVisible] = useState(false);
+    const [CoLoading, setCoLoading] = useState<boolean>(false)
+    const [PoLoading, setPoLoading] = useState<boolean>(false)
+    const [isModalVisible, setModalVisible] = useState<boolean>(false);
     const [loader, setLoader] = useState<boolean>(true)
     const { cartItem } = useAppSelector(state => state.cart);
     const { ...patient } = useAppSelector(state => state.patient);
     const { ...user } = useAppSelector(state => state.user);
-    const [delLoading, setDelLoading] = useState(false)
+    const [collectionTime, setCollectionTime] = useState('')
 
-    console.log("cart ITEM", cartItem);
 
     const amount = cartItem.map((item) => {
         let billAmount = +item.amt!
@@ -145,7 +147,7 @@ const CheckOut = ({ handleClick }) => {
         }
     }
 
-    const toggleModal = async () => {
+    const Checkout = async () => {
         setIsLoading(true)
         setTimeout(async () => {
             setModalVisible(true)
@@ -165,13 +167,10 @@ const CheckOut = ({ handleClick }) => {
         setModalVisible(!isModalVisible)
     }
 
-    const handleSubmit = async () => {
-
-
+    const handleSubmit = async (voucherID) => {
         axios.post((PAYMENT_POST_API), {
-
             "app_id": "0000",
-            "Query": "select m.vc_mst_tran_id,w.entryid as app_id,w.patientlname as name,w.email,'0'||w.contactno as mobile,m.voucherid,d.VC_DTL_DTL_VOUCHER_AMT as adm_fees,TO_CHAR(SYSDATE,'YYYY-MON-DD') as coursevalid,c.api_app_id,c.api_app_key  from CONSL_APP_T_WEB w inner join stdc_jmdc_vc_mst_t m on m.vc_mst_rollno = w.entryid and m.vc_mst_catg_id = 'Consultation Fee'  inner join stdc_jmdc_vc_dtl_t d on d.voucherid = m.voucherid left join aass.GL_COMBINE_COMPANY c on c.mastercode = 'MED' where m.voucherid =  0000003424 order by 1 desc ",
+            "Query": `select m.vc_mst_tran_id,w.entryid as app_id,w.patientlname as name,w.email,'0'||w.contactno as mobile,m.voucherid,d.VC_DTL_DTL_VOUCHER_AMT as adm_fees,TO_CHAR(SYSDATE,'YYYY-MON-DD') as coursevalid,c.api_app_id,c.api_app_key  from CONSL_APP_T_WEB w inner join stdc_jmdc_vc_mst_t m on m.vc_mst_rollno = w.entryid and m.vc_mst_catg_id = 'Consultation Fee'  inner join stdc_jmdc_vc_dtl_t d on d.voucherid = m.voucherid left join aass.GL_COMBINE_COMPANY c on c.mastercode = 'MED' where m.voucherid = ${voucherID} order by 1 desc `,
             "FeeTYPECode": "CONSULTATIONFEE",
             "FeeDesc": "CONSULTATIONFEE",
             "AfterPaymentURL": "http://localhost:53744/frmOnlinePaymentStatusMCGH.aspx",
@@ -179,9 +178,6 @@ const CheckOut = ({ handleClick }) => {
             "SMS": "YES",
             "SMSReqType": "MyMedicareHealth",
             "SMSMask": "MEDICARE"
-
-
-
         }).then((res) => {
 
             const Status = res.status
@@ -189,134 +185,70 @@ const CheckOut = ({ handleClick }) => {
             const paymentURL = data.redirect_url
 
             if (Status === 200) {
-
-
                 Linking.openURL(paymentURL)
-
             } else {
-
                 Alert.alert("Connection Error", "Somthing went wrong, Check Your Internet Connection!")
-
             }
 
-
         }).catch((err) => {
-
-
             Alert.alert("Error", err);
-
-
-
         })
     }
 
     const handleModal = async (value) => {
 
-        setIsLoading(true)
         const trans = await GetMaxTransId()
         const transID = trans! + 1
-        const updatedObject = [...cartItem].map((item) => {
-            // Create a new object with updated `tranS_ID`
-            return {
-                ...item,
-                tranS_ID: transID.toString()
-            };
-        });
+        return new Promise<void>(async (resolve) => {
+            const response = await axios.post(VOUCHER_API, {
+                p_ENTRYID: transID.toString(),
+                p_ACCNO: "0010",
+                p_FeeCAT: "Consultation Fee",
+                p_YEAR: "2024",
+                p_Fname: user.fname,
+                p_ACCTITLE: "MedicareAcc",
+                p_CNIC: "000000000",
+                p_Pname: user.pname,
+                p_PaymentLink: "#",
+                p_FeeTYPECode: "CONSL_FEE",
+                p_TotalAmount: totalAmount?.toString(),
+                v_VOUCHER_NO: "null"
+            }).then((res) => {
+                const response = res.data
+                return response
+            }).catch((error) => {
+                Alert.alert("Error", error);
+            })
 
-        if (value == 'COD') {
+            const updatedObject = [...cartItem].map((item) => {
+                // Create a new object with updated `tranS_ID`
+                return {
+                    ...item,
+                    tranS_ID: transID.toString()
+                };
+            });
 
-            const billing = await billPosting(updatedObject)
-
-            if (billing?.status === 200) {
-
-                setIsLoading(false)
-                handleClick(true)
-                setModalVisible(false)
-
+            if (value == 'COD') {
+                const billing = await billPosting(updatedObject)
+                if (billing?.status === 200) {
+                    handleClick(true)
+                    setModalVisible(false)
+                } else {
+                    Alert.alert('Error', 'Something went wrong while processing your order')
+                }
             } else {
-
-                setIsLoading(false)
-                Alert.alert('Error', 'Something went wrong while processing your order')
-
+                const billing = await billPosting(updatedObject)
+                if (billing?.status === 200) {
+                    handleSubmit(response)
+                    handleClick(true)
+                    setModalVisible(false)
+                } else {
+                    Alert.alert('Error', 'Something went wrong while processing your order')
+                }
             }
-
-        }else{
-            
-            const billing = await billPosting(updatedObject)
-
-            if (billing?.status === 200) {
-
-                handleSubmit()
-                setIsLoading(false)
-                handleClick(true)
-                setModalVisible(false)
-
-            } else {
-
-                setIsLoading(false)
-                Alert.alert('Error', 'Something went wrong while processing your order')
-
-            }
-
-
-        }
+            resolve()
+        })
     }
-
-    // const handleCashOnDelivery = () => {
-
-    //     setModalVisible(false)
-    //     setDelLoading(true)
-    //     setTimeout(() => {
-
-    //         setDelLoading(false)
-    //     }, 6000)
-
-
-    // }
-
-
-    // const opatValues = {
-    //     opaT_ID: checkedData.opaT_ID!.toString(),
-    //     tranS_ID: transId?.toString(),
-    //     currentaddress: "KARACHI",
-    //     samplE_COL_DATE: formattedDate,
-    //     samplE_COL_TIME: formattedDate,
-    //   };
-
-    //   const postData: postDatatype[] = selectedTests.map((tests) => ({
-
-    //     amt: tests.amt,
-    //     currentaddress: opatValues.currentaddress,
-    //     ltesT_DESC: tests.ltesT_DESC,
-    //     ltesT_ID: tests.ltesT_ID,
-    //     opaT_ID: opatValues.opaT_ID,
-    //     samplE_COL_DATE: opatValues.samplE_COL_DATE,
-    //     samplE_COL_TIME: opatValues.samplE_COL_TIME,
-    //     tesT_DESCRIPTION: tests.ltesT_DESC,
-    //     tranS_ID: opatValues.tranS_ID,
-
-    //   }))
-
-    // useEffect(() => {
-
-
-    //   const updatedPostData = selectedTests.map((tests) => ({
-    //     amt: tests.amt,
-    //     currentaddress: opatValues.currentaddress,
-    //     ltesT_DESC: tests.ltesT_DESC,
-    //     ltesT_ID: tests.ltesT_ID,
-    //     opaT_ID: opatValues.opaT_ID,
-    //     samplE_COL_DATE: opatValues.samplE_COL_DATE,
-    //     samplE_COL_TIME: opatValues.samplE_COL_TIME,
-    //     tesT_DESCRIPTION: tests.ltesT_DESC,
-    //     tranS_ID: opatValues.tranS_ID,
-
-    //   }))
-
-    //   setPostData(updatedPostData)
-
-
-    // }, [selectedTests])
 
     return (
         <>
@@ -346,101 +278,81 @@ const CheckOut = ({ handleClick }) => {
                     justifyContent: 'center'
                 }}
             >
-
-
                 <View style={s`m-8 justify-center `}>
 
-                    <View style={s`flex-row mt-2 mb-2 justify-between items-center gap-x-3`}>
+                    <View style={[s`flex-row justify-between items-center gap-x-3`,
+                    { marginVertical: Dimensions.get('window').height < 704 ? 2 : 12 }]}>
 
                         {loader ? (
 
                             <SkeletonPlaceholder borderRadius={4}>
                                 <SkeletonPlaceholder.Item flexDirection="row" justifyContent='space-around'
                                     gap={50} alignItems="center">
-                                    <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                                    <SkeletonPlaceholder.Item width={Dimensions.get('window').width < 390 ? '50%' : '70%'}
+                                        height={Dimensions.get('window').width < 390 ? 20 : 30} />
                                     <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
                                 </SkeletonPlaceholder.Item>
                             </SkeletonPlaceholder>
 
+                        ) :
+                            <>
+                                <Text style={[s` text-black `,
+                                { fontSize: Dimensions.get('window').width < 390 ? 14 : 18, fontFamily: 'Quicksand-Bold' }]}>
+                                    Home Collection Charges
+                                </Text>
 
-                        ) : <>
-                            <Text style={s`font-bold text-lg text-black italic`}>
-                                Home Collection Charges
-                            </Text>
-
-                            <Text style={s`font-bold text-lg text-red-600 italic`}>
-                                Rs. {totalAmount?.toFixed(2)}
-                            </Text>
-                        </>
+                                <Text style={[s` text-red-600 `,
+                                { fontSize: Dimensions.get('window').width < 390 ? 14 : 18, fontFamily: 'Quicksand-Bold' }]}>
+                                    Rs. {totalAmount?.toFixed(2)}
+                                </Text>
+                            </>
                         }
 
                     </View>
 
-                    <View style={s`flex-row mt-2 mb-2 justify-between items-center gap-x-3`}>
-
+                    <View style={[s`flex-row justify-between items-center gap-x-3`,
+                    { marginVertical: Dimensions.get('window').height < 704 ? 2 : 12 }]}>
                         {loader ? (
-
                             <SkeletonPlaceholder borderRadius={4}>
                                 <SkeletonPlaceholder.Item flexDirection="row" justifyContent='space-around'
                                     gap={50} alignItems="center">
-                                    <SkeletonPlaceholder.Item width={'70%'} height={30} />
+                                    <SkeletonPlaceholder.Item width={Dimensions.get('window').width < 390 ? '50%' : '70%'} height={Dimensions.get('window').width < 390 ? 20 : 30} />
                                     <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
                                 </SkeletonPlaceholder.Item>
                             </SkeletonPlaceholder>
 
-
                         ) : <>
-                            <Text style={s`font-bold text-lg text-black italic`}>
+                            <Text style={[s`text-black `,
+                            { fontSize: Dimensions.get('window').width < 390 ? 14 : 18, fontFamily: 'Quicksand-Bold' }]}>
                                 Total Amount
                             </Text>
 
-                            <Text style={s`font-bold text-lg text-red-600 italic`}>
+                            <Text style={[s` text-red-600 `,
+                            { fontSize: Dimensions.get('window').width < 390 ? 14 : 18, fontFamily: 'Quicksand-Bold' }]}>
                                 Rs. {totalAmount?.toFixed(2)}
                             </Text>
                         </>
                         }
-
-
-
-
                     </View>
                 </View>
 
-
                 <View style={[s`flex absolute bottom-6 left-16 border-black-500 `, { width: '70%' }]}>
-
-
-
-                    <TouchableOpacity onPress={toggleModal}
-                        style={s`  p-4 items-center rounded-full bg-blue-600`}>
-
+                    <TouchableOpacity onPress={Checkout} style={[s`items-center rounded-full bg-blue-600`,
+                    { padding: Dimensions.get('window').height < 704 ? 10 : 16 }]}>
                         <View>
                             {isLoading ?
                                 (
                                     <ActivityIndicator style={s`p-0`} size="small" color="#fff" />
                                 )
                                 :
-                                <Text style={s` text-white text-medium italic font-semibold`}>
-
+                                <Text style={[s`text-white italic font-semibold`,
+                                { fontSize: Dimensions.get('window').height < 704 ? 12 : 15 }]}>
                                     Checkout
-
                                 </Text>
-
                             }
-
                         </View>
-
-
                     </TouchableOpacity>
-
                 </View>
-
-                {/* </>
-                } */}
-
-
-
-
             </BottomSheet>
 
 
@@ -470,9 +382,9 @@ const CheckOut = ({ handleClick }) => {
 
                     </View>
 
-                    <View style={s`flex-row justify-between items-center px-8 -pt-12 pb-12`}>
+                    <View style={[s`flex-row justify-between items-center px-8 -pt-12 `, { paddingBottom: Dimensions.get('window').height < 704 ? 30 : 45 }]}>
 
-                        <View style={s`items-center`}><Text style={s`font-bold text-lg italic text-blue-800`}>Invoice</Text></View>
+                        <View style={s`items-center`}><Text style={[s`text-lg text-blue-800`, { fontFamily: 'Montserrat-Bold' }]}>Invoice</Text></View>
                         <View>
                             <Image source={Logo} style={{ width: 100, height: 50 }} width={100} height={100} />
                         </View>
@@ -482,16 +394,16 @@ const CheckOut = ({ handleClick }) => {
                     <View style={s`px-8 pt-0 pb-4`}>
 
                         <View style={[s`flex-row py-1 justify-between`, { width: "100%" }]}>
-                            <Text style={s`text-black font-bold`}>Name    : </Text>
-                            <Text style={s`text-black`}>{user.pname}</Text>
+                            <Text style={[s`text-black `, { fontFamily: 'Quicksand-Bold' }]}>Name    : </Text>
+                            <Text style={[s`text-black`, { fontFamily: 'Montserrat-Medium' }]}>{user.pname}</Text>
                         </View>
                         <View style={[s`flex-row py-1 justify-between`, { width: "100%" }]}>
-                            <Text style={s`text-black font-bold`}>Phone #: </Text>
-                            <Text style={s`text-black`}>{user.mob}</Text>
+                            <Text style={[s`text-black`, { fontFamily: 'Quicksand-Bold' }]}>Phone #: </Text>
+                            <Text style={[s`text-black`, { fontFamily: 'Montserrat-Medium' }]}>{user.mob}</Text>
                         </View>
                         <View style={[s`flex-row py-1 justify-between`, { width: "100%" }]}>
-                            <Text style={s`text-black font-bold`}>Email     : </Text>
-                            <Text style={s`text-black`}>{user.email}</Text>
+                            <Text style={[s`text-black`, { fontFamily: 'Quicksand-Bold' }]}>Email     : </Text>
+                            <Text style={[s`text-black`, { fontFamily: 'Montserrat-Medium' }]}>{user.email}</Text>
                         </View>
 
                     </View>
@@ -499,10 +411,10 @@ const CheckOut = ({ handleClick }) => {
                     <View style={s`flex-row justify-between px-6 py-2 bg-blue-700`}>
 
                         <View>
-                            <Text style={s`text-white`}>Opat ID</Text>
+                            <Text style={[s`text-white`, { fontFamily: 'Montserrat-Bold' }]}>Opat ID</Text>
                         </View>
-                        <Text style={s`text-white`}>Service</Text>
-                        <Text style={s`text-white`}>Price</Text>
+                        <Text style={[s`text-white`, { fontFamily: 'Montserrat-Bold' }]}>Service</Text>
+                        <Text style={[s`text-white`, { fontFamily: 'Montserrat-Bold' }]}>Price</Text>
 
                     </View>
 
@@ -525,9 +437,9 @@ const CheckOut = ({ handleClick }) => {
 
                                 <View style={s`flex-row justify-between px-4 py-6`}>
 
-                                    <Text style={s`text-black`}>{item.opaT_ID}</Text>
-                                    <Text style={s`text-blue-900 font-bold `}>{item.ltesT_DESC?.slice(0, 35)}{item.ltesT_DESC?.length && item.ltesT_DESC?.length > 24 ? <Text>...</Text> : null}</Text>
-                                    <Text style={s`text-red-900 font-bold `}>{item.amt}</Text>
+                                    <Text style={[s`text-black pl-4`, { fontFamily: 'Montserrat-Medium', fontSize: 12 }]}>{item.opaT_ID}</Text>
+                                    <Text style={[s`text-blue-900 pl-4`, { fontFamily: 'Montserrat-Bold', fontSize: 12 }]}>{item.ltesT_DESC?.slice(0, 24)}{item.ltesT_DESC?.length && item.ltesT_DESC?.length > 24 ? <Text>...</Text> : null}</Text>
+                                    <Text style={[s`text-red-900 pl-4`, { fontFamily: 'Montserrat-Bold', fontSize: 12 }]}>{item.amt}</Text>
 
                                 </View>
 
@@ -537,38 +449,61 @@ const CheckOut = ({ handleClick }) => {
 
                     <View style={s`flex-row justify-between px-6 py-2 bg-blue-700`}>
 
-                        <Text style={s`text-white`}>Total Amount</Text>
-                        <Text style={s`text-white`}>Rs. {totalAmount}</Text>
+                        <Text style={[s`text-white`, { fontFamily: 'Montserrat-Bold' }]}>Total Amount</Text>
+                        <Text style={[s`text-white`, { fontFamily: 'Montserrat-Bold' }]}>Rs. {totalAmount}</Text>
 
                     </View>
                     <View style={s`flex-row p-4 w-full justify-between`}>
 
-                        <View>
 
-                            <Button title="Close" color={'red'} onPress={closeInvoiceModal} />
+                        <Pressable onPress={closeInvoiceModal} style={[s`rounded p-2  `, { paddingHorizontal: 12, backgroundColor: 'red', elevation: 10 }]}>
+                            <Text style={[s`font-bold italic`, { color: 'white', fontSize: Dimensions.get('window').width < 390 ? 12 : 16 }]}>
+                                Close
+                            </Text>
+                        </Pressable>
 
-                        </View>
+                        {CoLoading ?
 
-                        <View>
+                            <>
+                                <View style={{ alignItems: "center", justifyContent: 'center' }}>
+                                    <ActivityIndicator style={s`p-0 items-center justify-center`} size="small" color="black" />
+                                </View>
+                            </>
+                            :
 
-                            {isLoading ? <ActivityIndicator style={s`p-0 items-center justify-center`} size="small" color="black" />
+                            <Pressable style={[s`rounded p-2  `, { paddingHorizontal: Dimensions.get('window').width < 390 ? 12 : 15, backgroundColor: '#313594', elevation: 10 }]}
+                                onPress={() => {
+                                    setCoLoading(true)
+                                    handleModal('COD').finally(() => setCoLoading(false))
+                                }}>
+                                <Text style={[s`font-bold italic`, { color: 'white', fontSize: Dimensions.get('window').width < 390 ? 12 : 16 }]}>
+                                    Cash On Collection
+                                </Text>
+                            </Pressable>
 
-                                :
+                        }
 
-                                <Button
-                                    onPress={() => handleModal('COD')} title='CASH ON DELIVERY' />
+                        {PoLoading ?
 
-                            }
+                            <>
+                                <View style={{ alignItems: "center", justifyContent: 'center', paddingHorizontal: 15 }}>
+                                    <ActivityIndicator style={s`p-0 items-center justify-center`} size="small" color="black" />
+                                </View>
+                            </>
 
+                            :
 
-                        </View>
+                            <Pressable style={[s`rounded p-2  `, { paddingHorizontal: Dimensions.get('window').width < 390 ? 12 : 15, backgroundColor: '#313594', elevation: 10 }]}
+                                onPress={() => {
+                                    setPoLoading(true)
+                                    handleModal('PO').finally(() => setPoLoading(false))
+                                }}>
+                                <Text style={[s`font-bold italic`, { color: 'white', fontSize: Dimensions.get('window').width < 390 ? 12 : 16 }]}>
+                                    Pay Online
+                                </Text>
+                            </Pressable>
 
-                        <View>
-
-                            <Button onPress={() => handleModal('PO')} title='PAY ONLINE' />
-
-                        </View>
-
+                        }
                     </View>
 
                 </View>
@@ -590,10 +525,10 @@ const styles = StyleSheet.create({
     },
     lottie: {
 
-        width: 200,
-        height: 150,
-        // width: Dimensions.get('window').height <= 592 ? 300 : 400 && Dimensions.get('screen').width >= 800 && Dimensions.get('screen').width <= 1080 ? 700 : 400 && Dimensions.get('screen').width >= 1080 ? 400 : 400,
-        // height: Dimensions.get('window').height <= 592 ? 300 : 400 && Dimensions.get('screen').width >= 800 && Dimensions.get('screen').width <= 1080 ? 700 : 400 && Dimensions.get('screen').width >= 1080 ? 400 : 400,
+        // width: 200,
+        // height: 150,
+        width: Dimensions.get('window').height < 704 ? 150 : 200,
+        height: Dimensions.get('window').height < 704 ? 100 : 150,
 
     },
     overlay: {

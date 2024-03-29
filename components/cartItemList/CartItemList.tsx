@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { s } from 'react-native-wind'
@@ -15,32 +15,19 @@ const CartItem = ({ item }) => {
     const dispatch = useAppDispatch()
     const handleRemoveFromCart = (id) => dispatch(removeFromCart(id))
     const [loader , setLoader] = useState<boolean>(true)
-
-
-
     const CartList = item
 
+    console.log("id" , item.ltesT_ID);
     useEffect(() => {
-
         setTimeout(() => {
-
             setLoader(false)
-
         } , 5000)
-
     } , [loader])
     
-
-
     return (
 
-
         <>
-
-
-
-            <GestureHandlerRootView style={[s`items-center`]} key={CartList.ltesT_ID}>
-
+            <GestureHandlerRootView style={[s`items-center`]} key={CartList.id}>
                 <View style={[s`flex-row mt-3 mb-3 justify-between rounded-lg items-center`,
                 {
                     width: '90%',
@@ -61,7 +48,9 @@ const CartItem = ({ item }) => {
                             </SkeletonPlaceholder> :
                             <>
                                 <View style={{ width: '70%', justifyContent: 'center', alignItems: 'flex-start', paddingLeft: '6%' }}>
-                                    <Text style={s`text-black font-bold`}>{CartList.ltesT_DESC}</Text>
+                                    <Text style={[s`text-xs` , {fontFamily : 'Montserrat-Bold'}]}>{CartList.samplE_COL_TIME}</Text>
+                                    <Text style={[s`text-black ` , {fontFamily : 'Quicksand-Bold'} ]}>{CartList.ltesT_DESC}</Text>
+                                    <Text style={[s`text-red-500 text-xs` , {fontFamily : 'Montserrat-Medium'}]}>{CartList.samplE_COL_DATE}</Text>
                                 </View>
                                 <Text style={s`text-blue-600`}>Rs. {CartList.amt}</Text>
 

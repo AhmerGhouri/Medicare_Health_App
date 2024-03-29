@@ -1,5 +1,5 @@
-import { Alert, Button, Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '../app/hooks/hooks';
 import { s } from 'react-native-wind';
 import { FlatList, GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -8,7 +8,7 @@ import { RootStackParamList } from '../App';
 import LottieView from 'lottie-react-native';
 import CartItem from '../components/cartItemList/CartItemList';
 import CheckOut from '../components/Checkout/CheckOut';
-import CashDeliveryModal from '../components/CashDeliveryModal/CashDeliveryModal';
+import CashDeliveryModal from '../components/Modals/CashDeliveryModal';
 import { removeAllFromCart } from '../app/slices/cartSlice';
 
 
@@ -58,7 +58,7 @@ const CartScreen = ({ route , navigation }: cartScreenProps) => {
             )}
       <GestureHandlerRootView style={s`flex-1`}>
         {cartItem.length === 0 ?
-          <View style={[s`flex mt-32 shrink-0 w-full items-center`, styles.lottieContainer]}>
+          <View style={[s`flex mt-28 shrink-0 w-full items-center`, styles.lottieContainer]}>
 
             <LottieView
               style={[styles.lottie]}
@@ -67,7 +67,7 @@ const CartScreen = ({ route , navigation }: cartScreenProps) => {
               loop
             />
 
-            <Text style={s`font-bold italic text-black`}>Your Cart is Empty</Text>
+            <Text style={[s`text-lg text-red-500` , { fontFamily : 'Quicksand-Bold' }]}>Your Cart is Empty</Text>
 
           </View>
           :
@@ -101,7 +101,7 @@ const CartScreen = ({ route , navigation }: cartScreenProps) => {
 
           </>
         }
-        <CashDeliveryModal modalVisible={cashModalVisible} onClose={handleClose}/>
+        <CashDeliveryModal modalVisible={cashModalVisible} onClose={handleClose} navigation={navigation}/>
 
       </GestureHandlerRootView>
     </>

@@ -12,7 +12,7 @@ export interface CartItem {
     ltesT_DESC?: string | undefined;
     ltesT_ID?: string | undefined;
     opaT_ID?: string | undefined;
-    isChecked? : boolean,
+    isChecked?: boolean,
     samplE_COL_DATE?: string | undefined;
     samplE_COL_TIME?: string | undefined | null;
     tesT_DESCRIPTION?: string | undefined;
@@ -37,6 +37,7 @@ export const Cart = createSlice({
     initialState: {
         currentOpatId: opatData,
         cartItem: cartItem,
+        errorMessage: false,
     },
     reducers: {
         addToCart: (state, action: PayloadAction<CartItem>) => {
@@ -46,40 +47,54 @@ export const Cart = createSlice({
             console.log("statecart ", statecart)
 
             const checked = statecart.isChecked
-            const  findTests = state.cartItem.findIndex(e => e.id === statecart.id);
-            
-            console.log("Same Tests" , findTests);
+            // const findTests = state.cartItem.findIndex(e => e.id === statecart.id && e.isChecked);
 
-            console.log("checked" , checked);
+            // console.log("Same Tests", findTests);
 
-
-             if(checked){
+            console.log("checked", checked);
+            if (checked) {
 
                 const cartvalues = {
-    
+
                     ...action.payload,
-                    currentaddress : state.currentOpatId.currentaddress,
+                    currentaddress: state.currentOpatId.currentaddress,
                     opaT_ID: state.currentOpatId.opaT_ID,
                     samplE_COL_DATE: state.currentOpatId.samplE_COL_DATE,
-                    samplE_COL_TIME: state.currentOpatId.samplE_COL_TIME 
-    
+                    samplE_COL_TIME: state.currentOpatId.samplE_COL_TIME
+
                 }
-    
-                console.log("opat Values from Slice", state.currentOpatId);
-                console.log("cart Values from Slice", cartvalues);
-    
-    
-                state.cartItem.push(cartvalues)
+
+                
+                const findTests = state.cartItem.findIndex(e => e.ltesT_ID === cartvalues.ltesT_ID && e.isChecked === cartvalues.isChecked 
+                    && e.opaT_ID === cartvalues.opaT_ID && e.samplE_COL_TIME === cartvalues.samplE_COL_TIME 
+                    && e.samplE_COL_DATE === cartvalues.samplE_COL_DATE);
+                
+                console.log("Same test" , findTests);
+                
+
+                if (findTests >= 0) {
+                    
+                    state.errorMessage = true
+                    // Alert.alert('' ,'This Service is already exists in Cart. Kindly Check Your Cart and proceed further')
+                    
+                }else{
+
+                    console.log("opat Values from Slice", state.currentOpatId);
+                    console.log("cart Values from Slice", cartvalues);
+                    
+                    
+                    state.cartItem.push(cartvalues)
+                }
 
 
             }
-            else{
+            else {
 
                 state.cartItem = state.cartItem.filter((item) => item.ltesT_ID !== statecart.ltesT_ID);
 
 
             }
-            
+
 
 
 
@@ -104,8 +119,11 @@ export const Cart = createSlice({
             console.log("setOpatId State ", state.cartItem);
 
         },
-        removeAllFromCart : (state)=>{
-           state.cartItem=[] ;
+        removeAllFromCart: (state) => {
+            state.cartItem = [];
+        },
+        closeModal:(state)=>{
+           state.errorMessage=false
         }
         // removeFromCart(state, action) {
         //     const { cartItem } = state;
@@ -122,5 +140,5 @@ export const Cart = createSlice({
 
 
 
-export const { addToCart, removeFromCart, removeAllFromCart , setOpatId } = Cart.actions
+export const { addToCart, removeFromCart, removeAllFromCart, setOpatId , closeModal} = Cart.actions
 export default Cart.reducer 

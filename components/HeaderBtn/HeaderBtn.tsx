@@ -12,7 +12,7 @@ const HeaderBtn = ({navigation}) => {
 
   const navigateToHomeScreen = () => {
 
-    navigation.popToTop()
+    navigation.goBack()
 
   }
 
@@ -21,7 +21,7 @@ const HeaderBtn = ({navigation}) => {
       <GestureHandlerRootView>
         <TouchableOpacity>
       <Icon name='left' size={20} 
-      style={{marginRight : 20 , marginTop : 4 , padding : 4 , justifyContent : 'center' , alignItems : 'center'}} color={'red'} 
+      style={{marginRight : 20 , marginTop : 4 , padding : 4 , justifyContent : 'center' , alignItems : 'center'}} color={'white'} 
       onPress={navigateToHomeScreen} />
     </TouchableOpacity>
     </GestureHandlerRootView>

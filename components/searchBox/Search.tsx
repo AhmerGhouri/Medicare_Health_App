@@ -24,7 +24,7 @@ const Search = ( { onChange } : searchProps) => {
                 <View style={[s`flex-row justify-around items-center`, { width: '30%' }]}>
 
                     <Feather name='search' color={'grey'} />
-                    <Text>Search :</Text>
+                    <Text style={{fontFamily : 'Quicksand-Regular', color : 'gray'}}>Search :</Text>
                 </View>
                 <TouchableOpacity style={[s`flex-row items-center`, { width: '80%' }]}>
                     <TextInput

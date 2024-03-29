@@ -4,10 +4,11 @@ import React from 'react'
 import LottieView from 'lottie-react-native'
 import { s } from 'react-native-wind'
 
-const CashDeliveryModal = ({ modalVisible , onClose }) : JSX.Element => {
+const CashDeliveryModal = ({ modalVisible , onClose , navigation}) : JSX.Element => {
 
     const handlePress = () => {
         onClose()
+        navigation.navigate('HomeScreen')
     }
 
     return (

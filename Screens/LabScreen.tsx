@@ -21,6 +21,10 @@ import { RootStackParamList } from '../App';
 import { useAppDispatch, useAppSelector } from '../app/hooks/hooks';
 import { addToCart, CartItem, removeFromCart } from '../app/slices/cartSlice';
 import { setOpatId } from '../app/slices/cartSlice';
+import Animated, { FadeOut, ZoomIn, ZoomInRight, ZoomInUp, ZoomOutEasyUp } from 'react-native-reanimated';
+import SelectedTestsModals from '../components/Modals/SelectedTestsModals';
+import ServicesDetail from '../components/services/ServicesDetail';
+import BottomSheetComponent from '../components/BottomSheet/BottomSheet';
 
 
 
@@ -31,12 +35,12 @@ type LabScreenProps = NativeStackScreenProps<RootStackParamList, 'LabTestRequest
 function LabScreen({ navigation, route }: LabScreenProps) {
 
 
-  
-  
-  const  code  = useAppSelector(state => state.code);
+
+
+  const code = useAppSelector(state => state.code);
   const API = `https://local.jmc.edu.pk:82/api/WebReqServices/GetSelectServiceData?Class=${code}&Panel=PVT`
-  console.log("Short Code" , code);
-  
+
+
   // All State Which Manages
   const checkedData = route.params
   const [date, setDate] = useState(new Date());
@@ -44,14 +48,14 @@ function LabScreen({ navigation, route }: LabScreenProps) {
   const [filterData, setFilterData] = useState<LabTestData[]>([]);
   const [open, setOpen] = useState(false);
   const [openPicker, setOpenPicker] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState<string | null>(null);
   const [selectedTests, setSelectedTests] = useState<selectedTest>()
   const [timeSlot, setTimeSlot] = useState<timeSlots[]>(timeSlotData);
   const [testID, setTestId] = useState<testData>()
   const [externalLinkOpened, setExternalLinkOpened] = useState(false)
   const appStateSubscriptionRef = useRef<NativeEventSubscription | null>(null);
   const [appClosed, setAppClosed] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [errorMsg, setErrorMsg] = useState<boolean>(false)
   let formattedDate = date.getDate() + '-' + date.toLocaleString("en-US", { month: 'short' }) + '-' + date.getFullYear();
   const appState = useRef(AppState.currentState);
@@ -61,97 +65,30 @@ function LabScreen({ navigation, route }: LabScreenProps) {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
   // variables
-  const snapPoints = useMemo(() => ['1%', '25%', '50%'], []);
-  const dispatch = useAppDispatch();
+  const snapPoints = useMemo(() => ['1%' , '50%'], []);
   const { cartItem } = useAppSelector(state => state.cart);
+  const { errorMessage } = useAppSelector((state => state.cart))
 
-  console.log("cart item lenght" , cartItem.length);
-  
-
-  
-    const opatValues = {
-      opaT_ID: checkedData.opaT_ID!.toString(),
-      currentaddress: "KARACHI",
-      samplE_COL_DATE: formattedDate,
-      samplE_COL_TIME: value,
-      
-    };
-
-    console.log("opat smaple time" , opatValues.samplE_COL_TIME);
-
-    // const postData : postDatatype = selectedTests.map((tests) => ({
-    
-  //   amt: tests.amt,
-  //   ltesT_DESC: tests.ltesT_DESC,
-  //   ltesT_ID: tests.ltesT_ID,
-  //   tesT_DESCRIPTION: tests.ltesT_DESC,
-  //   opaT_ID : opatValues.opaT_ID,
-  //   currentaddress  : opatValues.currentaddress,
-  //   samplE_COL_DATE : opatValues.samplE_COL_DATE,
-  //   samplE_COL_TIME : opatValues.samplE_COL_TIME
-    
-  // }))
-
-    // const postData : postDatatype = {
-      
-    //   amt: selectedTests?.amt,
-    //   ltesT_DESC: selectedTests?.ltesT_DESC,
-    //   ltesT_ID: selectedTests?.ltesT_ID,
-    //   tesT_DESCRIPTION: selectedTests?.ltesT_DESC,
-    //   opaT_ID : opatState!.opaT_ID,
-    //   currentaddress  : opatState!.currentaddress,
-    //   samplE_COL_DATE : opatState!.samplE_COL_DATE,
-    //   samplE_COL_TIME : opatState!.samplE_COL_TIME
-      
-    // }
+  console.log("col", value);
+  // console.log("error" , errorMessage);
 
 
+  const opatValues = {
+    opaT_ID: checkedData.opaT_ID!.toString(),
+    currentaddress: "KARACHI",
+    samplE_COL_DATE: formattedDate,
+    samplE_COL_TIME: value,
 
-  // console.log("postdat", postData);
-
+  };
 
   // Fetch Data from API
-
   const fetchData = useCallback(async () => {
-
     try {
-
-      const result = await axios.get(API).then((res) => {
-
-        const data = res.data
-        setIsLoading(true)
-        setTimeout(() => {
-          setTestData(data)
-          setFilterData(data)
-          setIsLoading(false)
-        }, 1000)
-
-      }).catch((error) => {
-
-        switch (error.response.status) {
-          case 400:
-            // handle 400 Bad Request case
-            Alert.alert('Bad Request', 'Something went wrong with the request.');
-            break;
-          case 401:
-            // handle 401 Unauthorized case
-            Alert.alert('Unauthorized', 'Access is denied due to invalid credentials.');
-            break;
-          case 404:
-            // handle 404 Not Found case
-            Alert.alert('Not Found', 'The requested resource could not be found.');
-            break;
-          case 500:
-            // handle 500 Internal Server Error case
-            Alert.alert('Internal Server Error', 'Something went wrong on the server.');
-            break;
-          default:
-            // handle any other error cases
-            Alert.alert('Error', 'Something went wrong.');
-            break;
-        }
-      })
-
+      setIsLoading(true)
+      const result = await axios.get(API)
+      const data = result.data
+      setTestData(data)
+      setFilterData(data)
       return result
 
     } catch (error) {
@@ -179,31 +116,14 @@ function LabScreen({ navigation, route }: LabScreenProps) {
           break;
       }
 
+    } finally {
+      setIsLoading(false)
     }
   }, [])
-
-  const closeBottom = () => {
-    bottomSheetRef.current?.close()
-  }
 
   useEffect(() => {
-    closeBottom()
     fetchData()
   }, [])
-
-  const toggleModal = () => {
-
-    if (value === null) {
-      setErrorMsg(true)
-    } else {
-      setIsLoading(true);
-      setTimeout(() => {
-        navigation.navigate('CartScreen')
-        setIsLoading(false)
-      }, 2000)
-    }
-
-  };
 
   // callbacks
   const handleSheetChanges = useCallback((index: number) => {
@@ -215,7 +135,7 @@ function LabScreen({ navigation, route }: LabScreenProps) {
   // BackDrop
   const renderBackdrop = useCallback(
 
-    (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={1} appearsOnIndex={2} />
+    (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={0} appearsOnIndex={2} />
     , []
   )
 
@@ -230,68 +150,6 @@ function LabScreen({ navigation, route }: LabScreenProps) {
 
     }, [testsData, setFilterData])
 
-  const renderLabTest = useCallback(({ item }) => {
-
-    return (
-
-      <>
-
-        <TouchableOpacity style={[s`flex-row z-1 justify-between my-4`, styles.List]}>
-
-          <View style={{ width: "60%" }}>
-
-            <Text style={s`text-blue-900 font-medium`}>{item.ltesT_DESC}</Text>
-
-          </View>
-
-          <View style={s`flex-row items-center`}>
-
-            <BouncyCheckbox
-              size={25}
-              fillColor="red"
-              unfillColor="#FFFFFF"
-              iconStyle={{ borderColor: "red" }}
-              innerIconStyle={{ borderWidth: 2 }}
-              textStyle={{ fontFamily: "JosefinSans-Regular" }}
-              key={item.ltesT_ID}
-              onPress={(isChecked: boolean) => {
-                
-                handleCheck({
-                  ...item,
-                  isChecked
-                })
-
-              }}
-            />
-
-            <Icon name='info-with-circle' color={'black'}
-              onPress={() => {
-                setTestId({
-                  ltesT_ID: item.ltesT_ID,
-                  ltesT_DESC: item.ltesT_DESC,
-                  tesT_DESCRIPTION: item.tesT_DESCRIPTION,
-                  amt: item.amt,
-                  opaT_ID: item.opaT_ID,
-                  tranS_ID: item.tranS_ID,
-                  currentaddress: item.currentaddress,
-                  samplE_COL_DATE: item.samplE_COL_DATE,
-                  samplE_COL_TIME: item.samplE_COL_TIME
-                })
-                bottomSheetRef.current?.expand()
-              }} size={20}
-            />
-
-          </View>
-
-        </TouchableOpacity>
-
-      </>
-
-
-
-    )
-
-  }, [])
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
@@ -311,37 +169,33 @@ function LabScreen({ navigation, route }: LabScreenProps) {
     };
   }, []);
 
-  // const handleCheck = (test) => {
-  //   console.log("selected tests" , selectedTests);
-    
-  //   dispatch(addToCart(updatedTest));
-  //   setSelectedTests((prev) => {
-
-  //     // If test is already in array, remove it. Otherwise add it.
-  //     const index = prev.findIndex((item) => item.ltesT_ID === test.ltesT_ID);
-      
-  //     if (index === -1) {
-  //       // dispatch(addToCart(test));
-  //       return [ ...prev , test];
-  //     } else {
-  //       return prev.filter((item) => item.ltesT_ID !== test.ltesT_ID);
-  //     }
-  //   });
-    
-
-  // };
-  
-  const handleCheck = (test) => {
-    dispatch(setOpatId(opatValues))
-    dispatch(addToCart(test));
-    // setSelectedTests(test)    
-  };
-
   const OpenCloseDatePicker = () => {
 
     setOpen(!open)
 
   }
+
+  const toggleModal = async () => {
+    if (value === null) {
+      setErrorMsg(true);
+    } else {
+      try {
+
+        setIsLoading(true)
+        navigation.navigate('CartScreen');
+        setIsLoading(false);
+
+      } catch (error) {
+        // Handle error if needed
+        console.error('Error navigating to CartScreen:', error);
+      }
+    }
+  };
+
+  const handleSetTestID = useCallback((id: testData) => {
+    setTestId(id);
+    bottomSheetRef.current?.expand();
+  }, [bottomSheetRef]); 
 
   return (
 
@@ -350,7 +204,6 @@ function LabScreen({ navigation, route }: LabScreenProps) {
 
         {isLoading && (
           <View style={styles.overlay}>
-            {/* <ActivityIndicator size="large" color="red" /> */}
             <LottieView
               style={[styles.lottie]}
               source={require('../src/animations/logoanimate.json')}
@@ -360,21 +213,19 @@ function LabScreen({ navigation, route }: LabScreenProps) {
           </View>
         )}
 
-
-        <View style={s`flex-1 bg-red-50 p-8`}>
+        <View style={s`flex-1 p-8`}>
 
           <View style={s`m-2`}>
 
-
             <View style={[s`flex z-0 flex-row rounded-md justify-between border-2  border-blue-300 p-1 items-center`, styles.InputView]}>
-
 
               <View style={[s`flex-row justify-around items-center `, { width: '25%' }]}>
                 <FontIcon name='calendar-day' color={'grey'} />
-                <Text>Date :</Text>
+                <Text style={{ fontFamily: 'Quicksand-Regular', color: 'gray' }}>Date :</Text>
               </View>
 
               <TouchableOpacity style={[s`flex-row`, { width: '75%' }]} onPress={OpenCloseDatePicker}>
+                
                 <View style={[s`justify-center items-center`, { width: '80%' }]}>
                   <TextInput style={{ padding: 5, color: 'black' }} value={formattedDate} />
                 </View>
@@ -385,11 +236,15 @@ function LabScreen({ navigation, route }: LabScreenProps) {
                   <DatePicker
                     open={open}
                     modal
-                    textColor='red'
+                    minimumDate={new Date()}
+                    title={'Select a Collection/Service date'}
+                    textColor='white'
+                    androidVariant='nativeAndroid'
                     date={date} mode='date'
+                    theme='dark'
                     testID='dob'
+                    style={{ backgroundColor: '#fb4d4d' }}
                     onDateChange={setDate}
-                    // editable={disableFields}
                     onConfirm={(date) => {
                       OpenCloseDatePicker
                       setDate(date)
@@ -398,115 +253,71 @@ function LabScreen({ navigation, route }: LabScreenProps) {
                   />
                 </View>
               </TouchableOpacity>
-
-
             </View>
-
-
 
           </View>
 
           <View style={s`m-2`}>
-
             <Text style={s`text-black font-bold pb-2`}>Time Slot</Text>
-
             <DropDownPicker
               open={openPicker}
               value={value}
-              style={{width : '95%' , justifyContent : 'center', alignItems : 'center' , paddingHorizontal : 20 , marginHorizontal : 8,}}
+              style={{ width: '95%', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20, marginHorizontal: 8, }}
               items={timeSlot}
               showArrowIcon={true}
               onChangeValue={() => setErrorMsg(false)}
               ActivityIndicatorComponent={() => {
-
                 return (
-
                   <ActivityIndicator color="#999" animating={true} />
-
                 )
               }}
               setOpen={setOpenPicker}
               setValue={setValue}
               setItems={setTimeSlot}
             />
-
-
           </View>
           {errorMsg ? <View style={s`items-center justify-center`}><Text style={s`text-red-400 text-xs`}>Please Select a Preferred Time Slot</Text></View> : null}
 
-
           <View style={s`m-2`}>
-
-
             <Search onChange={handleFilter} />
-
-            <FlatList
-              numColumns={1}
-              data={filterData}
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              keyExtractor={item => item.ltesT_ID}
-              ItemSeparatorComponent={() => {
-                return (
-                  <View style={{ borderWidth: 1, borderColor: 'lightgray' }}></View>
-                )
-              }}
-              renderItem={renderLabTest}
-
-            />
-
-
+            <ServicesDetail data={filterData} opatValues={opatValues} onSetTestID={handleSetTestID} />
           </View>
 
         </View>
 
-
         <BottomSheet
           ref={bottomSheetRef}
-          index={0}
+          index={-1}
+          handleIndicatorStyle={{ backgroundColor: 'white' }}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           enablePanDownToClose={true}
           backdropComponent={renderBackdrop}
           detached={true}
           backgroundStyle={{
-            backgroundColor: 'lightblue'
+            backgroundColor: '#fb4d4d'
           }}
         >
-          <View style={styles.contentContainer}>
-            <View style={s`flex-row justify-between w-full p-4`}>
-              <Text style={s`text-black italic`}>{testID?.ltesT_ID} </Text>
-              <Text style={s`text-green-700 font-bold `}>Rs. {testID?.amt}</Text>
-            </View>
-            <Text style={s`text-black text-lg font-bold italic text-blue-600`}>{testID?.ltesT_DESC}</Text>
-            <Text style={s`text-black`}>{testID?.tesT_DESCRIPTION} 🎉</Text>
-
-          </View>
+          <BottomSheetComponent  testID={testID}/>        
         </BottomSheet>
 
-        <View style={[s`justify-center items-center absolute bottom-0 z-999 -left-0`, { width: '100%' }]}>
 
-          {cartItem.length !== 0 ?
-
-            <TouchableOpacity
-              onPress={toggleModal}
-              style={[s`bg-red-500 items-center justify-center m-4 p-4`, { width: '100%', borderRadius: 100 }]}>
-
-              <Icon name='forward' color={'white'} size={25} />
-              <Text style={s`text-white italic font-bold`}>Cart</Text>
-
-            </TouchableOpacity> 
-            : null
-
-          }
-
-
-        </View>
-
-
+        <Animated.View style={s`flex`} entering={ZoomIn.duration(1000)} exiting={FadeOut} >
+          <View style={[s`justify-center items-center absolute bottom-0 z-999 -left-0`, { width: '100%' }]}>
+            {cartItem.length !== 0 ?
+              <TouchableOpacity
+                onPress={toggleModal}
+                style={[s`bg-red-500 items-center justify-center m-4 p-4`, { width: '100%', borderRadius: 100 }]}>
+                <Icon name='forward' color={'white'} size={25} />
+                <Text style={s`text-white italic font-bold`}>Cart</Text>
+              </TouchableOpacity>
+              : null
+            }
+          </View>
+        </Animated.View>
+        <SelectedTestsModals visible={errorMessage} navigation={navigation} />
       </GestureHandlerRootView>
     </View>
-
   );
 };
 
